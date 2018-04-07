@@ -12,61 +12,92 @@ public class SerializableTest {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		
-		FileOutputStream fos = new FileOutputStream("D:\\serializedObjects.txt");
+		FileOutputStream fos = new FileOutputStream("D:\\serailize.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         A a  = new A();
-        System.out.println(" value before persistiong x="+a.x +"\t  y="+a.y+"\t z ="+a.z);
-      //  oos.writeObject(a);
+        a.x= 50;
+        a.cobj.m = 45;
+        a.name ="Andy";
+        System.out.println(" value before persistiong x="+a.x +"\t  y="+a.y+"\t z ="+a.z+"\t name="+a.name+"\t c value="+a.cobj.m);
+       oos.writeObject(a);
         //a  = new A();
       //  a.x = 30;
       //  a.y = 30;
      //   a.z = 30;
       //  oos.writeObject(a);
      // oos.writeBytes(a.name);
-        oos.writeInt(a.x);
+       /* oos.writeInt(a.x);
         oos.writeInt(a.z);
      
-       oos.writeInt(a.y);
+        oos.writeInt(a.y);*/
         oos.close();
         
-        FileInputStream fis = new FileInputStream("D:\\serializedObjects.txt");
+        FileInputStream fis = new FileInputStream("D:\\serailize.txt");
         ObjectInputStream ois = new ObjectInputStream(fis);
         String s = "";
         Integer x ;
         Integer z ;
         Integer y;
-        while(ois.available()> 0){
+       /* while(ois.available()> 0){
         	x = ois.readInt();
         	z = ois.readInt();
         	y = ois.readInt();
         	System.out.println(" value after de-serialization x ="+x+"\t y="+y+"\t z="+z);
-        }
+        }*/
+        //while((a = (A) ois.readObject()) !=null){
+        	A b = (A) ois.readObject();
+        	System.out.println(" value after de-serialization x ="+b.x+"\t y="+b.y+"\t z="+b.z+"\t name="+b.name+"\t c value="+b.cobj.m);
+      //  }
+        
         ois.close();
 	}
 
 }
 
 class B {
-	
-	int z ;
+	int z =12 ;
 	B(){
 		z = 100;
-		System.out.println(" B Constructor get called");
+		System.out.println(" B Constructor get called z="+z);
+	}
+	B(int zz){
+		z = zz;
 	}
 }
-
+class Cat{
+public	int m = 10;
+public void setM(int s){
+	m = s;
+}
+}
 class A  extends B implements Serializable{
 	final transient int y = 10;
 	int x = 30;
+	transient Cat cobj = new Cat(); 
+	
 	String name ="vivek";
 	A(){
+		super(300);
 		System.out.println("Constructor get called");
 		x = 4;
 	}
 	
 	A(String name , int m){
+		super(100);
 		x = m;
 		this.name = name;
 		
 	}
+	
+	private void writeObject(ObjectOutputStream out) throws IOException {
+        out.defaultWriteObject();
+        out.writeInt(this.z);
+        out.writeInt(cobj.m);
+    }
+    private void readObject(ObjectInputStream in) throws IOException,ClassNotFoundException {
+        in.defaultReadObject();
+        this.z = in.readInt();
+        this.cobj = new Cat();
+        this.cobj.m = in.readInt();
+    }
 }

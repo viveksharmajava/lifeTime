@@ -23,7 +23,7 @@ public abstract class SimpleThreads {
 		try{
 			
 			for(int i=0;i<importantInfo.length;i++){
-				Thread.sleep(4000);
+				Thread.sleep(1000);
 				threadMessage(importantInfo[i]);
 			}
 			
@@ -38,11 +38,11 @@ public abstract class SimpleThreads {
         long startTime = System.currentTimeMillis();
         Thread t = new Thread(new MessageLoop(),"MessageLoop");
         t.start();
-        long patience = 1000 * 1*6;
+        long patience = 1000 *3;
         threadMessage("Waiting for MessageLoop thread to finish");
         while(t.isAlive()){
-        	//System.out.println("Still waiting :)");
-        	//t.join(1000);
+        	System.out.println("Still waiting :)");
+        	t.join(1000);
         	if((System.currentTimeMillis()-startTime)>patience && t.isAlive()){
         		threadMessage("Tired of waiting!");
         		t.interrupt();

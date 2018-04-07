@@ -10,7 +10,7 @@ public static void main(String[] args) throws InterruptedException {
 	};
 	
 	for(int i=0;i<messageInfo.length;i++)
-	{	Thread.sleep(4000);
+	{	Thread.sleep(1000);
 	    //Print message
 	     System.out.println(messageInfo[i]);
 	}

@@ -2,11 +2,7 @@ package sample.test.searchingAndSorting;
 
 public class InsertionSort {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		int []array= {53,30,3,8,6,10,2};
 		 int temp=0;
 		 

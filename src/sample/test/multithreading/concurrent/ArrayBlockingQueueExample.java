@@ -40,7 +40,7 @@ class Producer implements Runnable{
 			for(int i =0 ;i<100;i++)
 			{
 				//System.out.println("producer inserting"+"produced"+i);
-				produce.put("produced"+i);
+				produce.put(""+i);
 			}
 			produce.put("EndProducing");
 		}catch(InterruptedException e){
