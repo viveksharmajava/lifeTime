@@ -13,34 +13,41 @@ public class FindNearesElementToZero {
 	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		/*Approach :1  
+		   (a) Sort given array and then find the closer to zero
+		   
+		 Approach : 2
+		   (a) traverse array   and closer element to zero in temp variable 
+		  */ 
 		
-		Integer [] array = new Integer []{-2 ,-5 ,-1 , 0 , 2 ,4 ,7};
-		Integer pivot = 0;
+		approach1();
+	
+	}
+	
+	public static void approach1() {
+		int [] array = new int [] //{-3 ,-5 ,-8 , 1 , 2 ,4 ,7};
+				{-2 ,-5 ,-1 , 5 , 2 ,4 ,7};
+		Integer closer ;
 		SortedSet <Integer> sortedSet  = new TreeSet<Integer>();
 		for(int i= 0; i < array.length ; i++){
 			
 			sortedSet.add(array[i]);
 		}
-		
 		System.out.println(sortedSet);
+		
 		Object [] sortedArray =( Object []) sortedSet.toArray();
-         for(int i= 0; i < sortedArray.length ; i++){
-			if(pivot == (Integer)sortedArray[i]){
-				
-				if( i > 0 && i <sortedArray.length-2){
-					if( (Integer)sortedArray[i-1]+ (Integer)sortedArray[i+1]>0){
-						System.out.println(sortedArray[i-1]);
-					}else{
-						
-						System.out.println(sortedArray[i+1]);
-					}
-				}
-				else if ( i <sortedArray.length-2) {
-					System.out.println(sortedArray[i+1]);
-				}
-				
+		closer =  (Integer)sortedArray[0];
+		int temp;
+         for(int i= 1; i < sortedArray.length ; i++){
+        	 
+			temp = (Integer) sortedArray[i];
+			//temp = Math.abs(temp);
+			if(Math.abs(closer) > Math.abs(temp)) {
+				closer = temp;
 			}
 		}
+         
+         System.out.println("The Closer element is ="+closer);
 	}
 
 }
