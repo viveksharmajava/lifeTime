@@ -22,7 +22,7 @@ public class ArrayRotation {
 		*/
 		
 		//gcdRotation(arr,4);
-		gcdRotation(arr2 ,3);
+		gcdRotation(arr2 ,8);
 		for(int i=0 ; i<arr2.length ; i++){
 			System.out.println(arr2[i]);
 		}

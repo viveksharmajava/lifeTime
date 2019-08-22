@@ -9,11 +9,12 @@ import java.io.InputStreamReader;
  *  Problems can be solved : supposed you have a huge file storing cordinates(x,y)  you need to return n cordinates
  *  which are farthes from (0,0).
  */
+
 public class MaxHeap {
 	
-	Integer [] maxHeap;
+	int [] maxHeap;
 	MaxHeap(int heapSize){
-		maxHeap = new Integer[heapSize];
+		maxHeap = new int[heapSize];
 	}
 	
 	public static void main(String []args){
@@ -28,10 +29,10 @@ public class MaxHeap {
 			int arrySize  = Integer.parseInt(in);
 			mh = new MaxHeap(arrySize+1);
 			int i =0;
-			while( ! "end".equals(in)){
+			while( i <= arrySize){
 				in = input.readLine();
 				mh.maxHeap[arrySize] = Integer.parseInt(in);
-				mh.heapify(arrySize);
+				mh.heapify(arrySize); //This is wrong call. we need to fill the array first with element and then heapify them.
 				i++;
 				
 			}

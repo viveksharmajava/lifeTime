@@ -1,5 +1,7 @@
 package sample.test.problems.array;
 
+import java.util.Arrays;
+
 public class LargestSumContiguousSubarray {
 
 	/**
@@ -34,32 +36,67 @@ public class LargestSumContiguousSubarray {
 	public static void main(String[] args) {
        // int []input ={-1 ,-2 ,-3, -4};
 		int []input ={1,-2,3};
-		int sum = subArray( input);
+		int sum = 0;
+		sum = maxSum( input);
 		System.out.println("max sum="+sum);
-		
-		int []input2 ={3,4,6,-4,3,-15,-1,18};
-		 sum = subArray( input2);
+		int [] maxsumSubArr ;
+		maxsumSubArr = subArrayWithMaxSum(input);
+		print(maxsumSubArr);
+		int []input1 ={-1,-2,-3};
+		sum = maxSum( input1);
 		System.out.println("max sum="+sum);
+		maxsumSubArr = subArrayWithMaxSum(input1);
+		print(maxsumSubArr);
+		int []input2 ={3,4,6,-44,3,-15,-1,11};
+		sum = maxSum( input2);
+		System.out.println("max sum="+sum);
+		maxsumSubArr = subArrayWithMaxSum(input2);
+		print(maxsumSubArr);
 	}
 	
-	public static int  subArray(int [] input){
-		
-		//int [] result  = new int [2] ;
-		int tempSum;
-		int sum = tempSum=0;
+	private static void print(int [] input) {
+		System.out.print("[");
+		for(int i=0 ; i<input.length; i++) {
+		  System.out.print(input[i]+",");
+		}
+		System.out.print("]");
+		System.out.println();
+	}
+	public static int  maxSum(int [] input){
+		int tempSum =0;
+		int sum = Integer.MIN_VALUE;
 		for(int i=0;i < input.length;i++){
-		
-			//if (tempSum <(tempSum + input[i])) {
-			if ((tempSum + input[i])<=0) {
+			tempSum += input[i];
+			if(sum <tempSum ) sum = tempSum;
+			if (tempSum < 0) {
 				tempSum = 0 ;
 			}
-			else{
-				tempSum =tempSum + input[i];
-			}
-			if(sum <tempSum ) sum = tempSum;
+			
+			
 		 }
 		
 		return sum;
 	}
+	public static int [] subArrayWithMaxSum(int [] input){
+		int tempSum =0;
+		int k=0 , m =0, n =0;
+		int sum = Integer.MIN_VALUE;
+		for(int i=0;i < input.length;i++){
+			tempSum += input[i];
+			if(sum <tempSum ) {
+				sum = tempSum;
+				k = m;
+				n = i;
+			}
+			if (tempSum < 0) {
+				//k = m ;
+				m = i+1;
+				tempSum = 0 ;
+			}
+		 }
+		
+		return Arrays.copyOfRange(input, k, n+1);
+	}
+
 
 }

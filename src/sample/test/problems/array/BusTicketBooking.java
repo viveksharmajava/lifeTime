@@ -15,6 +15,8 @@ public class BusTicketBooking {
    static int [] routePoints = {0, 1, 2, 3, 4 ,5 ,6 ,7 };
 	public static void main(String []args){
 		System.out.println(blockedStation(1,3));
+		System.out.println(blockedStation(1,5));
+		System.out.println(blockedStation(6,7));
 	}
 	
 	static ArrayList<String> blockedStation(int bookingSource, int bookingDestination){

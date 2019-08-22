@@ -9,15 +9,15 @@ public class ArrangeNumbers {
 	public static void main(String[] args) {
 
 		Integer []input ={1, 1, 0,1,0,1,1,0,1};
-		input = reArrangeArray(input,0,input.length);
+		input = reArrangeArray(input,0,input.length-1);
 		for(int i =0 ;i < input.length ;i++){
-			System.out.print(input[i]+"\t ");
+			System.out.println(i+" ="+ input[i]);
 		}
 	}
 
 	static Integer[] reArrangeArray(Integer []inputArray, int start ,int end){
 		
-		if (start == end)
+		if (start == end || start > end)
 		{
 			return inputArray;
 		}

@@ -49,15 +49,19 @@ public class BinaryTree
 	 preOrder(temp.right);
  }
   private void inOrder(Node temp){
-	 if(temp == null ){
-	  return;
+	 if(temp.left == null ){
+	 System.out.println(temp.value);
+	  //return;
 	 }
-	
-	 preOrder(temp.left);
-	  System.out.println(temp.value);
-	 preOrder(temp.right);
+	 if(temp.left != null)
+	 {
+		 inOrder(temp.left);
+		 System.out.println(temp.value);
+	 }
+	 if(temp.right != null)inOrder(temp.right);
+	 
  }
- 
+//Postorder (Left, Right, Root)
   private void postOrder(Node temp){
 		 if(temp == null ){
 		  return;
