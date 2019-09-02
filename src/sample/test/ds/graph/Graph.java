@@ -1,0 +1,96 @@
+package sample.test.ds.graph;
+
+import java.util.Iterator;
+import java.util.LinkedList;
+
+/*
+ * https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
+ */
+public class Graph {
+
+	public static void main(String[] args) {
+		Graph graph = new Graph(4);
+		/*
+		 *    (0)----->---(1)
+		 *     |         -
+		 *     |     _ <
+		 *    <|>  _        
+		 *     |  -        -- - - self
+		 *     (2)----->--(3)  <--|
+		 *       
+		 * 
+		 * 
+		 */
+		graph.addEdge(0,1);
+		graph.addEdge(0,2);
+		graph.addEdge(1,2);
+		graph.addEdge(2, 0);
+		graph.addEdge(2,3);
+		graph.addEdge(3,3);
+		System.out.println("Following is Breadth First Traversal "+ 
+                "(starting from vertex 2)");
+		graph.printBFS(2);
+		System.out.println("\n Following is Depth First Traversal "+ 
+                "(starting from vertex 2)"); 
+		graph.printDFS(2);
+	}
+
+	private int vertexes;
+	private LinkedList<Integer> [] adjacent;
+	Graph(int v){
+		this.vertexes = v;
+		adjacent = new LinkedList[v];
+		for(int i=0; i < v; i++) {
+		 adjacent[i] = new LinkedList<Integer>();
+		}
+	}
+	
+	
+	
+	public void addEdge(int v , int edge) {
+		adjacent[v].add(edge);
+	}
+	
+	public void printBFS(int source){
+	
+	//Mark all vertex not visted by default.	
+	  boolean [] visited = new boolean[this.vertexes];
+	  LinkedList <Integer> queue = new LinkedList<Integer>();
+	  visited[source] = true;
+	  queue.add(source);
+	  while(queue.size() != 0) {
+		  source = queue.poll();
+		  System.out.print(source+"\t");
+		  Iterator <Integer> itr = adjacent[source].listIterator();
+		  while(itr.hasNext()) {
+			  int edge = itr.next();
+			  if(!visited[edge])
+			   {
+				  visited[edge] = true;
+				  queue.add(edge);
+			   }
+		  }
+	  }//end of while
+	  
+	}
+	
+	public void printDFS(int source) {
+		//Mark all vertex not visted by default.	
+		  boolean [] visited = new boolean[this.vertexes];
+		  dfs(source ,visited);
+	 }
+	private void dfs(int source , boolean [] visited) {
+		
+		visited[source] = true;
+		 System.out.print(source+"\t");
+		  Iterator <Integer> itr = adjacent[source].listIterator();
+		  while(itr.hasNext()) {
+			  int edge = itr.next();
+			  if(!visited[edge])
+			   {
+				 dfs(edge,visited); 
+			   }
+		  } 
+		
+	}
+}
