@@ -4,22 +4,25 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
+import java.io.ObjectInputValidation;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 public class SerializableTest {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		
-		FileOutputStream fos = new FileOutputStream("D:\\serailize.txt");
+		FileOutputStream fos = new FileOutputStream("/Users/viveksharma/Documents/vivek/serailize.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         A a  = new A();
         a.x= 50;
         a.cobj.m = 45;
         a.name ="Andy";
-        System.out.println(" value before persistiong x="+a.x +"\t  y="+a.y+"\t z ="+a.z+"\t name="+a.name+"\t c value="+a.cobj.m);
-       oos.writeObject(a);
+        System.out.println(" value before persisting x="+a.x +"\t  y="+a.y+"\t z ="+a.z+"\t name="+a.name+"\t c value="+a.cobj.m);
+         oos.writeObject(a);
         //a  = new A();
       //  a.x = 30;
       //  a.y = 30;
@@ -32,7 +35,7 @@ public class SerializableTest {
         oos.writeInt(a.y);*/
         oos.close();
         
-        FileInputStream fis = new FileInputStream("D:\\serailize.txt");
+        FileInputStream fis = new FileInputStream("/Users/viveksharma/Documents/vivek/serailize.txt");
         ObjectInputStream ois = new ObjectInputStream(fis);
         String s = "";
         Integer x ;
@@ -70,7 +73,8 @@ public void setM(int s){
 	m = s;
 }
 }
-class A  extends B implements Serializable{
+class A  extends B implements Serializable,ObjectInputValidation{
+	private static final long serialVersionUID = 47L;
 	final transient int y = 10;
 	int x = 30;
 	transient Cat cobj = new Cat(); 
@@ -78,7 +82,7 @@ class A  extends B implements Serializable{
 	String name ="vivek";
 	A(){
 		super(300);
-		System.out.println("Constructor get called");
+		System.out.println("A Constructor get called");
 		x = 4;
 	}
 	
@@ -96,8 +100,26 @@ class A  extends B implements Serializable{
     }
     private void readObject(ObjectInputStream in) throws IOException,ClassNotFoundException {
         in.defaultReadObject();
+        System.out.println("before registerValidation");
+        in.registerValidation(this, 0);
         this.z = in.readInt();
         this.cobj = new Cat();
         this.cobj.m = in.readInt();
     }
+    Object writeReplace() throws ObjectStreamException{
+    	System.out.println("writeReplace called !!!");
+    	return this;
+    	
+    }
+    //https://docs.oracle.com/javase/8/docs/technotes/guides/serialization/examples/symbol/index3.html
+    Object readResolve() throws ObjectStreamException{
+    	System.out.println("readResolve called !!!");
+    	return this;
+    	
+    }
+
+	@Override
+	public void validateObject() throws InvalidObjectException {
+		System.out.println(" In validateObject !!!");
+	}
 }
