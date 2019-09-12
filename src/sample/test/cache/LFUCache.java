@@ -2,6 +2,7 @@ package sample.test.cache;
 
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.PriorityQueue;
 
 public class LFUCache {
@@ -28,10 +29,15 @@ public class LFUCache {
 		System.out.println(lfu.get(3));
 		
 		lfu.put(4,4);
-		
+		/*
+		 * Note Priority queue is arbitrary it may or may not maintain insertion order while dequeue happen
+		 * hence in below case  3 is most recent  then 2 and least recent is 1 
+		 * but it still removed 2 because while shifting array after remove it removed 2 instead of 1.
+		 */
 		System.out.println(lfu.get(2));
 		System.out.println(lfu.get(3));
 		System.out.println(lfu.get(1));
+		System.out.println(lfu.get(4));
 //		Cache c = new Cache();
 //		c.Key = 2;
 //		c.frequency = 10;
@@ -51,6 +57,32 @@ public class LFUCache {
 //		System.out.println(lfu.get(14));
 //		System.out.println(lfu.pq.poll().Key);
 //		System.out.println(lfu.pq.poll().Key);
+		
+		
+		//Test if an object stored in collection and after that if modify the object will 
+		//it also modify object state which is stored in list.
+		Cache c = new Cache();
+		c.Key = 2;
+		c.frequency = 10;
+		c.value = 2;
+		HashMap<Integer,Cache> hm = new HashMap<Integer,Cache>();
+		hm.put(2,c);
+		LinkedList <Cache> l = new LinkedList<Cache>();
+		l.add(c);
+		PriorityQueue <Cache> pq = new PriorityQueue<Cache>(new Comparator<Cache>() {
+			
+			public int compare(Cache c1 , Cache c2) {
+				return c1.frequency.compareTo(c2.frequency);
+			}
+		});
+		pq.add(c);
+		c.value = 10;
+		c.frequency = 5;
+		
+		System.out.println(((Cache)hm.get(2)).value);
+		System.out.println(l.get(0).value);
+		System.out.println(pq.poll().frequency);
+		
 	}
   
 	 public LFUCache(int capacity) {
@@ -72,12 +104,12 @@ public class LFUCache {
 	    
 	    public void put(int key, int value) {
 	    	if(this.cacheMap.containsKey(key)) {
-	    	  Cache old = cacheMap.get(key);
-	    	  this.pq.remove(old);
-	    	  old.value = value;
-	    	  cacheMap.put(key, old);
-	    	  pq.add(old);
-	    	  
+//	    	  Cache old = cacheMap.get(key);
+//	    	  this.pq.remove(old);
+//	    	  old.value = value;
+//	    	  cacheMap.put(key, old);
+//	    	  pq.add(old);
+//	    	  
 	    	}else {
 	    	 if(cacheMap.size() == capacity) {
 	    		 cacheMap.remove(pq.poll().Key);
@@ -97,4 +129,14 @@ public class LFUCache {
 		  Integer frequency;
 		  Integer value;
 	   }
+	   
 }
+
+class LFUCacheUsingList{
+	   int cap ;
+	    HashMap<Integer,LFUCache.Cache> cacheMap = new HashMap<Integer,LFUCache.Cache>();
+	    LinkedList cached = new LinkedList();
+	    LFUCacheUsingList(int cap){
+		  this.cap  = cap;
+  }
+} //end of LFUCacheUsingList

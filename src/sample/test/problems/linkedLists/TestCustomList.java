@@ -34,6 +34,8 @@ public class TestCustomList {
 			i++;
 		}
 		
+		
+		
 		Node <Integer> thisWillcreateLoop  = node; //add thisWillcreateLoop-->next = fourthNode; to create loop
 		System.out.println("before removing duplicate");
 		node = head;
@@ -85,6 +87,46 @@ public class TestCustomList {
 		FindTheLoopInCircularList findLoop  = new  FindTheLoopInCircularList();
 		Node<Integer> looped = findLoop.findLoop(headForDeleteNode);
 		System.out.println("looped ="+looped.data);
+		
+		
+		//Find the some of the 2 list 
+		Node<Integer> node2 = null;
+		Node <Integer> head2 = null;
+		i=1;
+		while(i<=3){
+			 if(node == null){
+
+				 node = new Node<Integer>(i+4);
+			     head = node;
+			 }
+			 else{
+				Node <Integer> newNode = new Node<Integer>(i+4);
+				node.next = newNode;
+				node = newNode;
+			 }
+			i++;
+		}
+		i=4;
+		while(i<7){
+			 if(node2 == null){
+
+				 node2 = new Node<Integer>(i+3);
+			     head2 = node2;
+			 }
+			 else{
+				Node <Integer> newNode = new Node<Integer>(i+3);
+				node2.next = newNode;
+				node2 = newNode;
+			 }
+			i++;
+		}
+		
+		System.out.println("SumOf2NumbersStoredin2List");
+		Node<Integer> addedList = SumOf2NumbersStoredin2List.sumOfTwoList(head, head2);
+		while(addedList!=null) {
+			System.out.print(addedList.data);
+			addedList = addedList.next;
+		}
 	}
 	
 	
