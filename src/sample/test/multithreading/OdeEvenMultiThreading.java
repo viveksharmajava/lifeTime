@@ -58,21 +58,34 @@ public class OdeEvenMultiThreading implements Runnable {
 	}
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-   
-		 new Thread( new OdeEvenMultiThreading("even"),"Even").start();
-		 new Thread( new OdeEvenMultiThreading("odd"),"Odd").start();
-		/* String s ="N";
+		 Printer s = new Printer("N");
 		 new Thread( new OddThread(s),"odd").start();
-		 new Thread( new EvenThread(s),"even").start();*/
+		 new Thread( new EvenThread(s),"even").start();
 		
 	}
 
 }
 
+class Printer {
+	private String value;
+	public void print(int i) {
+		System.out.print(i+" ");
+	}
+	
+	Printer(String s){
+		value = s;
+	}
+	
+	public void setValue(String s) {
+		value = s;
+	}
+	public String getValue() {
+		return value;
+	}
+}
 class OddThread implements Runnable {
-	String shared;
-	OddThread(String s){
+	Printer shared;
+	OddThread(Printer s){
 		shared =s;
 	}
 	public void run(){
@@ -80,20 +93,24 @@ class OddThread implements Runnable {
 		while(i<100){
 			try{
 				
-			if(!shared.equals("Y"))
-			{  synchronized(shared){
-				System.out.println("waiting ="+Thread.currentThread().getName() +"\t i ="+i);
+			//if(!shared.getValue().equals("Y"))  This is giving correct result  without it threads are running forever 
+				//even though results are correct. see the below example.
+			//{  
+				synchronized(shared){
 				System.out.println(i);
-				shared ="Y";
+				shared.setValue("Y");
 				i=i+2;
+				shared.notifyAll();
+				shared.wait(); // remove this if you want to use if #96
 			}
 				
-			shared.notifyAll();
-			}
-			else{
-				//System.out.println("waiting ="+Thread.currentThread().getName()+"\t and availability="+available);
-				shared.wait();
-			}
+			// uncomment below 109-113 if you want to use if #96
+			//}  
+			//else{
+//				synchronized(shared){
+//					shared.wait();
+//				}
+			//}
 			}catch(Exception ie){
 				
 			}
@@ -104,32 +121,32 @@ class OddThread implements Runnable {
 }
 
 class EvenThread implements Runnable {
-	String shared;
-	EvenThread(String s){
+	Printer shared;
+	EvenThread(Printer s){
 		shared =s;
 	}
 	public void run(){
 		int i=2;
 		while(i<=100){
 			try{
-			//System.out.println(" before if in even="+available);	
-			if(shared.equals("Y"))
-			{   synchronized(shared){ 
+			//if(shared.getValue().equals("Y"))
+			//{   
+				synchronized(shared){ 
 				System.out.println(i);
 				i=i+2;
-				shared ="N";
-			}
-			shared.notifyAll();
-			}
-			else{
-				//System.out.println("waiting ="+Thread.currentThread().getName()+"\t and availability="+available);
+				shared.setValue("N");
+				shared.notifyAll();
 				shared.wait();
 			}
+			
+//			}
+//			else{
+//				synchronized(shared){ 
+//					shared.wait();
+//			}
 			}catch(Exception ie){
 				
 			}
 		}
-	
-		
 	}
 }

@@ -6,16 +6,136 @@ public class PrintNumbers {
 	
 	public static void main(String[] args) {
 	
-		 new Thread( new MuttiThreading("T1",1),"T1").start();
-		 new Thread( new MuttiThreading("T2",2),"T2").start();
-		 new Thread( new MuttiThreading("T3",3),"T3").start();
+//		 new Thread( new MuttiThreading("T1",1),"T1").start();
+//		 new Thread( new MuttiThreading("T2",2),"T2").start();
+//		 new Thread( new MuttiThreading("T3",3),"T3").start();
+		
+		 Print p = new Print("A");
+		 new Thread(new PrintSequence(1,20 , p)).start();
+		 new Thread(new PrintSequence2(2,20 , p)).start();
+		 new Thread(new PrintSequence3(3,20 , p)).start();
 	}
 
 	
 }
+class Print {
+	private String value;
+	public void print(int i) {
+		System.out.print(i+" ");
+	}
+	
+	Print(String s){
+		value = s;
+	}
+	
+	public void setValue(String s) {
+		value = s;
+	}
+	public String getValue() {
+		return value;
+	}
+}
+
+class PrintSequence implements Runnable{
+	Print shared ;
+	int seq;
+	int upto;
+	PrintSequence(int sequence, int up , Print p){
+	  this.seq = sequence;
+	  this.upto = up;
+	  this.shared = p;
+	}
+	public void run() {
+
+		int i=seq;
+		while(i<= this.upto){
+			try{
+				
+			if(shared.getValue().equals("A"))
+			{  synchronized(shared){
+				shared.print(i);
+				shared.setValue("B");
+				i=i+3;
+			}
+			shared.notifyAll();
+			}
+			else{
+				wait();
+			}
+			}catch(Exception ie){
+				
+			}
+		}
+	}
+}
+
+class PrintSequence2 implements Runnable{
+	Print shared ;
+	int seq;
+	int upto;
+	PrintSequence2(int sequence, int up , Print p){
+	  this.seq = sequence;
+	  this.upto = up;
+	  this.shared = p;
+	}
+	public void run() {
+
+		int i=seq;
+		while(i<= this.upto){
+			try{
+				
+			 if(shared.getValue().equals("B"))
+			{  synchronized(shared){
+				shared.print(i);
+				shared.setValue("C");
+				i=i+3;
+			}
+			shared.notifyAll();
+			}
+			else{
+				wait();
+			}
+			}catch(Exception ie){
+				
+			}
+		}
+	}
+}
 
 
+class PrintSequence3 implements Runnable{
+	Print shared ;
+	int seq;
+	int upto;
+	PrintSequence3(int sequence, int up , Print p){
+	  this.seq = sequence;
+	  this.upto = up;
+	  this.shared = p;
+	}
+	public void run() {
 
+		int i=seq;
+		while(i<= this.upto){
+			try{
+		  if(shared.getValue().equals("C"))
+			{  synchronized(shared){
+				shared.print(i);
+				shared.setValue("A");
+				i=i+3;
+			}
+			shared.notifyAll();
+			}
+			
+			else{
+				wait();
+			}
+			}catch(Exception ie){
+				
+			}
+		}
+	}
+}
+//This is not a correct way of implementation
 class  MuttiThreading implements Runnable{
 	 String threadName=null;
 	 private static boolean t1Available = true;

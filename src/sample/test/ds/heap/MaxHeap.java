@@ -15,7 +15,7 @@ public class MaxHeap {
 	
 	int [] maxHeap;
 	int i=0;
-	MaxHeap(int heapSize){
+	public MaxHeap(int heapSize){
 		maxHeap = new int[heapSize+1];
 	}
 	
@@ -61,7 +61,7 @@ public class MaxHeap {
 		//update MaxHeap.i( which holds last position).
 		int counter = this.i=this.maxHeap.length-2;  // maxHeap has one size extra to hold temp element
 		while(counter >= 0) {
-		  System.out.println(this.maxHeap[0]);	
+		  System.out.print(this.maxHeap[0]+" ");	
 		  this.maxHeap[0] = this.maxHeap[counter];
 		  counter--;
 		  i--;

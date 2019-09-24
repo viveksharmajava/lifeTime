@@ -61,19 +61,19 @@ public class BinaryTree
 	
  private void preOrder(Node temp){
 	 if(temp == null ) return;
-	 System.out.println(temp.value);
+	 System.out.print(temp.value+"  ");
 	 preOrder(temp.left);
 	 preOrder(temp.right);
  }
   private void inOrder(Node temp){
 	 if(temp.left == null ){
-	 System.out.println(temp.value);
+	 System.out.print(temp.value+"  ");
 	  //return;
 	 }
 	 if(temp.left != null)
 	 {
 		 inOrder(temp.left);
-		 System.out.println(temp.value);
+		 System.out.print(temp.value+" ");
 	 }
 	 if(temp.right != null)inOrder(temp.right);
 	 
@@ -86,7 +86,7 @@ public class BinaryTree
 		
 		 postOrder(temp.left);
 		 preOrder(temp.right);
-		 System.out.println(temp.value);
+		 System.out.print(temp.value+"  ");
 	 }
   
    /*
@@ -140,7 +140,7 @@ public class BinaryTree
 //		root.right.right = new Node(7);
 	   Node temp = root;
 	   while(temp != null) {
-		 System.out.println(temp.value);
+		 System.out.print(temp.value+" ");
 		 if(temp.left != null) {
 			 arr.add(arr.size(),temp.left);
 		 }
@@ -177,7 +177,7 @@ public class BinaryTree
 		
 		if(current_node == null) {
 			popped_node = stack.remove(stack.size()-1);
-			System.out.println(popped_node.value);
+			System.out.print(popped_node.value+" ");
 			current_node = popped_node.right;
 		}
 	}
@@ -219,7 +219,7 @@ Input :
 	 if(node == null) return;
 	 
 	  if(max_level < level) {
-		System.out.println(node.value);
+		System.out.print(node.value+" ");
 		max_level = level;
 	  }
 	  leftViewOfTree(node.left, level+1);
@@ -245,7 +245,7 @@ Input :
 		vertical(temp, 0 , ht);
 		Set<Integer> i = ht.keySet();
 	    for (int keys : i) {
-	        System.out.println(ht.get(keys).get(0));
+	        System.out.print(ht.get(keys).get(0)+" ");
 	    }
 		
  }
@@ -292,7 +292,7 @@ Input :
 	vertical(temp, 0 , ht);
 	Set<Integer> i = ht.keySet();
     for (int keys : i) {
-        System.out.println(ht.get(keys));
+        System.out.print(ht.get(keys)+" ");
     }
 	
  } 
@@ -314,5 +314,24 @@ Input :
 	 vertical(n.left,level+1,ht);
 	 vertical(n.right,level-1,ht);
 	 
+ }
+ /*
+  *  complexity O(n) for binary tree or binary search tree
+  *  O(logn) for AVL tree
+  */
+ public int height() {
+	
+	return calculateHeight(this.root);
+ }
+ private  int calculateHeight(Node node) {
+	 if (node == null) return 0;
+	 
+	 return Math.max(calculateHeight(node.left), calculateHeight(node.right) )+ 1;
+ }
+ /*
+  * Height of the Node n is the longest  to longest path from that node to leaf node.
+  */
+ public int heightOfTheNode(Node n) {
+	 return calculateHeight(n);
  }
 }
