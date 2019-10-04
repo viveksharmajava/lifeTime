@@ -6,7 +6,7 @@ public abstract class SimpleThreads {
 	static void threadMessage(String message){
 		
 		String threadName =Thread.currentThread().getName();
-		System.out.println("thread name="+threadName+"        message="+message);
+		System.out.println("thread name="+threadName+",message="+message);
 	}
 	
 	private static class MessageLoop implements Runnable

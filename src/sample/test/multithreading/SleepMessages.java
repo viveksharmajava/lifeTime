@@ -6,7 +6,7 @@ public static void main(String[] args) throws InterruptedException {
 		
 	String [] messageInfo = {
 			
-			"My office is Thermo" ,"Preeti office is Synchronos" ,"Arun Office is home"
+			"My office is Thermo" ,"Preeti office is Synchronos" ,"Arun Office is School"
 	};
 	
 	for(int i=0;i<messageInfo.length;i++)

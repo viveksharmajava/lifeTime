@@ -1,7 +1,7 @@
 package sample.test.multithreading.meetup;
 
 /*
- * Does it print “Boom!!!” after counting
+ * Does it print ï¿½Boom!!!ï¿½ after counting
  * down from Nine to Zero? If not, how
  * will you make it happen
  */
@@ -23,7 +23,7 @@ System.out.println("Starting 10 second count down... ");
 Thread t = new Thread(timer);
 
 t.start();
-t.join();
+t.join(); // if t.join() not there below line may be printed before finishing thread t.
 System.out.println("Boom!!! should be printed");
 }
 }

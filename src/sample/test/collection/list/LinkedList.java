@@ -6,7 +6,7 @@ public class LinkedList<T> {
 	LinkedList <T> next ;
 	LinkedList <T> prev ;
 	LinkedList <T> trail ;
-	LinkedList(){
+	public LinkedList(){
 	  // head = this;
 	  // this.data = null;
 	  // this.next = this.prev = null;

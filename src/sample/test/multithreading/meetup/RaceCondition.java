@@ -1,10 +1,10 @@
 package sample.test.multithreading.meetup;
 
+/*
+ * 
+ */
 public class RaceCondition {
 
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		Counter counter = new Counter();
 		UseCounter c = new UseCounter(counter);
@@ -36,9 +36,10 @@ class UseCounter implements Runnable{
 		this.counter =counter;
 	}
 	public void increment(){
-		for(int i=0;i<20;i++)
+		for(int i=0;i<5;i++)
 		 {
-				synchronized(this) {//put synchronization to avoid race condition
+				synchronized(this) {//put synchronization to avoid race condition. Why synch.. on this it should be on Counter object rit? this is the 
+					                // repeated mistake i'm keep doing isn't? I think I need to learn a lot about threading.
 				counter.count++;
 				System. out .println(Thread.currentThread().getName()+"\t count="+counter.count);
 				  try {
@@ -68,7 +69,7 @@ class AssignCounter implements Runnable{
 	public void assign( int  a){
 		counter.count = a;
 		  System. out .println("in assign "+Thread.currentThread().getName()+"\t count="+counter.count);
-		 for(int i=0;i<20;i++)
+		 for(int i=0;i<5;i++)
 			{
 				 synchronized(this) 
 				 {//put synchronization to avoid race condition
@@ -86,7 +87,7 @@ class AssignCounter implements Runnable{
 	
 	public void run(){
 		 System. out .println(Thread.currentThread().getName()+"   started");
-		assign(5000);
+		assign(5000);//what is the use of passing 5000 here?
 		System.out.println("AssignCounter="+counter.count);
 		
 	}

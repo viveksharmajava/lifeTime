@@ -15,10 +15,10 @@ while(listIter.hasNext()) {
 System.out.println(listIter.next());
 aList.add("four");
 }
-
-/*listIter = aList.iterator();
+listIter = aList.iterator();
 while(listIter.hasNext()) {
-System.out.println(listIter.next());*/
+System.out.println(listIter.next());
+}
 }
 }
 

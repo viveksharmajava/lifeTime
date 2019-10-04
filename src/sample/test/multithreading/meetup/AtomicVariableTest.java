@@ -28,10 +28,10 @@ public static void main(String []args) throws InterruptedException {
 		incremeterThread[i].start();
 		decrementerThread[i].start();
 	}
-	for(int i = 0; i < 1000; i++) {
-		incremeterThread[i].join();
-		decrementerThread[i].join();
-	}
+//	for(int i = 0; i < 1000; i++) {
+//		incremeterThread[i].join();
+//		decrementerThread[i].join();
+//	}
 	System. out .printf("Integer value = %d AtomicInteger value = %d ",
 	Count.integer , Count.atomicInteger .get());
 }

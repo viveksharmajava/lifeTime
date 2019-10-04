@@ -18,6 +18,7 @@ public class ThreadLocalExample {
 	
 	public static void main(String []args){
 		ThreadLocalExample threadLocal = new ThreadLocalExample(new Date());
+		System.out.println(ThreadLocalExample.localDate.get());
 		System.out.println(threadLocal.getDate());
 		Thread1 t1  = new Thread1(threadLocal,4);
 		Thread1 t2  = new Thread1(threadLocal,8);

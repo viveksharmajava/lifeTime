@@ -23,7 +23,7 @@ public class CyclicBarrierTest {
 
 class MixedDoubleTennisGame extends Thread{
 	public void run(){
-		System. out .println("All four players ready, game starts \n Love all...");
+		System. out .println("All four players ready, game starts \n Score Love all...");
 	}
 }
 
