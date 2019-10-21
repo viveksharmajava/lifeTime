@@ -7,6 +7,10 @@ public class LinkedList<T> {
     	 node =head;
     }
     
+    public boolean addHead(Node <T> h) {
+    	this.head = h;
+    	return true;
+    }
     public boolean addNode(Node <T> element){
 		if(head == null){
 			head = node = element;
@@ -92,6 +96,15 @@ public class LinkedList<T> {
 //			this.next = null;
 //		}
 //	 }
+	
+	//This method just only for programming purpose. we should never return reference.
+	public Node <T> getHead(){
+		return this.head;
+	}
+	//Node will always points to lastNode
+	public void setLastNode(Node <T>  last) {
+		node = last;
+	}
 	public void printAll(){
 		Node<T> start = head;
 		while(start != null){

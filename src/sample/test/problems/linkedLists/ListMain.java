@@ -44,6 +44,59 @@ public class ListMain {
 		nodeList.printAll();
 		
 		
+		LinkedList <Integer> beforesort = new LinkedList<Integer>();
+		beforesort.add(30);
+		beforesort.add(3);
+		beforesort.add(10);
+		beforesort.add(40);
+		beforesort.add(40);
+		System.out.println("Before mergeSort=");
+		beforesort.printAll();
+		
+		SortListUsingMergeSort mergeSort = new SortListUsingMergeSort();
+		
+		Node <Integer> sortedHead = mergeSort.mergeSort(beforesort.getHead());
+		LinkedList <Integer> afterSorting = new LinkedList <Integer>();
+		afterSorting.addNode(sortedHead);
+        
+		System.out.println("AfterSorting Using mergeSort");
+		afterSorting.printAll();
+		
+		RemoveDuplicateFromList remDuplicate = new RemoveDuplicateFromList();
+		Node <Integer>  afterRemovingDuplicates = remDuplicate.removeDuplicateUsingHashMap(afterSorting.getHead());
+		LinkedList <Integer> noDuplicate = new LinkedList <Integer>();
+		
+		noDuplicate.addNode(afterRemovingDuplicates);
+		System.out.println("No Duplicate");
+		noDuplicate.printAll();
+		
+		beforesort = new LinkedList<Integer>();
+		//beforesort.add(30);
+		beforesort.add(3);
+		//beforesort.add(10);
+		beforesort.add(40);
+		beforesort.add(40);
+		
+		afterRemovingDuplicates = remDuplicate.removeDuplicateWithoudStorage(beforesort.getHead());
+	    noDuplicate = new LinkedList <Integer>();
+		noDuplicate.addNode(afterRemovingDuplicates);
+		System.out.println("No Duplicate removeDuplicateWithoudStorage");
+		noDuplicate.printAll();
+		
+		beforesort = new LinkedList<Integer>();
+		//beforesort.add(30);
+		beforesort.add(3);
+		//beforesort.add(10);
+		beforesort.add(40);
+		beforesort.add(40);
+		
+		afterRemovingDuplicates = remDuplicate.removeAllOccurenceOfDuplicates(beforesort.getHead());
+	    noDuplicate = new LinkedList <Integer>();
+		noDuplicate.addNode(afterRemovingDuplicates);
+		System.out.println("After Removing all occurence of Duplicate nodes");
+		noDuplicate.printAll();
+		
+		
 	}
 
 }

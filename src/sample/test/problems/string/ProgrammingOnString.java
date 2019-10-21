@@ -35,14 +35,14 @@ public class ProgrammingOnString {
 	  
 	 
 	
-	
+	//This program will be  having time complexity O(n^2)
 	public boolean checkUniCharacterString(String source){
 		
 		boolean isUnique = true;
 		int sourceLenght=  source !=null?source.length():0;
 		for(int i=0;i<sourceLenght ; i++){
 			char c = source.charAt(i) ;
-			if( i != source.lastIndexOf(c)) isUnique = false; 
+			if( i != source.lastIndexOf(c)) isUnique = false; //too much costly operation
 			
 			break;
 		}

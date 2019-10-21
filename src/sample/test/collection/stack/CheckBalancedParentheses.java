@@ -1,15 +1,15 @@
 package sample.test.collection.stack;
 /*
  * 
- * Given an expression string exp, examine whether the pairs and the orders of “{“,”}”,”(“,”)”,”[“,”]” are correct in exp.
-For example, the program should print 'balanced' for exp = “[()]{}{[()()]()}” and 'not balanced' for exp = “[(])”
+ * Given an expression string exp, examine whether the pairs and the orders of ï¿½{ï¿½,ï¿½}ï¿½,ï¿½(ï¿½,ï¿½)ï¿½,ï¿½[ï¿½,ï¿½]ï¿½ are correct in exp.
+For example, the program should print 'balanced' for exp = ï¿½[()]{}{[()()]()}ï¿½ and 'not balanced' for exp = ï¿½[(])ï¿½
  */
 public class CheckBalancedParentheses {
 
 	public static void main(String[] args) {
 		CheckBalancedParentheses balanceP = new CheckBalancedParentheses();
 		balanceP.isBalancedParentheses("[()]{}{[()()]()}");
-		balanceP.isBalancedParentheses("“[(])");
+		balanceP.isBalancedParentheses("ï¿½[(])");
 	}
 
 	public void isBalancedParentheses(String input){

@@ -42,8 +42,8 @@ public class StringPermutation {
 	        String s = "AAC";
 	        String s1 = "ABC";
 	        String s2 = "ABCD";
-	       // System.out.println("\nPermutations for " + s + " are: \n" + permutationFinder(s));
+	        System.out.println("\nPermutations for " + s + " are: \n" + permutationFinder(s));
 	        System.out.println("\nPermutations for " + s1 + " are: \n" + permutationFinder(s1));
-	       // System.out.println("\nPermutations for " + s2 + " are: \n" + permutationFinder(s2));
+	        System.out.println("\nPermutations for " + s2 + " are: \n" + permutationFinder(s2));
 	    }
 	}

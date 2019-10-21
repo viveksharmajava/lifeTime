@@ -1,6 +1,6 @@
 package sample.test.designPatterns.creational;
 
-import sample.test.designPatterns.Product;
+import sample.test.designPatterns.model.Product;
 
 public class ProductFactory {
 
@@ -11,7 +11,7 @@ public class ProductFactory {
 		return factory;
 	}
 	
-	public Product getProduct(){
+	public Product getProduct(String type){
 		return new Product();
 	}
 	

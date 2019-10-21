@@ -12,7 +12,7 @@ public class CheckStringIsRotation {
 	 * checks if one word is a substring of another.
 	 *  Given two strings, s1 and s2, write code to check if s2 is a rotation of s1 
 	 *  using only one call to isSubstring 
-	 * (i.e., “waterbottle” is a rotation of “erbottlewat”).
+	 * (i.e., ï¿½waterbottleï¿½ is a rotation of ï¿½erbottlewatï¿½).
 	 */
 	public static void main(String[] args) throws IOException{
 

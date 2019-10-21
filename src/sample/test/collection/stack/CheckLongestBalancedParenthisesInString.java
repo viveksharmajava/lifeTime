@@ -6,7 +6,7 @@ public class CheckLongestBalancedParenthisesInString {
 	public static void main(String[] args) {
 		CheckLongestBalancedParenthisesInString balanceP = new CheckLongestBalancedParenthisesInString();
 		balanceP.matchingSubStringLength("[[[[{{()()]()}");
-		balanceP.matchingSubStringLength("“[(])");
+		balanceP.matchingSubStringLength("ï¿½[(])");
 	}
 
 	public void matchingSubStringLength(String input){

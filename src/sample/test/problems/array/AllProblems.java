@@ -48,7 +48,7 @@ Check if array elements are consecutive | Added Method 3
 Find the smallest missing number
 Count the number of occurrences in a sorted array
 Interpolation search vs Binary search
-Given an array arr[], find the maximum j – i such that arr[j] > arr[i]
+Given an array arr[], find the maximum j ï¿½ i such that arr[j] > arr[i]
 Maximum of all subarrays of size k (Added a O(n) method)
 Find whether an array is subset of another array | Added Method 3
 Find the minimum distance between two numbers
@@ -115,19 +115,19 @@ Smallest subarray with sum greater than a given value
 Sort an array according to the order defined by another array
 Maximum Sum Path in Two Arrays
 Sort an array in wave form
-K’th Smallest/Largest Element in Unsorted Array
-K’th Smallest/Largest Element in Unsorted Array in Expected Linear Time
-K’th Smallest/Largest Element in Unsorted Array in Worst Case Linear Time
+Kï¿½th Smallest/Largest Element in Unsorted Array
+Kï¿½th Smallest/Largest Element in Unsorted Array in Expected Linear Time
+Kï¿½th Smallest/Largest Element in Unsorted Array in Worst Case Linear Time
 Find Index of 0 to be replaced with 1 to get longest continuous sequence of 1s in a binary array
 Find the closest pair from two sorted arrays
 Given a sorted array and a number x, find the pair in array whose sum is closest to x
-Count 1’s in a sorted binary array
+Count 1ï¿½s in a sorted binary array
 Print All Distinct Elements of a given integer array
 Construct an array from its pair-sum array
 Find common elements in three sorted arrays
 Find the first repeating element in an array of integers
 Find the smallest positive integer value that cannot be represented as sum of any subset of a given array
-Rearrange an array such that ‘arr[j]’ becomes ‘i’ if ‘arr[i]’ is ‘j’
+Rearrange an array such that ï¿½arr[j]ï¿½ becomes ï¿½iï¿½ if ï¿½arr[i]ï¿½ is ï¿½jï¿½
 Find position of an element in a sorted array of infinite numbers
 Can QuickSort be implemented in O(nLogn) worst case time complexity?
 Check if a given array contains duplicate elements within k distance from each other
@@ -148,7 +148,7 @@ Convert array into Zig-Zag fashion
 Find maximum average subarray of k length  
 Find maximum value of Sum( i*arr[i]) with only rotations on given array allowed  
 Reorder an array according to given indexes  
-Find zeroes to be flipped so that number of consecutive 1’s is maximized  
+Find zeroes to be flipped so that number of consecutive 1ï¿½s is maximized  
 Count triplets with sum smaller than a given value  
 Find the subarray with least average  
 Count Inversions of size three in a give array
