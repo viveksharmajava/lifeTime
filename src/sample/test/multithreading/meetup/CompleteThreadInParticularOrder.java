@@ -6,7 +6,7 @@ package sample.test.multithreading.meetup;
  * t3 finished
  * t2 finished
  * t1 finished
- * 
+ * xs
  * Solution :
  * Approach :  User  CyclicBarrier 
  */
@@ -21,11 +21,11 @@ public class CompleteThreadInParticularOrder {
 		
 		T1 t1 = new T1(t2);
 		t1.setName("t1");
-		
+		t1.start();
 		t2.start();
 		t3.start();
 		
-		t1.start();
+		
 		
 	}
 

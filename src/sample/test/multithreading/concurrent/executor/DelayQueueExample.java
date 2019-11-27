@@ -13,6 +13,10 @@ public class DelayQueueExample {
 		 Thread consumer  = new Thread(new DelayQueueConsumer(queue));
 		 producer.start();
 		 consumer.start();
+		 if(!producer.isAlive()) {
+			 System.out.println("Producer finished!");
+		 }
+		 
 		 
 	}
 

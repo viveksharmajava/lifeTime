@@ -7,10 +7,10 @@ public static void main(String [] args){
 	 A b = new B();
 	 System.out.println(ab.x);
 	 System.out.println(b.x);
-	/* Thread1 t1  = new Thread1(a, 4000l);
-	 Thread1 t2  = new Thread1(a, 5000l);
+	 Thread1 t1  = new Thread1(ab, 4000l);
+	 Thread1 t2  = new Thread1(ab, 5000l);
 	 t2.start();
-	 t1.start();*/
+	 t1.start();
 }
 }
 
@@ -34,7 +34,7 @@ class Thread1 extends Thread{
 		synchronized(a){
 			try {
 				a.x= 10;
-				a.wait(wait);
+				a.wait(wait); //this is wrong implmentation according me, why wait and notify in same synchronized block
 				System.out.println("I'm Thread "+Thread.currentThread().getName()+"\t and value of a"+a.x);
 				a.notify();
 			} catch (InterruptedException e) {

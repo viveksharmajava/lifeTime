@@ -10,7 +10,6 @@ public class ArrayBlockingQueueExample  {
 	 */
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		 ArrayBlockingQueue <String> blockingArray = new ArrayBlockingQueue<String>(16,true);//set fairness true grant thread access in FIFO	
 		Producer produce = new Producer(blockingArray);
 		

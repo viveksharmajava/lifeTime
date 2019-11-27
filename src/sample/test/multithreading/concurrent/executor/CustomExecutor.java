@@ -1,12 +1,14 @@
 package sample.test.multithreading.concurrent.executor;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CompletionService;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorCompletionService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-import java.util.concurrent.Callable;
 public class CustomExecutor {
 	
 	private ExecutorService executorService=null;
@@ -53,8 +55,22 @@ public class CustomExecutor {
 	public <T> Map<String , T> processAllTasks(Map<String , T > taskMap){
 		System.out.println("processAllTasks called");
 		try{
-		for(Map.Entry<String, T> entry :taskMap.entrySet()){
-			processTask(entry.getKey(), entry.getValue());
+			List<Future <T>> futureObjs	= executorService.invokeAll( (Collection<? extends Callable<T>>) taskMap.values());
+//		for(Map.Entry<String, T> entry :taskMap.entrySet()){
+//			
+//			processTask(entry.getKey(), entry.getValue());
+//		}
+			
+			for(Future <T> futureObj : futureObjs ) {
+				if(futureObj !=null){
+					Object taskObject =  futureObj.get();
+					System.out.println("Future object completed task ="+taskObject);
+				}
+			}
+			
+		executorService.shutdown();
+		if(executorService.isTerminated()) {
+			return null;
 		}
 		}catch(Exception e){
 			e.printStackTrace();

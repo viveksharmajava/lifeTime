@@ -1,5 +1,7 @@
 package sample.test.multithreading.concurrent.executor;
 
-public abstract class AbsClass {
+import java.util.concurrent.Callable;
+
+public abstract class AbsClass implements Callable {
 
 }

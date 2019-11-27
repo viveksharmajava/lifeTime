@@ -42,9 +42,9 @@ class Thread1 extends Thread{
 		//this.start();
 	}
 	public void run() {
-		System.out.println("Execution Thread ="+Thread.currentThread().getName());
+		System.out.println("Execution Thread 1 ="+Thread.currentThread().getName());
 
-		System.out.println("Finished Thread ="+Thread.currentThread().getName());
+		System.out.println("Finished Thread 1 ="+Thread.currentThread().getName());
 		
 		try {
 			waitPoint.await();

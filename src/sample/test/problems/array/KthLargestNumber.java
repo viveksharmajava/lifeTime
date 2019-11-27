@@ -32,6 +32,7 @@ public class KthLargestNumber{
 		for(int i= 0 ; i< k; i++) {
 			pq.add(input[i]);
 		}
+		
 		for(int i=k; i< input.length ; i++) {
 			if(pq.peek() < input[i]) {
 				pq.poll();

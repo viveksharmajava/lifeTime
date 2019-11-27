@@ -9,15 +9,15 @@ public class DelayQueueProducer implements Runnable{
 
 	public void run(){
 		
-		for(int i =100 ; i <=1000;i+=100){
-			DelayedElement delayElement = new DelayedElement(" Element "+i, 1000+i);
+		for(int i =1 ; i <=10;i++){
+			DelayedElement delayElement = new DelayedElement(" Element "+i, 1000*i);
 			System.out.println("producing delayed element ="+delayElement.getElementName());
 			delayQueuey.offer(delayElement);
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				Thread.sleep(100);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 		}
 	}
 

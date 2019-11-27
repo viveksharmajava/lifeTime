@@ -16,11 +16,11 @@ public class DelayQueueConsumer implements Runnable {
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+//			try {
+//				Thread.sleep(100);
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			}
 		}
 	}
 }

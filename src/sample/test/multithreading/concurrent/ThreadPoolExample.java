@@ -17,7 +17,7 @@ public class ThreadPoolExample {
 		
 		executor.shutdown();
 		while(!executor.isTerminated()) {
-			
+			System.out.println("Waiting for termination !");
 		}
 		
 		System.out.println("All threads completed");
