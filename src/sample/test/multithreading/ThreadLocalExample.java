@@ -2,9 +2,14 @@ package sample.test.multithreading;
 
 import java.util.Date;
 
+//Why this does not work with person class
 public class ThreadLocalExample {
 	
-	private static final ThreadLocal<Date> localDate = new ThreadLocal<Date>();
+	private static final ThreadLocal<Date> localDate = new ThreadLocal<Date>() {
+		 protected Date initialValue() {
+			return new Date();
+		};
+	};
 	ThreadLocalExample(Date d){
 		localDate.set(d);
 	}
@@ -17,6 +22,7 @@ public class ThreadLocalExample {
 	
 	
 	public static void main(String []args){
+		Person p = new Person("Vivek", "33");
 		ThreadLocalExample threadLocal = new ThreadLocalExample(new Date());
 		System.out.println(ThreadLocalExample.localDate.get());
 		System.out.println(threadLocal.getDate());
@@ -51,5 +57,15 @@ class Thread1  extends Thread{
 		
 		System.out.println("I'm Thread "+Thread.currentThread().getName()+"\t and after changing date month is ="+tl.getDate());
 	}
+}
+
+class Person{
+	String name;
+	String age;
+	Person(String n, String a){
+		this.name = n;
+		this.age = a;
+	}
+	
 }
 

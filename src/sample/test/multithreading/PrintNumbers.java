@@ -14,6 +14,8 @@ public class PrintNumbers {
 		 new Thread(new PrintSequence(1,20 , p)).start();
 		 new Thread(new PrintSequence2(2,20 , p)).start();
 		 new Thread(new PrintSequence3(3,20 , p)).start();
+		 
+		 // where there are 3 classses PS1,2,3 it can be achieved using 1 class only just need to set A,B,C carefully?
 	}
 
 	

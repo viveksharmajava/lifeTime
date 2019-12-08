@@ -8,7 +8,7 @@ package sample.test.multithreading.meetup;
  * t1 finished
  * xs
  * Solution :
- * Approach :  User  CyclicBarrier 
+ * Approach :  use join
  */
 public class CompleteThreadInParticularOrder {
 

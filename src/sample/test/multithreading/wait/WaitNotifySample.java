@@ -8,7 +8,7 @@ public static void main(String [] args){
 	 System.out.println(ab.x);
 	 System.out.println(b.x);
 	 Thread1 t1  = new Thread1(ab, 4000l);
-	 Thread1 t2  = new Thread1(ab, 5000l);
+	 Thread1 t2  = new Thread1(b, 5000l);
 	 t2.start();
 	 t1.start();
 }

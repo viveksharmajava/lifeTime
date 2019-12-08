@@ -1,7 +1,7 @@
 package sample.test.multithreading.meetup;
 
 /*
- * 
+ * This look not correct example.
  */
 public class RaceCondition {
 
@@ -38,8 +38,8 @@ class UseCounter implements Runnable{
 	public void increment(){
 		for(int i=0;i<5;i++)
 		 {
-				synchronized(this) {//put synchronization to avoid race condition. Why synch.. on this it should be on Counter object rit? this is the 
-					                // repeated mistake i'm keep doing isn't? I think I need to learn a lot about threading.
+				synchronized(this) {//put synchronization to avoid race condition. Why synch.. on this it should be on Counter object rit? 
+					 // this is the  repeated mistake i'm keep doing isn't? I think I need to learn a lot about threading.
 				counter.count++;
 				System. out .println(Thread.currentThread().getName()+"\t count="+counter.count);
 				  try {
