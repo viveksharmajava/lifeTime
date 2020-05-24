@@ -1,6 +1,5 @@
 package sample.test.ds.tree;
 
-import sample.test.ds.tree.ConstructBSTGivenPreOrderArray.Node;
 
 public class LockableBinaryTree {
 

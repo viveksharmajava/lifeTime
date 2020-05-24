@@ -5,7 +5,7 @@ import sample.test.designPatterns.model.*;
 public class ComputerFactory {
  
 //you can also make factory object as singleton
- private static final	ComputerFactory computerFactory = new  ComputerFactory();
+ private  static final 	ComputerFactory computerFactory = new  ComputerFactory();
  
   private ComputerFactory() {
 	  

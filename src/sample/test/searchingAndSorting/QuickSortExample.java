@@ -17,6 +17,7 @@ public class QuickSortExample {
 		
 	}
 	
+	//Not working for even length array this is not correct implementation.
 	public void quickSort(Integer []array, int i ,int j){
 		
 		int lowerIndex = i;

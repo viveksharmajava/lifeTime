@@ -1,12 +1,48 @@
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
+class T implements Runnable{
+	public void run() {
+		System.out.println("i'm done!");
+	}
+}
 public class Test {
 
+	void m2() {
+		System.out.println("I'm in dfsdfds");
+		Runtime.getRuntime().halt(5353);;
+		
+	}
+	@Override
+	public void finalize() {
+		System.out.println("Finalize called");
+	}
 	public static void main(String[] args) throws IOException {
-		m1();
+		
+		Test test = new Test();
+		test.m2();
+		Runtime.getRuntime().gc();
+		T t = new T();
+		Thread thread = new Thread(t);
+		thread.setName("Runnable Thread");
+		thread.start();
+		
+		if(!thread.isAlive()) {
+			thread.start();
+		}
+//		ArrayList<String> arr = new ArrayList<String>();
+//		arr.add("a");
+//		arr.add("b");
+//		arr.add(0,"c");
+//		System.out.println(arr);
+//		
+//		int h = 2^4;
+//		System.out.println(h);
+//		h = h >>>16;
+//		System.out.println(h);
+//		System.out.println((15&545345934594l));
+//		m1();
 //		int a = 761623661;
 //		
 //		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -49,7 +85,7 @@ public class Test {
 	  a.add(6);
 	  a.add(7);
 	  a.add(8);
-	 A.add(a);
+	  A.add(a);
 	  
 	 a = new ArrayList<Integer>();
 	  a.add(9);

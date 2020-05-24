@@ -1,8 +1,12 @@
 package sample.test.ds.tree;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Map;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import sample.test.top25geeks.Node;
 
@@ -66,16 +70,23 @@ public class BinaryTree
 	 preOrder(temp.right);
  }
   private void inOrder(Node temp){
-	 if(temp.left == null ){
-	 System.out.print(temp.value+"  ");
-	  //return;
-	 }
-	 if(temp.left != null)
-	 {
-		 inOrder(temp.left);
-		 System.out.print(temp.value+" ");
-	 }
-	 if(temp.right != null)inOrder(temp.right);
+//	 if(temp.left == null ){
+//	 System.out.print(temp.value+"  ");
+//	  //return;
+//	 }
+//	 if(temp.left != null)
+//	 {
+//		 inOrder(temp.left);
+//		 System.out.print(temp.value+" ");
+//	 }
+//	 if(temp.right != null)inOrder(temp.right);
+	  
+	  // other best way
+	  if(temp == null) return ;
+	  inOrder(temp.left);
+	  System.out.print(temp.value+"  ");
+	  inOrder(temp.left);
+	  inOrder(temp.right);
 	 
  }
 //Postorder (Left, Right, Root)
@@ -274,6 +285,7 @@ Input :
 		
 		
 		Result :  [4],[2],[1,5,6],[3],[7]
+		         
 		
 		Algo :
 		
@@ -290,9 +302,19 @@ Input :
 	
 	Node temp = this.root;
 	vertical(temp, 0 , ht);
-	Set<Integer> i = ht.keySet();
-    for (int keys : i) {
-        System.out.print(ht.get(keys)+" ");
+
+ SortedSet<Map.Entry<Integer, ArrayList>> sortedset = new TreeSet<Map.Entry<Integer, ArrayList>>(
+  new Comparator<Map.Entry<Integer, ArrayList>>() {
+      @Override
+      public int compare(Map.Entry<Integer, ArrayList> e1,
+              Map.Entry<Integer, ArrayList> e2) {
+          return e2.getKey().compareTo(e1.getKey());
+      }
+  });
+	sortedset.addAll(ht.entrySet());
+
+    for (Map.Entry<Integer,ArrayList> entry : sortedset) {
+        System.out.print(entry.getValue()+" ");
     }
 	
  } 

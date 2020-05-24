@@ -176,31 +176,31 @@ Minimize the maximum difference between the heights
 	//2. Count pairs with given sum
   
 	static Integer[] findPair(int sum){
-		Integer []output = new Integer[2];
-		//sort input array 
-        QuickSortExample sorting= new QuickSortExample();
-        sorting.array[0]= 53;
-        sorting.array[1]= 30;
-        sorting.array[2]= 3;
-        sorting.array[3]= 8;
-        sorting.array[4]= 6;
-        sorting.array[5]= 10;
-        sorting.array[6]= 2;
-        //{53,30,3,8,6,10,2};
-		sorting.quickSort(0,6);
-		int l =0;
-		int r=6;
-		while(l <r){
-			if( (sorting.array[l] + sorting.array[r]) == sum){
-				output[0] =sorting.array[l];
-				output[1] =sorting.array[r];
-				return output;
-			}
-			else if( (sorting.array[l] + sorting.array[r]) > sum)  r--;
-			else if( (sorting.array[l] + sorting.array[r]) < sum)  l++;
-			
-		}
-		
+//		Integer []output = new Integer[2];
+//		//sort input array 
+//        QuickSortExample sorting= new QuickSortExample();
+//        sorting.array[0]= 53;
+//        sorting.array[1]= 30;
+//        sorting.array[2]= 3;
+//        sorting.array[3]= 8;
+//        sorting.array[4]= 6;
+//        sorting.array[5]= 10;
+//        sorting.array[6]= 2;
+//        //{53,30,3,8,6,10,2};
+//		sorting.quickSort(0,6);
+//		int l =0;
+//		int r=6;
+//		while(l <r){
+//			if( (sorting.array[l] + sorting.array[r]) == sum){
+//				output[0] =sorting.array[l];
+//				output[1] =sorting.array[r];
+//				return output;
+//			}
+//			else if( (sorting.array[l] + sorting.array[r]) > sum)  r--;
+//			else if( (sorting.array[l] + sorting.array[r]) < sum)  l++;
+//			
+//		}
+//		
 		
 		return  null;
 	}

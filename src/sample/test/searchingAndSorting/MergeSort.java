@@ -7,8 +7,15 @@ public class MergeSort {
 		int []array= {53,30,3,8,6,10};
 		int [] sorted = mergeSort(array,0,5);
 		 for(int i=0;i<sorted.length;i++){
-				System.out.println(sorted[i]);
+			 System.out.print(sorted[i]+"\t");
 		}
+	   System.out.println("\n\n mergesort Iterative\n");	
+	   
+	   int []array2= {53,30,3,8,6,10};
+	   int [] sorted2 = mergeSort(array,0,5);
+	   for(int i=0;i<sorted2.length;i++){
+			System.out.print(sorted2[i]+"\t");
+	}
 	}
 	
 	public static int [] mergeSort(int a[] , int p , int r) {
@@ -60,4 +67,24 @@ public class MergeSort {
 		e.printStackTrace();
 	}
 	}
+	
+	// Iteratively sort array A[low..high] using temporary array
+		public static void mergesortIterative(int[] A)
+		{
+			
+			// divide the array into blocks of size m
+			// m = [1, 2, 4, 8, 16...]
+			for(int  m = 1; m < A.length ; m = m*2) {
+				// for m = 0 , i 0, 2,4, 6,8,10
+				//for m = 2 , i : 0,4, 8,16
+				// for m= 4 , i: 0 , 8, 16
+				for(int i = 0 ; i < A.length ; i =  i + 2*m) {
+					int p = i;
+					int q = i+m-1;
+					int r = Integer.min(i+2*m-1, A.length-1);
+					merge(A, p, q, r);
+					
+				}
+			}
+		}
 }
