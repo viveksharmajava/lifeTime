@@ -1,0 +1,20 @@
+MultiThreading:
+
+Concurrency:
+1. what is the difference between shoutdown(), shoutdownnow().
+2. what is the difference between FixedSizeThreadpool, CachedThreadPool.
+3. Life Cycle of Task(Future) created by Executor (created, submitted, started , completed).
+4. Future state  not yet started,  running , completed.
+5. Method of Future interface.
+public interface Future<V> {
+    boolean cancel(boolean mayInterruptIfRunning);
+    boolean isCancelled();
+    boolean isDone();
+    V get() throws InterruptedException, ExecutionException,
+                   CancellationException;
+    V get(long timeout, TimeUnit unit)
+throws InterruptedException, ExecutionException,
+       CancellationException, TimeoutException;
+}
+
+6. 

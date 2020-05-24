@@ -1,0 +1,122 @@
+Reference:
+
+https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/toc.html
+1.2 Enable Options/Flags for JVM Troubleshooting
+
+Enable Core Files:
+ If Java crashes, for example due to a segmentation fault, 
+ the OS saves to disk a core file (complete dump of the memory). On Linux and Solaris, core files are sometimes disabled by default
+ To enable core files on Linux/Solaris:
+ $ unlimit -c unlimited
+ 
+ Note: The core files take up a lot of disk space, especially when run with a large Java heap.
+ 
+ To debug core files you can use native debugger such as gdb or by using the Serviceability Agent.
+ 
+ 2. Enable heap dump capturing automatically wheneven OutOfMemoryError comes:
+ 
+ Add : -XX:+HeapDumpOnOutOfMemoryError to jvm flags 
+ 
+ 
+ 
+ 3. Run a continuous JAVA FLIGHT RECORDER(JFR):
+ 
+ Check below for more detail about JFR:
+ https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr004.html#BABJJEEE
+ 
+ 
+ 1.3 Gather Relevant Data
+ 
+ The following are important file to gather before restarting the application:
+ 1. Core file
+ 2. hs_err printed text file for java crashes.
+ 3. java and application logs
+ 4. Java heapdump  for -XX:+HeapDumpOnOutOfMemoryError
+ 5. Java flight recording if enabled if the process didn't terminate the application, dump the continuous recording.
+ 
+ 
+ If the application stopped responding gather following details:
+ (a) Stack Traces: take several traces using jcmd <pid>  Thread.print  before restarting the application.
+ (b) dump java flight recording if enabled.
+ (c) Force a Core file : If application can't be closed properly then stop the application and force a core file using : Kill -6 <pid> on linux or solaris.
+ 
+ 
+ 
+ 
+ 1.3.1 Make a Java Application Easier to Debug
+ Java Logging Technology( https://docs.oracle.com/javase/8/docs/technotes/guides/logging/index.html)
+ 
+ 
+ Chapter 2:
+ Diagnostic tool overview:
+ https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr001.html
+ 2.2 Java Mission Control:
+ The Java Mission Control (JMC) is a new JDK profiling and diagnostics tools platform for HotSpot JVM. 
+ It is a tool suite for basic monitoring, managing, and production time profiling and diagnostics with high performance.
+ Java Mission Control minimizes the performance overhead that's usually an issue with profiling tools. 
+  
+  2.2.1 Troubleshoot with Java Mission Control:
+     (A)Java Management console (JMX) connects to a running JVM, collects and displays key characteristics in real time.
+	 (B)The Java Flight Recordings (JFR) in Java Mission Control is available to analyze events. 
+	 
+	 
+ The tools and options are divided into several categories, depending on the type of problem that you are troubleshooting.
+ Certain tools and options might fall into more than one category.
+  
+  1.Postmortem diagnostics(tools or options): These tools can be used to diagnostic a problem after application has crashed. 
+   
+   For example:
+	Tool or Option : Fatal Error Log, -XX:+HeapDumpOnOutOfMemoryError, -XX:OnError,-XX:+ShowMessageBoxOnError,Java VisualVM,jdb utility,jhat utility , jmap, jstact etc.
+  2. Hung processes: These tools can be used to investigate a hung or deadlock process.
+  3.Monitoring.
+  
+  
+  Types of Recordings(JFR):
+  Continuous Recordings: A continuous recording is a recording that is always on and saves, for example, the last six hours of data
+  Profiling Recordings: A profiling recording is a recording that is turned on, runs for a set amount of time, and then stops. 
+  Usually, a profiling recording has more events enabled and may have a slightly bigger performance impact. 
+  The events that are turned on can be modified depending on your use of profiling recording.
+
+
+ JVM started with -XX:+UnlockCommercialFeatures -XX:+FlightRecorder.
+  
+  
+  7 Ways to Capture Java Heap Dumps:
+  
+  1. JMAP:
+   
+   syntax : jmap dump_format=b,file=<file_path> <pid>
+   Example jmap dump_format=b , file=/scratch/vivekvis/threaddumpfile.bin 5353
+   Example: jmap -dump:live,format=b,file=heap.bin <pid>
+   Note :Note: It’s quite important to pass “live” option. If this option is passed, then only live objects in the memory are written into the heap dump file.
+    If this option is not passed, all the objects, even the ones which are ready to be garbage collected are printed in the heap dump file.
+    It will increase the heap dump file size significantly.
+    It will also make the analysis tedious. To troubleshoot memory problems or optimize memory, just the “live” option should suffice the need.
+   
+ 2. HeapDumpOnOutOfMemoryError
+ 
+ syntax: -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=<filepath>
+ 3. Using JCMD
+ 
+ syntax: jcmd <pid> GC.heap_dump
+ 
+ Example :jcmd 34343 GC.heap_dump /scratch/vivekvis/java_heap.hprof
+ 4. JVisualVM
+ Steps:
+
+5. 
+Launch jvisualvm under \bin\ folder
+Right-click on one of the Java process
+Click on the ‘Heap Dump’ option on the drop-down menu
+Heap dump will be generated
+File path where heap dump is generated will be specified in the Summary Tab > Basic Info > File section
+
+
+ 6. Programmatically:
+ 
+  
+
+ 
+ 
+ 
+ 
