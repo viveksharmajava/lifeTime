@@ -1,0 +1,226 @@
+
+Generics:
+Generics add stability to your code by making more of your bugs detectable at compile time.
+
+What is generic and Why Use Generics?:
+generics enable types (classes and interfaces) to be parameters when defining classes, interfaces and methods.
+type parameters provide a way for you to re-use the same code with different inputs.
+
+generics has many benefits:
+1.Stronger type checks at compile time
+2.Elimination of casts.
+	//without generics:
+	List list = new ArrayList();
+	list.add("hello");
+	String s = (String) list.get(0);
+    
+     //with generic
+	List<String> list = new ArrayList<String>();
+	list.add("hello");
+	String s = list.get(0);   // no cast
+3. Enabling programmers to implement generic algorithms.
+
+
+A  generic class is defined with the following format:
+  	class name <T1,T2, .... ,Tn> {  /*  ..*/}	
+  	
+ Declare Generic type class Box. 	
+  	/**
+ * Generic version of the Box class.
+ * @param <T> the type of the value being boxed
+ */
+public class Box<T> {
+    // T stands for "Type"
+    private T t;
+
+    public void set(T t) { this.t = t; }
+    public T get() { return t; }
+}
+
+
+Invocation:
+Box<Integer> integerBox;
+
+The Diamond :
+
+In Java SE 7 and later, you can replace the type arguments required to invoke the constructor of a generic class with an empty set of type arguments (<>)
+ as long as the compiler can determine.
+ 
+ Box<Integer> integerBox = new Box<>();
+ 
+ Raw Types:
+ Box rawBox = new Box();
+ 
+ 
+ Box<String> stringBox = new Box<>();
+ Box rawBox = stringBox;               // OK 
+ 
+ To completely disable unchecked warnings, use the -Xlint:-unchecked flag
+ The @SuppressWarnings("unchecked") annotation suppresses unchecked warnings.
+ 
+ Generic Methods:
+ 
+ For static generic methods, the type parameter section must appear before the method's return type:
+ public class Util {
+    public static <K, V> boolean compare(Pair<K, V> p1, Pair<K, V> p2) {
+        return p1.getKey().equals(p2.getKey()) &&
+               p1.getValue().equals(p2.getValue());
+    }
+}
+ public class Pair<K, V> {
+
+    private K key;
+    private V value;
+
+    public Pair(K key, V value) {
+        this.key = key;
+        this.value = value;
+    }
+
+    public void setKey(K key) { this.key = key; }
+    public void setValue(V value) { this.value = value; }
+    public K getKey()   { return key; }
+    public V getValue() { return value; }
+}
+
+he complete syntax for invoking this method would be:
+
+Pair<Integer, String> p1 = new Pair<>(1, "apple");
+Pair<Integer, String> p2 = new Pair<>(2, "pear");
+boolean same = Util.<Integer, String>compare(p1, p2);
+
+The type has been explicitly provided, as shown in bold. Generally, this can be left out and the compiler will infer the type that is needed:
+
+Pair<Integer, String> p1 = new Pair<>(1, "apple");
+Pair<Integer, String> p2 = new Pair<>(2, "pear");
+boolean same = Util.compare(p1, p2);
+
+This feature, known as type inference
+
+
+Bounded Type Parameters:
+declare a bounded type parameter:
+
+   public <U extends Number> void inspect(U u){
+        System.out.println("T: " + t.getClass().getName());
+        System.out.println("U: " + u.getClass().getName());
+    }
+    
+    
+ Multiple Bounds:
+ <T extends B1 & B2 & B3>
+ If one of the bounds is a class, it must be specified first. For example:
+ Class A { /* ... */ }
+interface B { /* ... */ }
+interface C { /* ... */ }
+
+class D <T extends A & B & C> { /* ... */ }
+Note: A is specified first.
+
+Generic Methods and Bounded Type Parameters:
+public static <T> int countGreaterThan(T[] anArray, T elem) {
+    int count = 0;
+    for (T e : anArray)
+        if (e > elem)  // compiler error because the greater than operator (>) applies only to primitive types
+            ++count;
+    return count;
+}  
+
+To fix the problem, use a type parameter bounded by the Comparable<T> interface:
+
+public interface Comparable<T> {
+    public int compareTo(T o);
+}
+public static <T extends Comparable<T>> int countGreaterThan(T[] anArray, T elem) {
+    int count = 0;
+    for (T e : anArray)
+        if (e.compareTo(elem) > 0)
+            ++count;
+    return count;
+}
+
+Generics, Inheritance, and Subtypes:
+
+Box<Number> box = new Box<Number>();
+box.add(new Integer(10));   // OK
+box.add(new Double(10.1));  // OK
+
+Now consider the following method:
+
+public void boxTest(Box<Number> n) { /* ... */ }
+boxTest(new Box<Integer>()) // NOT OK   since Box<Integer> is not sub type of Box<Number>
+
+Generic Classes and Subtyping:
+You can subtype a generic class or interface by extending or implementing it.So long as you do not vary the type argument, the subtyping relationship is preserved between the types.
+
+
+Collection<String>
+  ^
+  |
+ List<String>//OK
+  ^
+  |
+ ArrayList<String> //OK
+ 
+ 
+ Other Example:
+ 
+ interface PayloadList<E,P> extends List<E> {
+  void setPayload(int index, P val);
+  ...
+}
+PayloadList<String,String> //OK
+PayloadList<String,Integer>//OK
+PayloadList<String,Exception>//OK
+
+
+Type Inference:
+
+
+
+Wildcards:
+In generic code, the question mark (?), called the wildcard, represents an unknown type.
+The wildcard can be used in a variety of situations: as the type of a parameter, field, or local variable; sometimes as a return type
+
+Upper Bounded Wildcards:
+You can use an upper bounded wildcard to relax the restrictions on a variable.
+
+
+example:
+ List<Integer>, List<Double>, and List<Number>;
+ upper bound :  List<? extends Number>
+ 
+ The term List<Number> is more restrictive than List<? extends Number> because the former matches a list of type Number only,
+ whereas the latter matches a list of type Number or any of its subclasses.
+ 
+ Unbounded Wildcards:
+ The unbounded wildcard type is specified using the wildcard character (?), for example, List<?>.
+  This is called a list of unknown type. There are two scenarios where an unbounded wildcard is a useful approach:
+  1.If you are writing a method that can be implemented using functionality provided in the Object class.
+  2. When the code is using methods in the generic class that don't depend on the type parameter. For example, List.size or List.clear. In fact, Class<?> is so often used because most of the methods in Class<T> do not depend on T.
+  
+  Consider the following method, printList:
+
+public static void printList(List<Object> list) {
+    for (Object elem : list)
+        System.out.println(elem + " ");
+    System.out.println();
+}
+The goal of printList is to print a list of any type, but it fails to achieve that goal — it prints only a list of Object instances; it cannot print List<Integer>, List<String>, List<Double>, and so on, because they are not subtypes of List<Object>. To write a generic printList method, use List<?>:
+
+public static void printList(List<?> list) {
+    for (Object elem: list)
+        System.out.print(elem + " ");
+    System.out.println();
+}
+
+
+Lower Bounded Wildcards:
+ lower bounded wildcard restricts the unknown type to be a specific type or a super type of that type.
+ lower bound: <? super A>.
+ 
+ Note: You can specify an upper bound for a wildcard, or you can specify a lower bound, but you cannot specify both.
+ 
+ 
+  
+  

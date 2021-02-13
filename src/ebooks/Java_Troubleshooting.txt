@@ -114,6 +114,9 @@ File path where heap dump is generated will be specified in the Summary Tab > Ba
 
  6. Programmatically:
  
+ 
+ G1:
+ 
   
 
  

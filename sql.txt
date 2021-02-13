@@ -1,0 +1,240 @@
+--select record with maximum salary
+select * from employee where salary = (select max(salary) from employee);
+select * from employee ;
+
+--find second highest salary  but below query is not generic
+SELECT MAX(salary) AS salary
+  FROM employee
+ WHERE salary < (SELECT MAX(salary)
+                 FROM employee); 
+                 
+
+-- find nth highest
+SELECT *
+FROM Employee Emp1
+WHERE (4-1) --(n-1)
+= (
+               SELECT COUNT(DISTINCT(Emp2.Salary))
+               FROM Employee Emp2
+               WHERE Emp2.Salary > Emp1.Salary
+               );
+            
+  -- fetch first top 2 rows
+  
+select salary from employee  order by salary desc fetch next 2 rows only;     
+select salary from employee  order by salary desc fetch first 2  row only;  
+
+
+--dens_rank()
+select * from(
+select name, salary, dense_rank() 
+over(order by salary desc)r from Employee) 
+where r=2;   
+
+DENSE_RANK :
+
+1. DENSE_RANK computes the rank of a row in an ordered group of rows and returns the rank as a NUMBER. The ranks are consecutive integers beginning with 1.
+2. This function accepts arguments as any numeric data type and returns NUMBER.
+3. As an analytic function, DENSE_RANK computes the rank of each row returned from a query with respect to the other rows, based on the values of the value_exprs in the order_by_clause.
+4. In the above query the rank is returned based on sal of the employee table. In case of tie, it assigns equal rank to all the rows.
+
+--Joins
+
+
+--SQL Joins
+---Self Join
+INNER JOIN: 'it returns the result with matching value in both the tables'.
+ID   Name   Salary Manager_ID
+100	vivek	10000	Null
+101	xyz	    20000	100
+102	abc	    30000	Null
+110	abc	    20000	101
+112	mn	    60000	Null
+
+Sql:
+select e1.name as employe , e2.name as manager from employee e1, employee e2 where 
+e2.id = e1.manager_id;
+output:
+emp manager
+xyz	vivek
+abc	xyz
+--draw back it does not return the result of top manager who does not have his/her manager.
+OUTER JOIN: 'it can be used to return the value from either side despite matching value absent in other table'
+--left outer join
+select e1.name as employee , e2.name as mananger from employee e1 left join employee e2 on e1.manager_id = e2.id;
+
+--OUTPUT
+EMPLOYEE  MANAGER
+xyz	        vivek
+abc     	xyz
+mn	        NULL
+abc	        NULL
+vivek       NULL	
+---left outer join 
+select e.name ,p.phone_number from employee e left join phone p on e.id = p.emp_id;
+--OUTPUT
+EMPLOYEE    PHONE_NUMBER
+vivek   	3434343
+xyz     	23232
+abc	        NULL
+abc	        NULL
+mn          NULL	
+---right outer join show right side record
+select e.name ,p.phone_number from employee e right join phone p on e.id = p.emp_id;
+--OUTPUT:
+EMPLOYEE   PHONE
+vivek	3434343
+xyz	    23232
+NULL	4324324
+--full outer join (show bother side record
+select e.name ,p.phone_number from employee e full outer join phone p on e.id = p.emp_id;
+
+--OUTPUT
+EMPLOYEE  PHONE_NUMBER
+vivek	    3434343
+xyz	        23232
+abc	        NULL
+abc	        NULL
+mn	        NULL
+NULL	  4324324
+
+
+--DATABASE INdexes:
+Source : https://en.wikipedia.org/wiki/Database_index
+Definiton:
+A database index is a data structure that improves the speed of data retrieval operations on a database table at the cost of additional writes and storage space to maintain the index data structure.
+Indexes are used to quickly locate data without having to search every row in a database table every time a database table is accessed.
+Indexes can be created using one or more columns of a database table, 
+providing the basis for both rapid random lookups and efficient access of ordered records.   
+
+Indexes have the following properties:
+Usability and Unusable indexes: Indexes are usable (default) or unusable. An unusable index is not maintained by DML .
+Visibility:Indexes are visible (default) or invisible. An invisible index is maintained by DML operations and is not used by default by the optimizer. 
+Making an index invisible is an alternative to making it unusable or dropping it.
+
+Syntax: Create INDEX NAME_INDX ON employe(name);
+Note:
+
+Primary and unique keys automatically have indexes, but you might want to create an index on a foreign key.
+
+Composite Indexes:
+
+create index id_name_indx on employee(id,name);
+Unique and Nonunique Indexes:
+
+Unique Index: Unique indexes guarantee that no two rows of a table have duplicate values in the key column or columns. 
+
+Types of Indexes:
+(A)Btree Indexes:
+A(1) Index-organized tables: An index-organized table differs from a heap-organized because the data is itself the index
+A(2)Reverse key index:In this type of index, the bytes of the index key are reversed, for example, 103 is stored as 301.
+A(3) Descending indexes:This type of index stores data on a particular column or columns in descending order
+A(4)B-tree cluster indexes: This type of index is used to index a table cluster key. Instead of pointing to a row, 
+    the key points to the block that contains rows related to the cluster key.
+    
+B. Bitmap and bitmap join indexes
+B(1).Bitmap :  an index entry uses a bitmap to point to multiple rows
+B(2).Bitmap join : its a bitman index to join 2 or more tables.
+
+Function-based indexes:
+This type of index includes columns that are either transformed by a function, 
+such as the UPPER function, or included in an expression.
+
+Index Scans:
+
+Full Index Scan:
+In a full index scan, the database reads the entire index in order.
+
+SELECT department_id, last_name, salary 
+FROM   employees
+WHERE  salary > 5000 
+ORDER BY department_id, last_name;
+
+Fast Full Index Scan:Data is read from index itself without accessing   table. index must contains all the columns in select statement.
+
+
+SELECT last_name, salary
+FROM   employees;
+
+Index Range Scan:
+
+example:last_name LIKE 'A%',
+
+Index Unique Scan:  index unique scan must have either 0 or 1
+
+SELECT *
+FROM   employees
+WHERE  employee_id = 5;
+
+
+
+Difference between primary key vs Unique key:
+
+Primary key will not accept NULL values whereas Unique key can accept one NULL value. 
+A table can have only primary key whereas there can be multiple unique key on a table. 
+
+
+
+--- SQL QUeries:
+
+-- Disable constraint
+syntax : alter table <table_name> disable constraint  <constrain_name>
+Example: alter table "ECOMMERCE"."PHONE" disable  constraint "EMP_ID_REF"
+
+-- update query
+syntax : update <table_name> set <field>=<field_value> where <condition> ;
+Example: UPDATE "ECOMMERCE"."EMPLOYEE" SET ID = '110' WHERE id=102;
+
+--group by works with having close fine
+
+select  id , name , salary, manager_id from employee group by (id,name, salary, manager_id) having count(id) > 1;
+
+--group by having works with where clause as well
+
+select  id , name , salary, manager_id, count(id) from employee where id in ( 100,101,110) group by (id,name, salary, manager_id) having count(id) > 1 ;
+
+Result: 
+110	abc	30000	101	2
+
+select  id , name , salary, manager_id, count(id) from employee group by (id,name, salary, manager_id) ;
+-- above query will show duplicate rows only ones in result 
+-- to list all the rows (duplicate) we need to query 1 more time
+select  id , name , salary, manager_id  from employee where  (  id , name , salary, manager_id) 
+in (select  id , name , salary, manager_id from employee group by id,name, salary, manager_id having count(id) >1);
+
+-- but above query will scan full table 2 time.
+
+--user Analytics function  to avoid 2 time full scan
+
+ select  id , name , salary, manager_id ,count(*) over( partition by id , name , salary, manager_id ) ct
+from employee;
+-- it will still show all the result since there is filter applied
+-- Note analytics function can not be used with where clause directly.
+
+select  * from ( select e.* ,count(*) over( partition by id , name , salary, manager_id ) ct from employee e) ct
+where ct > 1;
+
+--How to Delete the Duplicate Rows:
+
+delete employee where rowid not in ( select min(rowid) from employee group by id , name , salary, manager_id);
+
+for more information
+https://blogs.oracle.com/sql/how-to-find-and-delete-duplicate-rows-with-sql
+
+
+
+
+
+
+
+
+
+    
+    
+ 
+ 
+
+
+
+
+     

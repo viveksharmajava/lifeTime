@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import sample.test.problems.string.LongestPalindromSubString;
 
@@ -39,12 +40,35 @@ public class ArrayProblems {
 		
 		int []c = {0,0,1 };
 		System.out.println("indexOf0ToGetMax1sSubbarray="+indexOf0ToGetMax1sSubbarray(c));
+		int []findMaxSum =  {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+		continuousSubArrWithMaxSum(findMaxSum);
+		
+		int [] min = { -3, 1, -3, 4, -1, 2, 1, -5, 4};
+		continuousSubArrWithMinSum(min);
+		
+		
+		int [] p = {-6, 4, -5, 8,-10,0,8};
+		System.out.println("\n  Max product sub-array="+maxProduct(p));
+		
+		//find distinct combination
+		int[] B = { 1, 2,2, 3 };
+		Arrays.sort(B);
+        int k = 2;
+		findCombinations(B, "", 0, B.length, k);
+		
+		
+		//sort k sorted array
+		List<Integer> list = Arrays.asList(1, 4, 5, 2, 3, 7, 8, 6, 10, 9);
+         k = 2;
+         System.out.println("Sort K sorted");
+        sortKSortedArray(list, k);
+        System.out.println(list);
+		
+		
 	}
 	
 	public static void m() {
-		
 		char [] s =  {'a','b','c',' ','d','e' , ' ', 'f','g'}; //oputput = {'f','g', ' ', 'd','e', ' ','a','b','c'}
-		
 	}
 	/*
 	 * THreeway partition 
@@ -395,7 +419,7 @@ public class ArrayProblems {
 			int max_index = -1;   // stores index of 0 to be replaced
 
 			int prev_zero_index = -1;   // stores index of previous zero
-			int count = 0;  			// store current count of zeros
+			int count = 0;  			// store current count of 1
 
 			// consider each index i of the array
 			for (int i = 0; i < A.length; i++)
@@ -423,7 +447,243 @@ public class ArrayProblems {
 			}
 
 			// return index of 0 to be replaced or -1 if array contains all 1's
-			return max_index;}
+			return max_index;
+		}
 	  
+	  /*
+	   * Problem 23: Find continuous sub array with max sum
+	   * https://www.techiedelight.com/print-continuous-subarray-with-maximum-sum/
+	   * kadane algorithm
+	   */
 	  
-}
+	   public static void continuousSubArrWithMaxSum(int [] input) {
+		   
+		   int max=0;//to hold max sum so far
+		   int sum=0; //to calculate sum value
+		   int start=0,end=0, begin = 0;
+		   for(int i = 0 ; i < input.length ;i++) {
+			   sum += input[i];
+			   if(sum < 0) // reset the sum and begin index
+			   {
+				   sum = 0;
+				   begin = i+1;
+			   }
+			   if(max < sum) {//update max, start, end
+				  max = sum;
+				  start = begin;
+				  end = i;
+			   }
+			   
+		   }
+		   if(start != end) {
+			   System.out.println("Sub Array with max sum of "+max+"\t found between input["+start+".."+end+"]\n");
+		   }
+		  while(start<=end) {
+			  System.out.print(input[start++]+"\t");
+		  }
+	   }
+	   
+	   //Maximum sum circular sub array
+	   
+	   /* Problem: 25
+	    * Input: { 2, 1,, -5, 4, -3, 1, -3, 4, -1}
+	    * OUTput: Subarray with the largest sum is {4, -1, 2, 1} with sum 6.
+	    * 
+	    * Approach : Idea is to find sub-array with having  sum min then remove that sub array from  original array remaining element 
+	    * will be circular sub array having max sum.
+	    * 
+	    * Solution : 
+	    * 1. modify problem 23 solution continuousSubArrWithMaxSum to find continuousSubArrWithMinSum
+	    * 2. Eliminate sub-array found in step 1 from original input array
+	    * 3. remaining element will be circular  sub array with max sum.
+	    * 
+	    */
+	   
+	   public static void continuousSubArrWithMinSum(int [] input) {
+		   
+		   int min=0;//to hold max sum so far
+		   int sum=0; //to calculate sum value
+		   int start=0,end=0, begin = 0;
+		   for(int i = 0 ; i < input.length ;i++) {
+			   sum += input[i];
+			   if(sum > 0) // reset the sum and begin index
+			   {
+				   sum = 0;
+				   begin = i+1;
+			   }
+			   if(min > sum) {//update min, start, end
+				  min = sum;
+				  start = begin;
+				  end = i;
+			   }
+			   
+		   }
+		   if(start != end) {
+			   System.out.println("Sub Array with min sum of "+min+"\t found between input["+start+".."+end+"]\n");
+		   }
+		  int s = start;
+		  while(start<=end) {
+			  System.out.print(input[start++]+"\t");
+		  }
+		  
+		  System.out.println("\n Cicular Sub-array with Max Sum is");
+		  int i = 0;
+		  while(i<s) {
+			  System.out.print(input[i++]+"\t");
+		  }
+		  
+		  i = end+1;
+		  while(i<input.length) {
+			  System.out.print(input[i++]+"\t");
+		  }
+	   }
+	   
+	   /*
+	    * Problem : 30
+	    * Problem statment: Find maximum product subarray in a given array
+	    */
+	   
+	   public static int maxProduct(int []input) {
+		   
+		// maintain two variables to store maximum and minimum product
+		// ending at current index
+		   int min_ending = 0 , max_ending=0;
+		
+		 // to store maximum product sub-array found so far
+		 int max_so_far = 0;
+		 for(int i : input) {
+			 int temp = max_ending;
+			 max_ending = Integer.max(i, Integer.max(i*max_ending,i*min_ending));
+			 min_ending = Integer.min(i , Integer.min(temp*i , i*min_ending));
+			 
+			 max_so_far = Integer.max(max_so_far, max_ending);
+		 }
+		 return max_so_far;
+	   }
+	   
+	   /*
+	    * https://www.techiedelight.com/find-distinct-combinations-of-given-length/
+	    *  Find all distinct combinations of given length – I
+	    *  Input:  {1, 2, 3}, k = 2
+		   Output: {1, 2}, {1, 3}, {2, 3}
+ 
+ 
+			Input:  {1, 2, 1}, k = 2
+			Output: {1, 1}, {1, 2}
+	    */
+	   
+	// Function to print all distinct combinations of length `k`
+	    public static void findCombinations(int[] A, String out, int i, int n, int k)
+	    {
+	        // invalid input
+	        if (k > n) {
+	            return;
+	        }
+	 
+	        // base case: combination size is `k`
+	        if (k == 0) {
+	            System.out.println(out);
+	            return;
+	        }
+	 
+	        // start from the next index till the last index
+	        for (int j = i; j < n; j++)
+	        {
+	            // add current element `A[j]` to the solution and recur for next index
+	            // `j+1` with one less element `k-1`
+	            findCombinations(A, out + " " + (A[j]) , j + 1, n, k - 1);
+	 
+	            /* uncomment the following code to handle duplicates */
+	           
+	            while (j < n - 1 && A[j] == A[j + 1]) {
+	                j++;
+	            } 
+	            
+	        }
+	    }
+	    
+	    public static void findCombinationsWithRepetation(int[] A, String out, int i, int n, int k)
+	    {
+	        
+	        // base case: combination size is `k`
+	        if (k == out.length()) {
+	            System.out.println(out);
+	            return;
+	        }
+	 
+	        // start from the next index till the last index
+	        for (int j = i; j < n; j++)
+	        {
+	            // add current element `A[j]` to the solution and recur for next index
+	            // `j+1` with one less element `k-1`
+	            findCombinations(A, out + " " + (A[j]) , j, n, k);
+	 
+	        }
+	        
+	    }
+
+      /*
+       * https://www.techiedelight.com/find-distinct-combinations-given-length-repetition-allowed/
+       * Find all distinct combinations of given length with repetition allowed
+       * Find minimum sum subarray of given size k
+       */
+	    
+	    public static void findMinSumSubarray(int[] arr, int k)
+	    {
+	        // stores the sum of elements in the current window
+	        int window_sum = 0;
+	 
+	        // stores the sum of minimum sum subarray found so far
+	        int min_window = Integer.MAX_VALUE;
+	 
+	        // stores ending index of the minimum sum subarray found so far
+	        int last = 0;
+	 
+	        for (int i = 0; i < arr.length; i++)
+	        {
+	            // add the current element to the window
+	            window_sum += arr[i];
+	 
+	            // if the window size is more than equal to `k`
+	            if (i + 1 >= k)
+	            {
+	                // update the minimum sum window
+	                if (min_window > window_sum)
+	                {
+	                    min_window = window_sum;
+	                    last = i;
+	                }
+	 
+	                // remove a leftmost element from the window
+	                window_sum -= arr[i + 1 - k];
+	            }
+	        }
+	 
+	        System.out.printf("The minimum sum subarray is (%d, %d)", last - k + 1, last);
+	    }
+	    
+	    /*
+	     * Sort K sorted array
+	     * Input:
+ 
+			arr = [1, 4, 5, 2, 3, 7, 8, 6, 10, 9]
+			k = 2
+ 
+			Output:[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+	     */
+	 // Function to sort a k–sorted array
+	    public static void sortKSortedArray(List<Integer> list, int k)
+	    {
+	    	PriorityQueue <Integer> pq = new PriorityQueue<Integer>(list.subList(0, k+1));
+	    	int index = 0;
+	    	for(int i = k+1 ; i < list.size();i++) {
+	    		list.set(index++ , pq.poll());
+	    		pq.add(list.get(i));
+	    	}
+	    	// pop all remaining elements from the min-heap and assign them to the
+	        // next available array index
+	    	while(!pq.isEmpty()) {
+	    		list.set(index++, pq.poll());
+	    	}
+	    }
+	    }

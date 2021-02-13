@@ -19,6 +19,7 @@ public class Test {
 		System.out.println("Finalize called");
 	}
 	public static void main(String[] args) throws IOException {
+
 		
 		Test test = new Test();
 		test.m2();

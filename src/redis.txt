@@ -1,0 +1,94 @@
+https://redislabs.com/get-started-with-redis/
+
+installation:
+
+Option D: Homebrew
+
+Install Redis brew install Redis
+Run Redis brew services start Redis
+Stop Redis brew services stop Redis
+
+
+
+brew services start redis
+
+Or, if you don't want/need a background service you can just run:
+  redis-server /usr/local/etc/redis.conf
+  
+  
+  
+  Cash best practices:
+  
+ 1. Validity 
+ 2. high hit rate
+ 3. cache miss
+ 4. TTL
+ 
+ 
+ Features/Estimation:
+ 1. Data Size(TB)
+ 2. hit ratio( 50k to 1 M request per second)
+ 3.latency ~1 ms
+ 4. Eviction policy (LRU)
+ 5. Availability (100%)
+ 6. Scalable
+ 
+ 
+ Cache Access pattern:
+ 1. Write through
+ 2. Write around(first writer to db/fs  ,data will be there in cache only when cache 
+  miss happen)
+  
+ 3. write back(first db then cache).
+ 
+ 
+ 
+ 
+ Caching:
+ 
+ 1.Cache is a hardware or software component that stores data so that future requests for that data can be served faster;
+ 
+ Cache hit/miss : A cache hit occurs when the requested data can be found in a cache,  while a cache miss occurs when it cannot.  Cache hits are served by reading data from the cache, which is faster than recomputing a result or reading from a slower data store;.
+ 
+ Cache uses: they are used in almost every layer of computing: hardware, operating systems, web browsers, web applications, and more.but are often found at the level nearest to the front end where they are implemented to return data quickly without taxing downstream levels.
+ 
+ Cache Advantage:
+ Latency:  
+ Throughput:
+ 
+ 
+ Introduction to architecting systems for scale.
+ 
+ https://lethain.com/introduction-to-architecting-systems-for-scale/
+ 
+ Redis cluster setup:
+ 
+ https://redis.io/topics/cluster-tutorial
+ 
+ 
+ port 7000
+cluster-enabled yes
+cluster-config-file nodes.conf
+cluster-node-timeout 5000
+appendonly yes
+steps 1:
+mkdir cluster-test
+cd cluster-test
+mkdir 7000 7001 7002 7003 7004 7005
+2. go to each directory created above and create redis.conf file to each directory with the below information
+
+port 7000 <change the port according directory>
+cluster-enabled yes
+cluster-config-file nodes.conf
+cluster-node-timeout 5000
+appendonly yes
+ 
+Note that the minimal cluster that works as expected requires to contain at least three master nodes. For your first tests it is strongly suggested to start a six nodes cluster with three masters and three slaves.
+start cluster node: 
+redis-cli -c -p 7000
+configure  cluster:
+redis-cli --cluster create 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 --cluster-replicas 1
+
+
+
+https://redis.io/topics/cluster-tutorial#creating-a-redis-cluster-using-the-create-cluster-script
