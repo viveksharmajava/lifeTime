@@ -7,6 +7,24 @@ class T implements Runnable{
 		System.out.println("i'm done!");
 	}
 }
+
+ class NoVisibility {
+    private static boolean ready;
+    private static int number;
+    private static class ReaderThread extends Thread {
+        public void run() {
+            while (!ready)
+                Thread.yield();
+            System.out.println(number);
+        }
+}
+//    public static void main(String[] args) {
+//        new ReaderThread().start();
+//        number = 42;
+//        ready = true;
+//}
+    
+ }
 public class Test {
 
 	void m2() {
@@ -19,7 +37,7 @@ public class Test {
 		System.out.println("Finalize called");
 	}
 	public static void main(String[] args) throws IOException {
-
+		
 		
 		Test test = new Test();
 		test.m2();

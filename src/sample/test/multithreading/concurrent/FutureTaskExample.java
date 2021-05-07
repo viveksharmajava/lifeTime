@@ -11,7 +11,7 @@ public class FutureTaskExample {
 	public static void main(String[] args) {
      
 		MyCallable call1 = new MyCallable(1000);
-		MyCallable call2 = new MyCallable(2000);
+		MyCallable call2 = new MyCallable(5000);
 		ExecutorService executor = Executors.newFixedThreadPool(2);
 		
 		FutureTask <String> ft1 = new FutureTask<String>(call1);

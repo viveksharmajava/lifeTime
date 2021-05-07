@@ -13,7 +13,7 @@ public class ThreadPoolExecutorExample {
 	RejectedExecutionHandlerImpl rejector = new RejectedExecutionHandlerImpl();
 	
 	ThreadFactory tf = Executors.defaultThreadFactory();
-	ThreadPoolExecutor tfe = new ThreadPoolExecutor(2, 4, 10,TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(2), tf , rejector);
+	ThreadPoolExecutor tfe = new ThreadPoolExecutor(2, 4, 40,TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(2), tf , rejector);
 	//start the monitoring thread
     MyMonitorThread monitor = new MyMonitorThread(tfe, 3);
     Thread monitorThread = new Thread(monitor);
@@ -51,6 +51,10 @@ class MyMonitorThread extends Thread {
                     this.executor.getTaskCount(),
                     this.executor.isShutdown(),
                     this.executor.isTerminated()));
+			if( this.executor.isTerminated()) {
+				System.out.println("All tasks executed!");
+				run = false;
+			}
             try {
                 Thread.sleep(delay*1000);
             } catch (InterruptedException e) {

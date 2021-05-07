@@ -13,8 +13,8 @@ public class StaticVsInstanceSynchronizedMethod {
 		A t3 = new A();
 		
 		new Thread(t1, "t1").start();
-		new Thread(t2, "t2").start();
-		new Thread(t3, "t3").start();
+		new Thread(t1, "t2").start();
+		new Thread(t1, "t3").start();
 		
 		
 	}
@@ -25,7 +25,7 @@ public class StaticVsInstanceSynchronizedMethod {
 		static synchronized  void a2(){
 			try{
 				System.out.println(" current Thread "+Thread.currentThread().getName()+" has called a2 and going for sleep");
-				Thread.sleep(100);
+				Thread.sleep(1000);
 			}catch(InterruptedException e){
 				
 			}
@@ -41,7 +41,7 @@ public class StaticVsInstanceSynchronizedMethod {
 			
 			try{
 				System.out.println(" current Thread "+Thread.currentThread().getName()+" has called a1 and going for sleep");
-				Thread.sleep(100);
+				Thread.sleep(10000);
 			}catch(InterruptedException e){
 				
 			}

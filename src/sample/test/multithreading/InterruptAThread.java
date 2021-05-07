@@ -3,19 +3,19 @@ package sample.test.multithreading;
 public class InterruptAThread {
 
 	public static void main(String[] args) {
-//		MyThread mt = new MyThread();
-//		Thread t = new Thread(mt,"interrupt");
-//		t.start();
-//		t.interrupt();
-//		MyThread2 mt2 = new MyThread2();
-//		Thread t2 = new Thread(mt2,"do not interrupt");
-//		t2.start();
-//		try {
-//			t2.join();
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//		System.out.println("Main finished !");
+		MyThread mt = new MyThread();
+		Thread t = new Thread(mt,"interrupt");
+		t.start();
+		t.interrupt();
+		MyThread2 mt2 = new MyThread2();
+		Thread t2 = new Thread(mt2,"do not interrupt");
+		t2.start();
+		try {
+			t2.join();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	//System.out.println("Main finished !");
 		
 		
 		A  a = new A();
@@ -76,11 +76,7 @@ class Mythread3 implements Runnable{
     	 a = aobj;
      }
 	public void run() {
-		
-		    
 		    a.m1();
-			
-			
 			System.out.println(Thread.currentThread().getName() +"\t done !");
 		
 	}

@@ -35,7 +35,7 @@ class Thread1 extends Thread{
 			try {
 				a.x= 10;
 				a.wait(wait); //this is wrong implmentation according me, why wait and notify in same synchronized block
-				System.out.println("I'm Thread "+Thread.currentThread().getName()+"\t and value of a"+a.x);
+				System.out.println("I'm Thread "+Thread.currentThread().getName()+"\t and value of a "+a.x);
 				a.notify();
 			} catch (InterruptedException e) {
 				e.printStackTrace();

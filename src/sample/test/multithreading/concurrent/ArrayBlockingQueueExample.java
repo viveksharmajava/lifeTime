@@ -17,7 +17,7 @@ public class ArrayBlockingQueueExample  {
 		Consumer consumer = new Consumer(blockingArray,"Consumer1");
 		consumer.start();
 		Consumer consumer2 = new Consumer(blockingArray,"Consumer 2");
-	consumer2.start();
+	//consumer2.start();
 		
 		
 

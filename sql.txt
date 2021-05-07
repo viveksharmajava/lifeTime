@@ -1,3 +1,34 @@
+--db user commands:
+create user learning identified by learning ;
+grant connect to learning;
+grant create session  to learning;
+grant unlimited tablespace to learning;
+grant create table to learning;
+grant create view, create procedure, create sequence to data_owner;
+
+
+--create employee table 
+
+CREATE TABLE "LEARNING"."EMPLOYEE" 
+   (	"EMPLOYEE_ID" VARCHAR2(20 BYTE) NOT NULL ENABLE, 
+	"NAME" VARCHAR2(20 BYTE), 
+	"SALARY" NUMBER(*,0), 
+	"DEPARTMENT" VARCHAR2(20 BYTE), 
+	"MANAGER_ID" VARCHAR2(20 BYTE), 
+	 CONSTRAINT "EMPLOYEE_PK" PRIMARY KEY ("EMPLOYEE_ID")
+  USING INDEX PCTFREE 10 INITRANS 2 MAXTRANS 255 
+  TABLESPACE "USERS"  ENABLE
+   ) SEGMENT CREATION DEFERRED 
+  PCTFREE 10 PCTUSED 40 INITRANS 1 MAXTRANS 255 
+ NOCOMPRESS LOGGING
+  TABLESPACE "USERS" ;
+  
+
+insert into employee(employee_id, name , salary,department, manager_id) values('1001','VIVEK',3343,'ABC',NULL );
+insert into employee(employee_id, name , salary,department, manager_id) values('1002','JACK',45345,'XYZ',NULL );
+insert into employee(employee_id, name , salary,department, manager_id) values('1003','SMITH',200,'ABC','1001' );
+insert into employee(employee_id, name , salary,department, manager_id) values('1004','SHIVA',5343,'SFSD',NULL );
+
 --select record with maximum salary
 select * from employee where salary = (select max(salary) from employee);
 select * from employee ;
@@ -7,18 +38,15 @@ SELECT MAX(salary) AS salary
   FROM employee
  WHERE salary < (SELECT MAX(salary)
                  FROM employee); 
-                 
+  result: 5343         
 
 -- find nth highest
-SELECT *
-FROM Employee Emp1
-WHERE (4-1) --(n-1)
-= (
-               SELECT COUNT(DISTINCT(Emp2.Salary))
-               FROM Employee Emp2
-               WHERE Emp2.Salary > Emp1.Salary
-               );
-            
+// find 3rdh highest salary
+select * from employee e1 where (3-1) =
+ ( select count(distinct (max(e2.salary))) from employee e2  where  e2.salary> e1.salary group by e2.employee_id );
+  
+  Result: 
+  1001	VIVEK	3343	ABC	          
   -- fetch first top 2 rows
   
 select salary from employee  order by salary desc fetch next 2 rows only;     
@@ -31,6 +59,8 @@ select name, salary, dense_rank()
 over(order by salary desc)r from Employee) 
 where r=2;   
 
+Result:
+SHIVA	5343	2
 DENSE_RANK :
 
 1. DENSE_RANK computes the rank of a row in an ordered group of rows and returns the rank as a NUMBER. The ranks are consecutive integers beginning with 1.
@@ -213,6 +243,7 @@ from employee;
 
 select  * from ( select e.* ,count(*) over( partition by id , name , salary, manager_id ) ct from employee e) ct
 where ct > 1;
+
 
 --How to Delete the Duplicate Rows:
 
