@@ -1,4 +1,4 @@
-package sample.test.ds.heap;
+package ds500problems.heap;
 
 import java.io.BufferedReader;
 import java.io.IOException;

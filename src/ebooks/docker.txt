@@ -1,0 +1,173 @@
+ 
+ SPRING CLOUD V2:
+ 
+ Docker:
+ -d :detached mode , run the container in background.
+ #docker logs:
+ 
+ $docker logs <container_id>
+ #tail the logs
+ $docker logs -f  <container_id>
+  
+  #list of running containers:
+  
+  $docker container ls
+  
+  #list all the images 
+  
+  $ docker images
+  
+  #note: above commands shows all the images to local to machine, not from the remote repository.
+ 
+ 
+ #docker pull  images
+ $docker pull mysql
+ #pull command download images from remote to local , it does not run.
+ #search for an image 
+ $docker search <image_name>
+ 
+ 
+ #check steps involved creating certain image
+ $docker image history <image_id/repository_name:tag>
+ 
+ #we can inspect an image
+ $docker image inspect <image_id>
+ # remove image from local
+ $docker image remove <image_id>
+ 
+ 
+ #Container commands:
+ #pause/unpause container
+ $docker container pause <container_id>
+ $docker container unpause <container_id>
+ 
+ #inpect container
+ $docker container inspect
+ 
+ #remove all stopped container
+ $docker container prune
+ 
+ #run container with specific memory configurations and cpu utilization
+ $docker run -m 512m -cpu-quota 5000(5%) -d(for background) <container_id>
+ --restart=always  
+ Note:above command will restart the docker container when you start docker daemon.
+ 
+ #check what is going with docker what are the recent actions performed by docker.
+ $docker events
+ 
+ #check what are the process running under a container, list all the process running within a container
+ 
+ $docker top <container_id>
+ 
+ #docker statics 
+ $docker stats
+ 
+ #Distributed tracing:
+ 
+ 
+ #docker system df
+ 
+ #launch zipking spring distributed tracing server.
+ 
+ $docker run -p 9411:9411 openzipkin/zipkin2.23
+
+
+zipkin is a distributed tracing server, you need to enable below  dependency to your spring project to enable zipkin.
+
+<dependency>
+<groupId>org.springframework.cloud</groupId>
+<artifactId>spring-cloud-starter-sleuth</artifactId>
+</dependency>
+
+<dependency>
+<groupId>org.springframework.cloud</groupId>
+<artifactId>spring-cloud-sleuth-zipkin</artifactId>
+</dependency>
+
+
+Sleauth assign unique Id for each of the request in distrubted tracing environment, it become easy to trace the request in distributed environment.
+
+create docker image from spring boot project :
+
+add following code to build in pom.xml.
+
+
+
+
+<build>
+<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+				 <image>
+				   <name>vivekvis/${project.artifactId}:2.4.1</name>
+				 </image>
+				<pullPolicy>IF_NOT_PRESENT</pullPolicy>
+				</configuration>
+			</plugin>
+		</plugins>
+</build>
+
+got to project root  folder execute  belown maven command : mvn spring-boot:build-image -DskipTests
+
+docker.io/vivekvis/currency-exchange-service:2.4.1
+docker.io/vivekvis/currency-conversion-service:2.4.1
+docker.io/vivekvis/api-gateway:2.4.1
+docker.io/vivekvis/naming-server:2.4.1
+
+ 
+ What is a container?
+  a container is simply another process on your machine 
+  that has been isolated from all other processes on the host machine. 
+  That isolation leverages kernel namespaces and cgroups.
+  
+ What is container Image:
+ 
+ When running a container, it uses an isolated filesystem, I
+ mage contain everything needed to run an application - all dependencies,
+ configuration, scripts, binaries, etc. The image also contains other configuration
+ for the container, such as environment variables, a default command to run, and other metadata.
+ 
+
+#getting started image and docker command
+
+ docker run -d -p 80:80 docker/getting-started
+ 
+ 
+ 
+Kubernets: K8S(KOO -BER - NET - EEZ)
+
+to manage 1000 of nodes , you need manager we call it master nodes.
+1. master nodes
+2. worker nodes.
+
+
+to run a command on google cloud shell.
+kubectl( short form of kube controller).
+
+etcd :distributed database used to store configurations.
+kube-api server:  
+this is an interface api using which you can interact with kubernetes engine for example when we run kubectl
+ command it connect to kube-api server to communicate to kubernetes engine/server.
+
+Scheduler: scheduer is responsible for scheduler pods to nodes.
+Controller manager : manager the overall health of kubernetes cluster. 
+
+Master node:  all the user images won't be running on master node , it will be running on kube pod under worker nodes.
+
+
+Node agent: lets say if pod goes down node agent report it controller manager.
+
+
+Google cloud command line (SDK).
+#to login from local shell console.
+$gcloud auth login 
+
+#to change project id
+$gcloud config set project <PROJECT_ID>
+
+ 
+ 
+ 
+ 

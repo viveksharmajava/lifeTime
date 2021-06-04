@@ -2,12 +2,17 @@ package ds500problems.array;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.PriorityQueue;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Stream;
 
-import sample.test.problems.string.LongestPalindromSubString;
+import sample.test.collection.queue.Queue;
+import sample.test.top25geeks.Node;
 
 public class ArrayProblems {
 
@@ -64,9 +69,266 @@ public class ArrayProblems {
         sortKSortedArray(list, k);
         System.out.println(list);
 		
+        System.out.println("Minimum sum subarray");
+        int[] arr3 = { 10, 4, 2, 5, 6, 3, 8, 1 };
+        int windowSize = 3;
+ 
+        minimumSumSubArray(arr3, windowSize);
+		//Find Triplet with given sum
+        int[] arr4 = { 2, 7, 4, 0, 9, 5, 1, 3 };
+        int sum = 6;
+        findTripletUsingSortedArray(arr4, sum);
+        
+        int  [] arr5 = {-2,0,1,1,2}; //[[-2,0,2],[-2,1,1]]
+        findTripletUsingSortedArray(arr5,0);// this won't work
+        System.out.println(threeSum(arr5)); // find sum with 0
+        int[] arr6 = { 10, 100, 93, 32, 35, 65, 80, 90, 94, 6 };
+        System.out.printf("Next least greater element of array\n%s\n",Arrays.toString(arr6));
+        
+        findInorderSuccessor(arr6);
+        int[] inputn = { -1, -1, 0, 1, 1, 1 };
+        
+        System.out.print("The total number of distinct absolute values is "
+                                + findDistinctCount(inputn));
+        
+	}
+	/*
+	 * count distinct element in sorted array contains +ve and negative numbers
+	 * https://www.techiedelight.com/count-distinct-absolute-values-sorted-array/
+	   Input:  { -1, -1, 0, 1, 1, 1 }
+	   Output: The total number of distinct absolute values is 2 (0 and 1)
+	 
+	 
+	   Input:  { -2, -1, 0, 1, 2, 3 }
+	   Output: The total number of distinct absolute values is 4 (0, 1, 2 and 3)
+	 
+	 
+	   Input:  { -1, -1, -1, -1 }
+	   Output: The total number of distinct absolute values is 1 (only 1)
+	 */
+	// Returns the total number of distinct absolute values in a given input
+    public static int findDistinctCount(int[] A)
+    {
+    	int count = A.length;
+    	int start=0 , end = A.length-1;
+    	while(start < end) {
+    		while( start < end && (A[start] == A[start+1])) {
+    			start++;
+    			count--;
+    		}
+    		while(end > start && (A[end] == A[end-1]) ) {
+    			end--;
+    			count--;
+    		}
+    	 if(start == end)break;
+    	 int sum = A[start]+A[end];
+    	 if(sum == 0) {
+    		 count--;
+    		 start++;
+    		 end--;
+    	 }
+    	 else if (sum <0) start++;
+    	 else if (sum > 0) end--;
+    	 
+    	}
+    	return count;
+    }
+	
+	/*Count distinct absolute values in a sorted array
+	 * https://www.techiedelight.com/count-distinct-absolute-values-sorted-array/
+	 *  Input:  { -1, -1, 0, 1, 1, 1 }
+		Output: The total number of distinct absolute values is 2 (0 and 1)
+		Input:  { -2, -1, 0, 1, 2, 3 }
+		Output: The total number of distinct absolute values is 4 (0, 1, 2 and 3)
+		Input:  { -1, -1, -1, -1 }
+		Output: The total number of distinct absolute values is 1 (only 1)
+	 */
+	 public static void findInorderSuccessor(int [] arr) {
+		 //root of the BST 
+		 Node root = null;
+		 //traverse from the end
+		 for (int i = arr.length - 1; i >= 0; i--)
+	        {
+	            // insert the current element into the binary search tree
+	            // and replace it with its inorder successor
+	            AtomicInteger successor = new AtomicInteger(-1);
+	            root = insert(root, arr[i], successor);
+	            arr[i] = successor.get();
+	        }
+		 
+		 System.out.println(Arrays.toString(arr));
+	 }
+	
+	private static Node insert(Node root, int key, AtomicInteger successor) {
+		if(root == null) return new Node(key);
+		if(key < root.value) {
+			successor.set(root.value);
+			root.left = insert(root.left , key , successor);
+		}
+		if( key > root.value) {
+			root.right = insert(root.right,key,successor);
+		}
+		return root;
+	}
+
+	//Sort the Array with Absolute value only and show real value
+
+	 public void sortWithAbsoluteValue(int []arr) {
+		// Arrays.sort(arr, Comparator.comparingInt(Math::abs));
+		 Stream.of(arr).forEach(a ->  System.out.println(a));
+	 }
+	 
+	  public  static List<List<Integer>> threeSum(int[] nums) {
+	        Arrays.sort(nums);
+	        List<List<Integer>> list  = new ArrayList<>();
+	        for(int i = 0 ; i <= nums.length-3 ; i++){
+	            int x = nums[i];
+	            int start = 0, end = nums.length-1;
+	            boolean found = false;
+	            while(start < end){
+	            	if( i == start) start++;
+	                int sum = x + nums[start]+ nums[end];
+	                if( sum == 0) {
+	                    found = true;
+	                    break;
+	                }
+	                else if( sum > 0)  end--;
+	                else if( sum < 0)  start ++;
+	            }
+	            if(found){
+	               List<Integer>  node = new ArrayList<>();
+	                node.add(nums[i]);
+	                node.add(nums[start]);
+	                node.add(nums[end]);
+	                found = false;
+	                list.add(node);
+	                
+	            }
+	        }
+	        //remove duplicate triplet 
+	        for(int i = 0 ; i < list.size()-1 ; i++) {
+	        	 List<Integer>  node1 = new ArrayList<Integer>(list.get(i));
+	        	 List<Integer>  node2 = new ArrayList<Integer>(list.get(i+1));
+	        	 Collections.sort(node1);
+	        	 Collections.sort(node2);
+	        	 if(node1.equals(node2)) {
+	        		 list.remove(i+1);
+	        		 i--;
+	        	 }
+	        	 
+	        }
+	       return  list; 
+	    }
+	 /*
+		URL: http://www.geeksforgeeks.org/next-greater-element/
+		Next Greater Element
+		Given an array, print the Next Greater Element (NGE) for every element. The Next greater Element for an element x is the first greater element on the right side of x in array. Elements for which no greater element exist, consider next greater element as -1.
+				
+		Examples:
+		a) For any array, rightmost element always has next greater element as -1.
+		b) For an array which is sorted in decreasing order, all elements have next greater element as -1.
+		c) For the input array [4, 5, 2, 25}, the next greater elements for each element are as follows.
+		
+		Element       NGE
+		   4      -->   5
+		   5      -->   25
+		   2      -->   25
+		   25     -->   -1
+ */
+	 
+	
+	public static void printNextGreaterOfEachElement(Integer [] input){
+		
+		Queue <Integer> queue = new Queue<Integer>();
+		Integer data;
+		int  element = input[0];
+		for(int i=1;i<input.length ;i++){
+			if(element > input[i]) queue.enqueue(input[i]);
+			else{
+				System.out.println(" Next greater Element for "+element +" is ="+input[i]);
+				while( ( data = queue.dequeue())!= null){
+					System.out.println(" Next greater Element for "+data +" is ="+input[i]);
+				}
+				element =input[i];
+			}
+		}
+		System.out.println(" Next greater Element for "+element +" is ="+-1);
+		while( ( data = queue.dequeue())!= null){
+			System.out.println(" Next greater Element for "+data +" is ="+-1);
+		}
+		
+		
 		
 	}
+	/*
+	 * https://www.techiedelight.com/find-triplet-given-with-given-sum/
+	 * Find triplet with given sum.
+	 */
+	  //using sorted array
+	 
+	  public static void findTripletUsingSortedArray(int []input,int sum) {
+		  // sort the array in ascending order
+		  Arrays.parallelSort(input);
+		  // check if triplet is formed by `arr[i]` and a pair from
+	      // subarray `arr[i+1…arr.length)`
+		  
+		  for(int i =0 ; i < input.length - 3 ; i++) {
+			  
+			  //remaining sum
+			  int k = sum - input[i];
+			 // maintain two indices pointing to endpoints of the
+	          // subarray `arr[i+1…n)`
+              int low = i + 1;
+              int high = input.length - 1;
+              while(low < high) {
+            	  if((input[low]+input[high]) < k) low++;
+            	  else if ((input[low]+input[high]) > k) high--;
+            	  else {
+            		  //triplet found
+            		  System.out.println("Triplet with given sum found "+"(" + input[i] + ", " +  input[low] + ", " +
+            				  input[high] + ")");
+            		  low++;
+            		  high--;
+            	  }
+              }
+			  
+		  }
+	  }
+	  
+	  //Find Triplet using map
+	  
+	  
 	
+	/*Find minimum sum subarray of size `k`
+	 * sliding window 
+	 * https://www.techiedelight.com/find-minimum-sum-subarray-given-size-k/
+	 * Input:  {10, 4, 2, 5, 6, 3, 8, 1}, k = 3
+	   Output: Minimum sum subarray of size 3 is (1, 3) [4,2,5]
+	 */
+	
+	public static void minimumSumSubArray(int []input , int windowSize){
+		
+		int min_sum = Integer.MAX_VALUE;
+		int current_sum = 0;
+		int lastIndex = -1;
+		for(int i = 0 ; i < input.length ; i++) {
+			current_sum +=input[i];
+			// if the window size is more than equal to `k`
+			if(i+1 >= windowSize) {
+				// update the minimum sum window
+				if(min_sum > current_sum) {
+				  min_sum = current_sum;
+				  lastIndex = i;
+				}
+				// remove a leftmost element from the window
+				current_sum -= input[i+1 -windowSize];
+			}
+		}
+		
+		if( lastIndex >=0) {
+			System.out.println("The minimum sum sub array is ("+(lastIndex-windowSize+1)+","+lastIndex+")");
+		}
+	}
 	public static void m() {
 		char [] s =  {'a','b','c',' ','d','e' , ' ', 'f','g'}; //oputput = {'f','g', ' ', 'd','e', ' ','a','b','c'}
 	}
@@ -686,4 +948,5 @@ public class ArrayProblems {
 	    		list.set(index++, pq.poll());
 	    	}
 	    }
-	    }
+	   
+}//End of class

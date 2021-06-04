@@ -1,7 +1,8 @@
-package sample.test.ds.graph;
+package ds500problems.graph;
 
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 /*
  * https://www.geeksforgeeks.org/breadth-first-search-or-bfs-for-a-graph/
@@ -37,6 +38,23 @@ public class Graph {
 
 	private int vertexes;
 	private LinkedList<Integer> [] adjacent;
+	
+	public int getVertexes() {
+		return vertexes;
+	}
+
+	public void setVertexes(int vertexes) {
+		this.vertexes = vertexes;
+	}
+
+	public LinkedList<Integer>[] getAdjacent() {
+		return adjacent;
+	}
+
+	public void setAdjacent(LinkedList<Integer>[] adjacent) {
+		this.adjacent = adjacent;
+	}
+
 	Graph(int v){
 		this.vertexes = v;
 		adjacent = new LinkedList[v];
@@ -45,8 +63,37 @@ public class Graph {
 		}
 	}
 	
+	Graph(List <Edge> edges){
+		
+		//find the maximum number of vertices
+		int vertexes = 0;
+		for(Edge edge : edges) {
+			vertexes = Integer.max(vertexes, Integer.max(edge.src, edge.dest)) ;
+		}
+		vertexes = vertexes+1; // make sure vertex starting from 0
+		this.vertexes = vertexes; 
+		adjacent = new LinkedList[vertexes];
+		for(int i=0; i < vertexes; i++) {
+		 adjacent[i] = new LinkedList<Integer>();
+		}
+		for(Edge edge : edges) {
+			adjacent[edge.src].add(edge.dest);
+		}
+		
+	}
 	
-	
+	// Function to print adjacency list representation of a graph
+    public static void printGraph(Graph graph)
+    {
+       for(int i = 0 ; i < graph.getAdjacent().length ; i++) {
+    	   List <Integer>adjacent = graph.getAdjacent()[i];
+    	   for(Integer node : adjacent) {
+       		System.out.println("("+i+","+node+")");
+       	}
+       }
+    
+    	
+    }
 	public void addEdge(int v , int edge) {
 		adjacent[v].add(edge);
 	}
@@ -93,4 +140,14 @@ public class Graph {
 		  } 
 		
 	}
+}
+
+class Edge{
+	
+	int src , dest;
+	Edge(int s , int d){
+		this.src = s;
+		this.dest = d;
+	}
+
 }

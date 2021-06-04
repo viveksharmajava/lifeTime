@@ -1,7 +1,8 @@
 package sample.test.problems.array;
 import java.util.PriorityQueue;
 
-import sample.test.ds.heap.MaxHeap;
+import ds500problems.heap.MaxHeap;
+
 
 public class KthLargestNumber{
 	

@@ -132,7 +132,8 @@ NULL	  4324324
 --DATABASE INdexes:
 Source : https://en.wikipedia.org/wiki/Database_index
 Definiton:
-A database index is a data structure that improves the speed of data retrieval operations on a database table at the cost of additional writes and storage space to maintain the index data structure.
+A database index is a data structure that improves the speed of data retrieval operations on a database table at the cost of additional
+ writes and storage space to maintain the index data structure.
 Indexes are used to quickly locate data without having to search every row in a database table every time a database table is accessed.
 Indexes can be created using one or more columns of a database table, 
 providing the basis for both rapid random lookups and efficient access of ordered records.   
@@ -251,6 +252,31 @@ delete employee where rowid not in ( select min(rowid) from employee group by id
 
 for more information
 https://blogs.oracle.com/sql/how-to-find-and-delete-duplicate-rows-with-sql
+
+
+Stored Procedures:
+Stored Procedures are pre-compiled objects which are compiled for the first time and its compiled format is saved, 
+which executes (compiled code) whenever it is called.
+
+Functions:
+A function is compiled and executed every time whenever it is called. 
+A function must return a value and cannot modify the data received as parameters.
+
+
+Following are the main differences between functions and procedures: 
+
+1.  A function has a return type and returns a value.A procedure does not have a return type. 
+	But it returns values using the OUT parameters.
+	
+2. You cannot use a function with Data Manipulation queries. Only Select queries are allowed in functions.
+   You can use DML queries such as insert, update, select etc… with procedures.
+3. A function does not allow output parameters, A procedure allows both input and output parameters.
+4. You cannot manage transactions inside a function.You can manage transactions inside a function.
+5. You cannot call stored procedures from a function, You can call a function from a stored procedure..
+6. You can call a function using a select statement. You cannot call a procedure using select statements.
+
+
+
 
 
 

@@ -10,6 +10,7 @@ public class CheckBalancedParentheses {
 		CheckBalancedParentheses balanceP = new CheckBalancedParentheses();
 		balanceP.isBalancedParentheses("[()]{}{[()()]()}");
 		balanceP.isBalancedParentheses("�[(])");
+		balanceP.isBalancedParentheses("[[]");
 	}
 
 	public void isBalancedParentheses(String input){
@@ -30,6 +31,7 @@ public class CheckBalancedParentheses {
 				break;
 			}
 		}
+		if(!stack.isEmpty()) isBalance = false;
 		if( isBalance){
 			System.out.println("balanced");
 		}else{

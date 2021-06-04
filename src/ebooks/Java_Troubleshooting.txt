@@ -172,81 +172,12 @@ https://www.oracle.com/java/technologies/java8.html
  
  
  
- SPRING CLOUD V2:
  
- Docker:
- -d :detached mode , run the container in background.
- #docker logs:
- 
- $docker logs <container_id>
- #tail the logs
- $docker logs -f  <container_id>
-  
-  #list of running containers:
-  
-  $docker container ls
-  
-  #list all the images 
-  
-  $ docker images
-  
-  #note: above commands shows all the images to local to machine, not from the remote repository.
- 
- 
- #docker pull  images
- $docker pull mysql
- #pull command download images from remote to local , it does not run.
- #search for an image 
- $docker search <image_name>
- 
- 
- #check steps involved creating certain image
- $docker image history <image_id/repository_name:tag>
- 
- #we can impect an image
- $docker image inspect <image_id>
- # remove image from local
- $docker image remove <image_id>
- 
- 
- #Container commands:
- #pause/unpause container
- $docker container pause <container_id>
- $docker container unpause <container_id>
- 
- #inpect container
- $docker container inspect
- 
- #remove all stopped container
- $docker container prune
- 
- #run container with specific memory configurations and cpu utilization
- $docker run -m 512m -cpu-quota 5000(5%) -d(for background) <container_id>
- --restart=always  
- Note:above command will restart the docker container when you start docker daemon.
- 
- #check what is going with docker what are the recent actions performed by docker.
- $docker events
- 
- #check what are the process running under a container, list all the process running within a container
- 
- $docker top <container_id>
- 
- #docker statics 
- $docker stats
- 
- #Distributed tracing:
- 
- 
- #docker system df
- 
- #launch zipking spring distributed tracing server.
- 
- $docker run -p 9411:9411 openzipkin
- 
- 
- 
- 
+ java troubleshooting:
+ java garbage collection
+ https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/toc.html
+ https://www.oracle.com/java/technologies/hotspotfaq.html
+ https://www.oracle.com/java/technologies/javase/vmoptions-jsp.html
  
  
  

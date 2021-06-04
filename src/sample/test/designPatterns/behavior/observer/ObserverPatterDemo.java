@@ -6,9 +6,9 @@ public class ObserverPatterDemo {
 
 	public static void main(String[] args) {
     
-		Observer observer1 = new MyTopicSubscriber();
-		Observer observer2 = new MyTopicSubscriber();
-		Observer observer3 = new MyTopicSubscriber();
+		Observer observer1 = new MyTopicSubscriber("Subscriber 1");
+		Observer observer2 = new MyTopicSubscriber("Subscriber 2");
+		Observer observer3 = new MyTopicSubscriber("Subscriber 2");
 		
 		MyTopic subject = new MyTopic();
 		subject.register(observer1);

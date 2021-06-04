@@ -1,0 +1,10 @@
+Dynamic programming:
+
+Framework for solving DP problem.
+
+1. Define the objective of function.
+2. Identify base cases.
+3. write down the recurrence relation for the optimized objective fucntion.
+4. what is the order of execution.
+5. where to look for the answer.
+ 

@@ -4,51 +4,44 @@ public class CheckLongestBalancedParenthisesInString {
 
 
 	public static void main(String[] args) {
-		CheckLongestBalancedParenthisesInString balanceP = new CheckLongestBalancedParenthisesInString();
-		balanceP.matchingSubStringLength("[[[[{{()()]()}");
-		balanceP.matchingSubStringLength("�[(])");
+		System.out.println(findMaxLen("((()()"));       // prints 4
+        System.out.println(findMaxLen("(((()"));        // prints 2
+        System.out.println(findMaxLen("(((("));         // prints 0
+        System.out.println(findMaxLen("()()"));         // prints 4
+        System.out.println(findMaxLen("(()())(()"));    // prints 6
 	}
 
-	public void matchingSubStringLength(String input){
-		Stack <Character> stack = new Stack <Character>();
+	public static int findMaxLen(String input){
+		Stack <Integer> stack = new Stack <Integer>();
 		boolean isBalance = true;
 		char [] inputArr = input.toCharArray();
 		int maxLen=0;
-		int len = 0;
+		stack.push(-1);// initialize the stack by -1
 		for(int i=0 ;i < inputArr.length ; i++){
 			if(isPush(inputArr[i])) {
-				stack.push(inputArr[i]); 
+				stack.push(i); 
 				
 			}
 			else if(isPop(inputArr[i])){
+				stack.pop();
+				if(stack.isEmpty()) stack.push(i);
+				int len = i - stack.peek();
+				if( len > maxLen) maxLen = len;
 				
-				 char c  = stack.pop();
-				if ( reverse(inputArr[i]) == c ){
-					len +=2;
-				}
-				else{
-					
-					if( len > maxLen) {
-						maxLen = len;
-						len = 0;
-					}
-					
-				}
 			}
 			else {//wrong experession
 				//isBalance =false;
 				break;
 			}
 		}
-		if( len > maxLen) {
-			maxLen = len;
-		}
+		 
 		
-			System.out.println("Longest Balanced  sub string length="+maxLen);
+		//	System.out.println("Longest Balanced  sub string length="+maxLen);
+		return maxLen;
 	
 	}
 	
-	private boolean isPush(char c){
+	private static boolean isPush(char c){
 		switch(c){
 		case '{' :
 		case '(' :
@@ -57,7 +50,7 @@ public class CheckLongestBalancedParenthisesInString {
 		}
 	}
 	
-	private boolean isPop(char c){
+	private static  boolean isPop(char c){
 		switch(c){
 		case '}' :
 		case ')' :
@@ -66,7 +59,7 @@ public class CheckLongestBalancedParenthisesInString {
 		}
 	}
 	
-	private char reverse(char c){
+	private static char reverse(char c){
 		switch(c){
 		case '}' : return '{';
 		case ')' : return '(';

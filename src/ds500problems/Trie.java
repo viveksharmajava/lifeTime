@@ -1,4 +1,4 @@
-package sample.test.ds;
+package ds500problems;
 /**
  * 
  * @author viveksharma
