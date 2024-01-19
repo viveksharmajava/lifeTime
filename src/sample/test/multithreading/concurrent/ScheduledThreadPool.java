@@ -15,13 +15,13 @@ public class ScheduledThreadPool {
 		
 		for(int i=0 ; i < 10;i++) {
 			WorkerThread worker = new WorkerThread("Do heavy Duty Job "+i);
-			scheduleThreadPool.schedule(worker,10, TimeUnit.SECONDS);
+			scheduleThreadPool.schedule(worker,5, TimeUnit.SECONDS);
 		}
 		
-		Thread.sleep(30000);
+		//Thread.sleep(30000);
 		scheduleThreadPool.shutdown();
 		while(!scheduleThreadPool.isTerminated()) {
-			
+			//System.out.println("Waiting to finish the task !");
 		}
 		System.out.println("Finished all threads");
 		

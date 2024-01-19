@@ -21,7 +21,7 @@ public class ForkJoinPoolSample {
 		ForkJoinPool pool2 = new ForkJoinPool(4);
 		long mergedResult = (Long)pool2.invoke(myRecursiveTask);
 
-		System.out.println("mergedResult = " + mergedResult);  
+		System.out.println("MyRecursiveTask mergedResult = " + mergedResult);  
 	}
 
 }
@@ -35,7 +35,7 @@ class MyRecursiveAction extends RecursiveAction{
 	@Override
 	protected void compute() {
 	  if(workLoad > 16) {
-		  System.out.println("Splitting workload "+workLoad);
+		  System.out.println("MyRecursiveAction Splitting workload "+workLoad);
 		  List <MyRecursiveAction> subtasks = new ArrayList<>();
 		  subtasks.addAll(createSubtasks());
 		  for(MyRecursiveAction task : subtasks) {
@@ -69,7 +69,7 @@ class MyRecursiveTask extends RecursiveTask{
 	protected Long compute() {
 		List <MyRecursiveTask> subtasks  = null;
 	  if(workLoad > 16) {
-		  System.out.println("Splitting workload "+workLoad);
+		  System.out.println("MyRecursiveTask Splitting workload "+workLoad);
 		  subtasks  = new ArrayList<>();
 		  subtasks.addAll(createSubtasks());
 		  for(MyRecursiveTask task : subtasks) {

@@ -90,7 +90,8 @@ public class ArrayProblems {
         
         System.out.print("The total number of distinct absolute values is "
                                 + findDistinctCount(inputn));
-        
+        int [] max_input = { -6, 4, -5, 8, -10, 0, 8 };
+        System.out.println("\nThe maximum product subarray "+maximumProductSubArray(max_input)); 
 	}
 	/*
 	 * count distinct element in sorted array contains +ve and negative numbers
@@ -222,7 +223,10 @@ public class ArrayProblems {
 	 /*
 		URL: http://www.geeksforgeeks.org/next-greater-element/
 		Next Greater Element
-		Given an array, print the Next Greater Element (NGE) for every element. The Next greater Element for an element x is the first greater element on the right side of x in array. Elements for which no greater element exist, consider next greater element as -1.
+		Given an array, print the Next Greater Element (NGE) for every element. 
+		The Next greater Element for an element x is the first greater element on
+	    the right side of x in array. Elements for which no greater element exist,
+	    consider next greater element as -1.
 				
 		Examples:
 		a) For any array, rightmost element always has next greater element as -1.
@@ -523,7 +527,8 @@ public class ArrayProblems {
 	
 	/*  problem: 115 https://www.techiedelight.com/positive-and-negative-integers-segregate/
 	 * https://www.techiedelight.com/positive-and-negative-integers-segregate/
-	 * Given an array consisting of positive and negative integers, segregate them in linear time and constant space. 
+	 * Given an array consisting of positive and negative integers, segregate them in linear time 
+	 * and constant space. 
 	 * Output should print contain all negative numbers followed by all positive numbers.
 	 */
 	public static int [] afterSegrate(int [] input) {
@@ -948,5 +953,31 @@ public class ArrayProblems {
 	    		list.set(index++, pq.poll());
 	    	}
 	    }
-	   
+/*
+ * https://www.techiedelight.com/find-maximum-product-subarray-given-array/
+ * Maximum product sub-array problem
+ * Input:  { -6, 4, -5, 8, -10, 0, 8 }
+ * Output: 1600
+ * Explanation: The maximum product subarray is {4, -5, 8, -10} having product 1600
+ 
+ 
+ * Input:  { 40, 0, -20, -10 }
+ * Output: 200
+ * Explanation: The maximum product subarray is {-20, -10} having product 200
+ */
+	    
+ public static  int maximumProductSubArray(int [] a) {
+	 int max_so_far = 0;
+	 int min_current= a[0] , max_current = a[0];
+     for(int i=1 ;i < a.length ; i++) {
+		 int temp  =max_current;
+    	 max_current = Integer.max(a[i], Integer.max(max_current*a[i],min_current*a[i]));
+    	 min_current = Integer.min(a[i], Integer.min(temp*a[i],min_current*a[i]));
+    	 
+    	 if(max_current > max_so_far) max_so_far = max_current;
+	 }
+	 return max_so_far;
+	 
+ }
+	    
 }//End of class

@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class SerializableTest {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
-		MyEnum.getValues();
+		//MyEnum.getValues();
 		FileOutputStream fos = new FileOutputStream("/Users/viveksharma/Documents/vivek/serailize.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         A a  = new A();
@@ -22,26 +22,17 @@ public class SerializableTest {
         a.cobj.m = 45;
         a.name ="Andy";
         System.out.println(" value before persisting x="+a.x +"\t  y="+a.y+"\t z ="+a.z+"\t name="+a.name+"\t c value="+a.cobj.m);
-         oos.writeObject(a);
-        //a  = new A();
-      //  a.x = 30;
-      //  a.y = 30;
-     //   a.z = 30;
-      //  oos.writeObject(a);
-     // oos.writeBytes(a.name);
-       /* oos.writeInt(a.x);
-        oos.writeInt(a.z);
-     
-        oos.writeInt(a.y);*/
-         System.out.println("\n\n###Person class begins");
+        oos.writeObject(a);
+        
+        // System.out.println("\n\n###Person class begins");
          
          //Inner Class Serialization Example
-         Person p = new Person(33, "vivek");
-         Person.PersonAddress innerClass = p.new PersonAddress("kc halli", "bilekahalli", "KT");
-         oos.writeObject(innerClass);
-         MyEnum age = MyEnum.age;
-         oos.writeObject(age.name());
-        oos.close();
+//         Person p = new Person(33, "vivek");
+//         Person.PersonAddress innerClass = p.new PersonAddress("kc halli", "bilekahalli", "KT");
+//         oos.writeObject(innerClass);
+//         MyEnum age = MyEnum.age;
+//         oos.writeObject(age.name());
+      oos.close();
         
         FileInputStream fis = new FileInputStream("/Users/viveksharma/Documents/vivek/serailize.txt");
         ObjectInputStream ois = new ObjectInputStream(fis);
@@ -49,21 +40,16 @@ public class SerializableTest {
         Integer x ;
         Integer z ;
         Integer y;
-       /* while(ois.available()> 0){
-        	x = ois.readInt();
-        	z = ois.readInt();
-        	y = ois.readInt();
-        	System.out.println(" value after de-serialization x ="+x+"\t y="+y+"\t z="+z);
-        }*/
-        //while((a = (A) ois.readObject()) !=null){
+      
         	A b = (A) ois.readObject();
         	System.out.println(" value after de-serialization x ="+b.x+"\t y="+b.y+"\t z="+b.z+"\t name="+b.name
+        			+"cat "+b.cobj.m
         			);
-      //  }
-        	 innerClass   = (Person.PersonAddress)ois.readObject();
-        	 System.out.println("Inner Class after readObject ="+innerClass.city+"\r "+innerClass);
-          String ageenum = (String)ois.readObject();
-          System.out.println("MyEnum.valueOf(ageenum)="+MyEnum.valueOf(ageenum));
+    
+//        	 innerClass   = (Person.PersonAddress)ois.readObject();
+//        	 System.out.println("Inner Class after readObject ="+innerClass.city+"\r "+innerClass);
+//          String ageenum = (String)ois.readObject();
+//          System.out.println("MyEnum.valueOf(ageenum)="+MyEnum.valueOf(ageenum));
         	 ois.close();
         
        
@@ -109,16 +95,16 @@ class A  extends B implements Serializable,ObjectInputValidation{
 	
 	private void writeObject(ObjectOutputStream out) throws IOException {
         out.defaultWriteObject();
-       // out.writeInt(this.z);
-       // out.writeInt(cobj.m);
+        out.writeInt(this.z);
+        out.writeInt(cobj.m);
     }
     private void readObject(ObjectInputStream in) throws IOException,ClassNotFoundException {
         in.defaultReadObject();
         System.out.println("before registerValidation");
         in.registerValidation(this, 0);
-       // this.z = in.readInt();
-       // this.cobj = new Cat();
-        //this.cobj.m = in.readInt();
+        this.z = in.readInt();
+        this.cobj = new Cat();
+        this.cobj.m = in.readInt();
     }
     Object writeReplace() throws ObjectStreamException{
     	System.out.println("writeReplace called !!!");

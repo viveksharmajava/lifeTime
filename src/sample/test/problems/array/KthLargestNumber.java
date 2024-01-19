@@ -1,7 +1,6 @@
 package sample.test.problems.array;
 import java.util.PriorityQueue;
 
-import ds500problems.heap.MaxHeap;
 
 
 public class KthLargestNumber{
@@ -12,16 +11,7 @@ public class KthLargestNumber{
 		System.out.println(kThLargest(arr, 1));
 		System.out.println(kThLargest(arr, 2));
 		
-		MaxHeap mh = new MaxHeap(7);
-		mh.insert(3);
-		mh.insert(6);
-		mh.insert(2);
-		mh.insert(8);
-		mh.insert(9);
-		mh.insert(4);
-		mh.insert(5);
 		
-		mh.printSortedMaxHeap();
 		
 		
 		

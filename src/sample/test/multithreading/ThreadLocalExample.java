@@ -32,6 +32,8 @@ public class ThreadLocalExample {
 		t2.setName("t2");
 		t1.start();
 		t2.start();
+		System.out.println(threadLocal.getDate());
+		
 	}
 }
 

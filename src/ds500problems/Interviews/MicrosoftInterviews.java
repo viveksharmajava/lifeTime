@@ -46,4 +46,5 @@ public class MicrosoftInterviews {
 		}
 		return input;
 	}
+	
 }

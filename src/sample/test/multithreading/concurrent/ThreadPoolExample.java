@@ -10,14 +10,14 @@ public class ThreadPoolExample {
 		ExecutorService executor = Executors.newFixedThreadPool(5);
 		for(int i= 0 ; i<10; i++) {
 		 
-			Thread worker = new WorkerThread(" "+i);
-			worker.setName("worker-"+i);
+			WorkerThread worker = new WorkerThread(" "+i);
+			//worker.setName("worker-"+i);
 			executor.execute(worker);
 		}
 		
 		executor.shutdown();
 		while(!executor.isTerminated()) {
-			System.out.println("Waiting for termination !");
+			//System.out.println("Waiting for termination !");
 		}
 		
 		System.out.println("All threads completed");

@@ -1,4 +1,4 @@
-package sample.test.searchingAndSorting;
+package ds500problems.heap;
 
 public class HeapSort {
 	public static void main(String[] args) {

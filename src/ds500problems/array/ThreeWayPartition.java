@@ -29,6 +29,54 @@ public class ThreeWayPartition
 		}
 	}
 	
+	private static void practice3WayPartioning(int[] a) {
+		int start = 0, mid=0, end=a.length-1;
+		int pivot= 1;
+		while(mid <= end) {
+			if(a[mid] < pivot) { // 0
+				swap(a , start , mid);
+				++start;
+				++mid;
+			}
+			else if ( a[mid] > pivot) //2
+			{
+				swap(a , mid , end);
+				end--;
+			}
+			else {
+				mid++;
+			}
+				
+		}
+	}
+	
+	/*
+	 * given an array with negative positives integers arrange all negative to the left and all the postive to the right such that even
+	 * even positive appears before than odd positive.
+	 */
+	
+	public static void custom3waypartioning(int []a) {
+
+		int start = 0, mid=0, end=a.length-1;
+		int pivot= 0;
+		while(mid <= end) {
+			if(a[mid] < pivot) { // negative number
+				swap(a , start , mid);
+				++start;
+				++mid;
+			}
+			else if ( a[mid]%2 > pivot) //odd number
+			{
+				swap(a , mid , end);
+				end--;
+			}
+			else {
+				mid++;
+			}
+				
+		}
+	
+	}
 	// Utility function to swap two elements A[i] and A[j] in the array
 	public static void swap(int[] A, int i, int j) {
 		int temp = A[i];
@@ -40,9 +88,16 @@ public class ThreeWayPartition
 	public static void main (String[] args)
 	{
 		int A[] = { 0, 1, 2, 2, 1, 0, 0, 2, 0, 1, 1, 0 };
-
+		int b[] ={ 0, 1, 2, 2, 1, 0, 0, 2, 0, 1, 1, 0 };
 		threewayPartitioning(A, A.length - 1);
 		System.out.println(Arrays.toString(A));
+	  practice3WayPartioning(b);
+	  System.out.println(Arrays.toString(b));
+	
+	  int c[] ={ -6, 1, 2, -2, 1, 8, -5, 2, 6, 9, -7, 4 };
+	  custom3waypartioning(c);
+	  System.out.println(Arrays.toString(c));
+		//Arrays.sorparallelSort(a);
 	}
 	
 	

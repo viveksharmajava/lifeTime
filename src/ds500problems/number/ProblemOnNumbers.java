@@ -23,6 +23,10 @@ public class ProblemOnNumbers {
 	
 	 //print the next greater number formed with the same digits of give  number
 		nextGreaterNumberWithSameDigits(218765);
+		
+		System.out.println("\nGet minimum number of squaires which sum equals to given number");
+		System.out.println("for given N=70 "+ getMinSquaires(70));
+		
 	}
 	
 	public static StringBuilder convertDecimalToX(int number , int base) {
@@ -132,5 +136,23 @@ public class ProblemOnNumbers {
        char temp = ar[i];
        ar[i] = ar[j];
        ar[j] = temp;
+   }
+  
+  //get minimum number number of squaire whose sum equals to given number n
+  //https://www.geeksforgeeks.org/minimum-number-of-squares-whose-sum-equals-to-given-number-n/
+   public static int getMinSquaires(int n ) {
+	   if(n <= 3) return n;
+	   
+	   //maximum squares require is n
+	   // 1*1 + 1*1 ..... n
+	   int resp = n;
+	   for(int x = 1; x  <= n ; x++ ) {
+		  int  temp =  x*x;
+		  if( temp > n) break;
+		  else {
+			  resp = Math.min(resp, 1+ getMinSquaires(n-temp));
+		  }
+	   }
+	  return resp;
    }
 }

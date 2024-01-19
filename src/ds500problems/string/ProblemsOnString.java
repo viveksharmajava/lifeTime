@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class ProblemsOnString {
@@ -85,8 +87,44 @@ public class ProblemsOnString {
         int k = 2;
  
         System.out.print(longestSubStringKDistinctChars(str2, k));
+        String strk = "ABCDBAGHCHFAC";
+         k = 3;
+     
+        findFirstKNonRepeatingChars(strk,k);
+        
+        System.out.println("\n after remove duplicate = "+removeDuplicatesFromString("abcabcddd".toCharArray()));
 	}
-	
+	//https://www.geeksforgeeks.org/remove-duplicates-from-a-string-in-o1-extra-space/
+	public static String removeDuplicatesFromString(char [] str)
+	{
+	 
+	    // keeps track of visited characters
+	    int counter = 0;
+	 
+	    int i = 0;
+	    int size = str.length;
+	 
+	 
+	    // keeps track of length of resultant string
+	    int length = 0;
+	 
+	    while (i < size) {
+	 
+	        // check if Xth bit of counter is unset
+	        if ((counter & (1 << (str[i] - 97))) == 0) {
+	 
+	            str[length] = str[i];
+	 
+	            // mark current character as visited
+	            counter = counter | (1 << (str[i] - 97));
+	 
+	            length++;
+	        }
+	        i++;
+	    }
+	 
+	    return new String(str,0, length);
+	}
 	// Function to find the longest substring of a given string containing
     // `k` distinct characters using a sliding window
 	// https://www.techiedelight.com/find-longest-substring-containing-k-distinct-characters/
@@ -375,8 +413,30 @@ public class ProblemsOnString {
 								isPalindrome(str, low + 1, high - 1));
 	}
 	
+	/*
+	 * Find first `k` non-repeating characters in a string in a single traversal
+	 * https://www.techiedelight.com/first-k-non-repeating-characters-string/
+	 */
 	
-	
+	public static void findFirstKNonRepeatingChars(String input,int k) {
+	 
+	 LinkedHashMap <Character, Integer> charMap = new LinkedHashMap<>();
+	 for(int i = 0 ; i < input.length() ; i++) {
+		 charMap.putIfAbsent(input.charAt(i), 1);
+		 charMap.put(input.charAt(i), charMap.get(input.charAt(i))+1);
+	 }
+	 for(Map.Entry<Character, Integer> me : charMap.entrySet()) {
+		 if(me.getValue() == 1) {
+			 System.out.println(me.getKey());
+			 k--;
+		 }
+		 if(k ==0) return;
+	 }
+	//Map<Integer,Long> map = input.chars().boxed().collect(Collectors.toMap(Function.identity(), v -> 1L, Long::sum));
+	// charMap.values().stream().limit(k).forEach(System.out::println);
+		
+		
+	}
 	//Probem :https://www.techiedelight.com/convert-given-number-corresponding-excel-column-name/
 	/*
 	 * Convert number into corresponding excel column name.

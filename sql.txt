@@ -51,7 +51,7 @@ select * from employee e1 where (3-1) =
   
 select salary from employee  order by salary desc fetch next 2 rows only;     
 select salary from employee  order by salary desc fetch first 2  row only;  
-
+select * from employee  order by age desc fetch next 5 rows only;   
 
 --dens_rank()
 select * from(
@@ -279,8 +279,41 @@ Following are the main differences between functions and procedures:
 
 
 
+ACID property
 
 
+Deep detail:
+
+https://www.geeksforgeeks.org/acid-properties-in-dbms/
+
+
+https://www.geeksforgeeks.org/acid-properties-in-dbms/
+
+Below is from  :
+
+Atomicity:
+
+By this, we mean that either the entire transaction takes place at once or doesn’t happen at all. 
+
+
+‘All or nothing rule’. 
+
+
+Consistency: 
+
+This means that integrity constraints must be maintained so that 
+the database is consistent before and after the transaction.
+
+Isolation:
+This property ensures that multiple transactions can occur concurrently without
+leading to the inconsistency of the database state. 
+
+Durability: 
+
+Durability ensures that once a transaction is committed, its changes 
+are permanent and will survive any subsequent system failures. 
+The transaction’s changes are saved to the database permanently, 
+and even if the system crashes,the changes remain intact and can be recovered.
 
 
 

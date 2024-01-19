@@ -1,11 +1,13 @@
-import java.io.IOException;
-import java.util.ArrayList;
-
-import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Properties;
+import java.util.TimeZone;
 class T implements Runnable{
 	public void run() {
 		System.out.println("i'm done!");
-	}
+		}
 }
 
  class NoVisibility {
@@ -26,110 +28,47 @@ class T implements Runnable{
     
  }
 public class Test {
-
-	void m2() {
-		System.out.println("I'm in dfsdfds");
-		Runtime.getRuntime().halt(5353);;
-		
+	static int x = 10;
+	static {
+		System.out.println("from static");
 	}
-	@Override
-	public void finalize() {
-		System.out.println("Finalize called");
+	{
+	System.out.println("from non-static");	
 	}
-	public static void main(String[] args) throws IOException {
-		
-		
-		Test test = new Test();
-		test.m2();
-		Runtime.getRuntime().gc();
-		T t = new T();
-		Thread thread = new Thread(t);
-		thread.setName("Runnable Thread");
-		thread.start();
-		
-		if(!thread.isAlive()) {
-			thread.start();
-		}
-//		ArrayList<String> arr = new ArrayList<String>();
-//		arr.add("a");
-//		arr.add("b");
-//		arr.add(0,"c");
-//		System.out.println(arr);
-//		
-//		int h = 2^4;
-//		System.out.println(h);
-//		h = h >>>16;
-//		System.out.println(h);
-//		System.out.println((15&545345934594l));
-//		m1();
-//		int a = 761623661;
-//		
-//		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-//	     String inputStr = br.readLine();
-//	     int len = inputStr.length();
-//	     int ones = 0;
-//	     int zeros = 0;
-//	     if(inputStr.charAt(len-1) != '0') {
-//	    	 System.out.println("false");
-//	    	 return;
-//	     }
-//	     for(int i=0;i < len ; i++) {
-//	    	int c = inputStr.charAt(i);
-//	    	c = c%48;
-//	    	if(c == 0) {
-//	    	 zeros++;
-//	    	}else {
-//	    	 ones++;
-//	    	}
-//	    	if(ones < zeros) {
-//	    		System.out.println("false");
-//	    		return;
-//	    	}
-//	     }
-//	     
-//	     System.out.println("true");
-//	     
-	   }
-
-  static void m1() {
-	  ArrayList<ArrayList<Integer>> A = new ArrayList<ArrayList<Integer>>();
-	  ArrayList<Integer> a = new ArrayList<Integer>();
-	  a.add(1);
-	  a.add(2);
-	  a.add(3);
-	  a.add(4);
-	  A.add(a);
-	  a = new ArrayList<Integer>();
-	  a.add(5);
-	  a.add(6);
-	  a.add(7);
-	  a.add(8);
-	  A.add(a);
-	  
-	 a = new ArrayList<Integer>();
-	  a.add(9);
-	  a.add(10);
-	  a.add(11);
-	  a.add(12);
-	 A.add(a);
-	  ArrayList<ArrayList<Integer>> B = new ArrayList<ArrayList<Integer>>();
-    for (int i = 0; i < A.size(); i++) {
-        B.add(new ArrayList<Integer>());
-    
-        for (int j = 0; j < A.get(i).size(); j++) {
-            B.get(i).add(0);
-        }
-
-        for (int j = 0; j < A.get(i).size(); j++) {
-            B.get(i).set(A.get(i).size() - 1 - j, A.get(i).get(j));
-        }
-    }
-    for (int i = 0; i < B.size(); i++) {
-        for (int j = 0; j < B.get(i).size(); j++) {
-                System.out.print(B.get(i).get(j) + " ");
-        }
-    }
-	        
+	public static void main(String [] args) throws ParseException {
+	
+             Properties p = new Properties();
+             p.setProperty("b", "a");
+             System.out.println(p.get("a"));
+	        SimpleDateFormat FORMATTER = new SimpleDateFormat("MMM dd, yyyy hh:mm:ss a");
+	        TimeZone etTimeZone = TimeZone.getTimeZone("Asia/Bangkok"); 
+		       
+	        FORMATTER.setTimeZone(etTimeZone);
+	        Calendar calendar = Calendar.getInstance(etTimeZone);
+	        Date currentDate = FORMATTER.parse("Oct 18, 2021 08:30:30 AM");
+	        calendar.setTime(currentDate);
+	        System.out.println("before adjusting = "+ calendar.getTime());
+	        System.out.println(etTimeZone.getOffset(currentDate.getTime()));
+	        long offset = etTimeZone.getOffset(currentDate.getTime()) ;
+		    
+	        if(offset > 0 ){
+		    	offset = offset/(1000*60);//convert to  minutes
+		    	Long hours = offset/60;
+		    	Long minutes = offset%60;
+		    	calendar.add(Calendar.HOUR_OF_DAY,- hours.intValue());
+				calendar.add(Calendar.MINUTE, - minutes.intValue());
+		    }
+	        else  if(offset < 0 ){
+	        	offset = -offset;
+		    	offset = offset/(1000*60);//convert to  minutes
+		    	Long hours = offset/60;
+		    	Long minutes = offset%60;
+		    	calendar.add(Calendar.HOUR_OF_DAY, hours.intValue());
+				calendar.add(Calendar.MINUTE, minutes.intValue());
+		    }
+		    System.out.println("UTC equavalent = "+ calendar.getTime());
 	}
-
 }
+
+ 
+

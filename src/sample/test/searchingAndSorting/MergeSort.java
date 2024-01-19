@@ -52,17 +52,31 @@ public class MergeSort {
 	    i = 0;
 	    j = 0;
 	    int k = p;
-	   while(k <= r) {
-		   
-		   if( (((i+1)<= L1.length && (j+1) <= R1.length) && L1[i] <= R1[j]) || j == R1.length) {
-			   a[k] = L1[i];
-			   i++;
-		   }else if ((j+1) <= R1.length){
-			   a[k] = R1[j];
-			   j++;
-		   }
-		   k++;
-	   }
+	    while(i <  l1 && j < l2) {
+			if(L1[i] < R1[j]) {
+				a[k] = L1[i] ;
+				i++;
+			}else {
+				a[k] = R1[j] ;
+				j++;
+			}
+			k++;
+		}
+		if(  i < l1) {
+			while(i < l1) {
+				a[k] = L1[i] ;
+				i++;
+				k++;
+			}
+		}
+		else if(  j < l2) {
+			while(j < l2) {
+				a[k] = R1[j] ;
+				j++;
+				k++;
+			}
+		}
+		
 	}catch(Exception e) {
 		e.printStackTrace();
 	}

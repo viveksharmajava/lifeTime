@@ -134,6 +134,23 @@ docker.io/vivekvis/naming-server:2.4.1
 
  docker run -d -p 80:80 docker/getting-started
  
+ select
+1 as "KEY",
+'IcTransactionImport' TEMPLATE,
+'en-us' LOCALE,
+'csv' OUTPUT_FORMAT,
+'WCC' DEL_CHANNEL,
+'CUSTOM_UCM' PARAMETER1,
+'FAFusionImportExport' PARAMETER2,
+'syed.misbauddin' PARAMETER3,
+'ic$/incentiveCompensationTransaction$/import$' PARAMETER4,
+'IcTransactionImport' PARAMETER5,
+'IcTransactionImport'||'.csv' PARAMETER6,
+'AD1' PARAMETER7,
+'Burst1' PARAMETER8,
+'FALSE' PARAMETER9
+--'ic/incentiveCompensationTransaction/import/' PARAMETER10
+from dual
  
  
 Kubernets: K8S(KOO -BER - NET - EEZ)
@@ -170,4 +187,4 @@ $gcloud config set project <PROJECT_ID>
  
  
  
- 
+  

@@ -12,7 +12,12 @@ public class DelayQueueProducer implements Runnable{
 		for(int i =1 ; i <=10;i++){
 			DelayedElement delayElement = new DelayedElement(" Element "+i, 1000*i);
 			System.out.println("producing delayed element ="+delayElement.getElementName());
-			delayQueuey.offer(delayElement);
+			try {
+				delayQueuey.put(delayElement);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 //			try {
 //				Thread.sleep(100);
 //			} catch (InterruptedException e) {

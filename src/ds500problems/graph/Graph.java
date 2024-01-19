@@ -128,7 +128,7 @@ public class Graph {
 	 }
 	private void dfs(int source , boolean [] visited) {
 		
-		visited[source] = true;
+		 visited[source] = true;
 		 System.out.print(source+"\t");
 		  Iterator <Integer> itr = adjacent[source].listIterator();
 		  while(itr.hasNext()) {

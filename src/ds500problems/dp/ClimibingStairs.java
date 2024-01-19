@@ -355,7 +355,7 @@ public static int climibingStairKStepsOptimized(int stairs, int k) {
  		Output : 1
  		There are two paths but on has obstacle a[0][1] =1
  		(0, 0) -> (0, 1) ->X
- 		(0, 0) -> (0, 0) -> (0, 0) = 1 PATH
+ 		(0, 0) -> (0, 0) -> (1, 0) = 1 PATH
  		
  		Input :  m = 3, n = 4;
  		+---+---+---+---+
@@ -368,7 +368,7 @@ public static int climibingStairKStepsOptimized(int stairs, int k) {
  		Output : 1 
  		There are three paths but 2 are blocked by obstacles 1
  		
- 		(0, 0) -> (1, 0) -> (2, 0) -> (2, 1)-->(2,3)
+ 		(0, 0) -> (1, 0) -> (2, 0) -> (2, 1)->(2,2)-->(2,3)
  	 */
   public static int numberOfPathsWithObstacles(int m , int n,int [][] obstacle) {
 		 int dp[][] = new  int[m][n];

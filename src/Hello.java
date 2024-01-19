@@ -64,6 +64,7 @@ public class Hello {
 	}
 
 	public static void main(String[] args) {
+		System.out.println("Hello");
 		final Set<String> symbols = new TreeSet<>();
 		final StatisticsAggregator stats = new StatisticsAggregatorImpl();
 		Scanner scanner = new Scanner(System.in);

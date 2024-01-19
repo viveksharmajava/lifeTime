@@ -20,7 +20,7 @@ Enable Core Files:
  
  
  3. Run a continuous JAVA FLIGHT RECORDER(JFR):
- 
+ ƒjmap
  Check below for more detail about JFR:
  https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr004.html#BABJJEEE
  
@@ -142,42 +142,38 @@ JAVA 8 Tutorial:
 https://www.oracle.com/java/technologies/java8.html
 
  
- WSDL:
-   endpoints
-   all operations
-   request structure
-   response structure
- 
- 
- REST:Representation state transfer:
- URI: Uniform resource identifier.
-   
- WADL: Web application definition language.
- SWAGGER:
- 
- 
- 
- Challenges with microsservices:
- 1. bounded context.: how to decide right boundary for the micro-services?
- 2. Configuration management: many services many instances, dynamic scale-up/down.
- 3. Monitoring : which services are up or went down.
- 4. pack of cards: (a->b->c->d)  it can collapse easly. required fault tolerance.
- 5. Service discovery: identifiy which micro-services is down or behaving problematic.
- 
- 
- Advantage:
- 1. enable to adopt new process & technologies easly.
- 2. Dynamic scaling.
- 3. faster release cycle.
- 
- 
- 
- 
  java troubleshooting:
  java garbage collection
  https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/toc.html
  https://www.oracle.com/java/technologies/hotspotfaq.html
  https://www.oracle.com/java/technologies/javase/vmoptions-jsp.html
  
+ 
+ JPS : Java VM process  status tool
+ 
+ https://docs.oracle.com/javase/7/docs/technotes/tools/share/jps.html
+ 
+ OPTIONS
+The jps command supports a number of options that modify the output of the command. These options are subject to change or removal in the future.
+
+-q
+Suppress the output of the class name, JAR file name, and arguments passed to the main method, producing only a list of local VM identifiers.
+-m
+Output the arguments passed to the main method. The output may be null for embedded JVMs.
+-l
+Output the full package name for the application's main class or the full path name to the application's JAR file.
+-v
+Output the arguments passed to the JVM.
+-V
+Output the arguments passed to the JVM through the flags file (the .hotspotrc file or the file specified by the -XX:Flags=<filename> argument).
+-Joption
+Pass option to the java launcher called by jps. For example, -J-Xms48m sets the startup memory to 48 megabytes. It is a common convention for -J to pass options to the underlying VM executing applications written in Java.
+ 
+ 
+ JSTAT:  https://docs.oracle.com/javase/7/docs/technotes/tools/share/jstat.html#vmidentifier
+ The jstat tool displays performance statistics for an instrumented HotSpot Java virtual machine (JVM).
+ The target JVM is identified by its virtual machine identifier, or vmid option described below.
+
+example:  jstat -gcutil 60573(its a process id or lvmid).
  
  
