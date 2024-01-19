@@ -1,0 +1,294 @@
+SELECT '0' Structure_Level, 
+		       eic.ITEM_CLASS_NAME ITEM_CLASS, 
+		       itms1.ITEM_NUMBER PATH, 
+		       NULL PARENT, 
+		       itms1.item_number Item_Name, 
+		      TRANSLATE (itmt.DESCRIPTION, CHR(10)||CHR(13), ' ')  as item_description, 
+		       (SELECT EIR.REVISION 
+		          FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		         WHERE EIR.REVISION_ID = 300100552668695 AND ROWNUM = 1) 
+		          REVISION, 
+		       EPT.PHASE_NAME LIFECYCLE_PHASE, 
+		       NULL Sequence, 
+		       NULL Quantity, 
+		       itms1.PRIMARY_UOM_CODE UOM_CODE, 
+		       NULL Reference_Designator, 
+		       TO_CHAR ( (SELECT EFFECTIVITY_DATE 
+		                    FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                   WHERE EIR.REVISION_ID = 300100552668695), 
+		                'YYYY-MM-DD HH24:MI:SS') 
+		          EFFECTIVITY_DATE, 
+		       NULL YIELD, 
+		       NULL BOM_COMMENTS, 
+		       (SELECT DECODE (UPPER (ATTRIBUTE_CHAR4), 
+		                       'YES', 'Y', 
+		                       'Y', 'Y', 
+		                       'NO', 'N', 
+		                       'N', 'N') 
+		          FROM fusion.EGO_ITEM_EFF_B eieb 
+		         WHERE     eieb.CONTEXT_CODE IN ('BRIO_Part_Information') 
+		               AND eieb.inventory_item_id = itms1.INVENTORY_ITEM_ID 
+		               AND eieb.organization_id = itms1.organization_id 
+		               AND (   TO_TIMESTAMP (eieb.VERSION_START_DATE) <= 
+		                          (SELECT TO_TIMESTAMP (EFFECTIVITY_DATE) 
+		                             FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                            WHERE EIR.REVISION_ID = 300100552668695) 
+		                    OR TO_TIMESTAMP (eieb.VERSION_START_DATE) < 
+		                          (SELECT TO_TIMESTAMP (NVL (END_EFFECTIVITY_DATE, SYSDATE)) 
+		                             FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                            WHERE EIR.REVISION_ID = 300100552668695)) 
+		               AND NVL (eieb.VERSION_END_DATE, SYSDATE + 1) >= 
+		                      (SELECT NVL (END_EFFECTIVITY_DATE, SYSDATE) 
+		                         FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                        WHERE EIR.REVISION_ID = 300100552668695) 
+					   AND ROWNUM=1) 
+		          Critical_comp_flag, 
+		       (SELECT ATTRIBUTE_CHAR5 
+		          FROM fusion.EGO_ITEM_EFF_B eieb 
+		         WHERE     eieb.CONTEXT_CODE IN ('BRIO_Part_Information') 
+		               AND eieb.inventory_item_id = itms1.INVENTORY_ITEM_ID 
+		               AND eieb.organization_id = itms1.organization_id 
+		               AND (   TO_TIMESTAMP (eieb.VERSION_START_DATE) <= 
+		                          (SELECT TO_TIMESTAMP (EFFECTIVITY_DATE) 
+		                             FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                            WHERE EIR.REVISION_ID = 300100552668695) 
+		                    OR TO_TIMESTAMP (eieb.VERSION_START_DATE) < 
+		                          (SELECT TO_TIMESTAMP (NVL (END_EFFECTIVITY_DATE, SYSDATE)) 
+		                             FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                            WHERE EIR.REVISION_ID = 300100552668695)) 
+		               AND NVL (eieb.VERSION_END_DATE, SYSDATE + 1) >= 
+		                      (SELECT NVL (END_EFFECTIVITY_DATE, SYSDATE) 
+		                         FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                        WHERE EIR.REVISION_ID = 300100552668695) 
+					   AND ROWNUM=1) 
+		          SERVICE_CODE, 
+		       (SELECT CASE WHEN COUNT (*) > 0 THEN 'TRUE' ELSE 'FALSE' END 
+		          FROM fusion.FND_ATTACHED_DOCUMENTS FAD 
+		         WHERE     FAD.entity_name = 'ITEM_ENTITY' 
+		               AND TO_NUMBER (FAD.PK1_VALUE) = itms1.organization_id 
+		               AND TO_NUMBER (FAD.PK2_VALUE) = itms1.INVENTORY_ITEM_ID) 
+		          Attachment, 
+		       (SELECT CASE WHEN COUNT (*) > 0 THEN 'TRUE' ELSE 'FALSE' END 
+		          FROM fusion.egp_components_b ECAV1 
+		         WHERE     ECAV1.obj_name = 'EGO_ITEM' 
+		               AND ECAV1.pk1_value = esb.pk1_value 
+		               AND ECAV1.pk2_value = esb.pk2_value 
+		               AND ECAV1.bill_sequence_id <> esb.bill_sequence_id 
+		               AND ECAV1.effectivity_date <= 
+		                      (SELECT EFFECTIVITY_DATE 
+		                         FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                        WHERE EIR.REVISION_ID = 300100552668695) 
+		               AND NVL (ECAV1.disable_date, SYSDATE + 1) > 
+		                      (SELECT NVL (END_EFFECTIVITY_DATE, SYSDATE) 
+		                         FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                        WHERE EIR.REVISION_ID = 300100552668695)) 
+		          WHERE_USED, 
+		       esb.bill_sequence_id, 
+		       itms1.INVENTORY_ITEM_ID, 
+		       itms1.ORGANIZATION_ID 
+		   
+		FROM fusion.egp_structures_b esb, 
+		       fusion.EGP_SYSTEM_ITEMS_tl itmt, 
+		       fusion.EGP_SYSTEM_ITEMS_b itms1, 
+		       fusion.EGP_ITEM_CLASSES_VL eic, 
+		       fusion.INV_ORG_PARAMETERS IOP, 
+		       fusion.EGP_PHASES_TL EPT 
+		  
+		WHERE     esb.alternate_bom_designator = 'Primary' 
+		       AND itms1.ITEM_CATALOG_GROUP_ID = eic.ITEM_CLASS_ID 
+		       AND itmt.INVENTORY_ITEM_ID = itms1.INVENTORY_ITEM_ID 
+		       AND itmt.ORGANIZATION_ID = itms1.ORGANIZATION_ID 
+		       AND EPT.PHASE_CODE(+) = itms1.CURRENT_PHASE_CODE 
+		       AND EPT.language = USERENV ('LANG') 
+		       AND itmt.language = USERENV ('LANG') 
+		       AND itms1.INVENTORY_ITEM_ID = TO_NUMBER (esb.pk1_value) 
+		       AND itms1.ORGANIZATION_ID = TO_NUMBER (esb.pk2_value) 
+		       AND itms1.ORGANIZATION_ID = IOP.ORGANIZATION_ID 
+		       AND IOP.organization_code = 'V1' 
+		       AND esb.effectivity_control = 1 
+		       AND (esb.pk1_value) = 300100552668694 
+		 
+		 
+		UNION ALL  
+		
+		SELECT /*+ leading(esb) */ TRIM (LPAD (' ', LEVEL * 2) || LEVEL) Structure_Level, 
+		           eic.ITEM_CLASS_NAME ITEM_CLASS, 
+		           SYS_CONNECT_BY_PATH (REPLACE(itms1.ITEM_NUMBER,'/','|'), '/') PATH, 
+		           itms1.ITEM_NUMBER PARENT, 
+		           itms.item_number Item_Name, 
+		           TRANSLATE (itmt.DESCRIPTION, CHR(10)||CHR(13), ' ')  as item_description, 
+		           (select * FROM (SELECT EIR.REVISION 
+		              FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		             WHERE     EIR.INVENTORY_ITEM_ID = itms.INVENTORY_ITEM_ID 
+		                   AND EIR.ORGANIZATION_ID = itms.ORGANIZATION_ID 
+		                   AND TO_TIMESTAMP (NVL (EIR.END_EFFECTIVITY_DATE, SYSDATE + 1)) > 
+		                          (SELECT TO_TIMESTAMP (EFFECTIVITY_DATE) 
+		                             FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                            WHERE EIR.REVISION_ID = 300100552668695) 
+		                   AND EIR.implementation_date IS NOT NULL 
+		                   AND (   TO_TIMESTAMP (EIR.effectivity_date) <= 
+		                              (SELECT TO_TIMESTAMP (EFFECTIVITY_DATE) 
+		                                 FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                                WHERE EIR.REVISION_ID = 300100552668695) 
+		                        OR TO_TIMESTAMP (EIR.effectivity_date) < 
+		                              (SELECT TO_TIMESTAMP (NVL (END_EFFECTIVITY_DATE, SYSDATE)) 
+		                                 FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                                WHERE EIR.REVISION_ID = 300100552668695)) 
+								order by TO_TIMESTAMP (EIR.effectivity_date) desc) 
+		                   WHERE ROWNUM = 1) 
+		              REVISION, 
+		           EPT.PHASE_NAME LIFECYCLE_PHASE, 
+		           ecav.ITEM_NUM Sequence, 
+		           ecav.COMPONENT_QUANTITY Quantity, 
+		           ecav.PRIMARY_UOM_CODE UOM_CODE, 
+		           (SELECT RTRIM ( 
+		                      XMLAGG ( 
+		                         XMLELEMENT (COMPONENT_REFERENCE_DESIGNATOR, 
+		                                     COMPONENT_REFERENCE_DESIGNATOR || '|')).EXTRACT ( 
+		                         '//text()').getClobVal (), 
+		                      '|') 
+		              FROM fusion.EGP_REFERENCE_DESIGNATORS ERD 
+		             WHERE ERD.COMPONENT_SEQUENCE_ID = ecav.COMPONENT_SEQUENCE_ID 
+					 AND ERD.ACD_TYPE NOT in (3)) 
+		              Reference_Designator, 
+		           TO_CHAR (ecav.EFFECTIVITY_DATE, 'YYYY-MM-DD HH24:MI:SS') 
+		              EFFECTIVITY_DATE, 
+		           ecav.COMPONENT_YIELD_FACTOR YIELD, 
+		           ecav.ATTRIBUTE1 BOM_COMMENTS, 
+		           (SELECT DECODE (UPPER (ATTRIBUTE_CHAR4), 
+		                           'YES', 'Y', 
+		                           'Y', 'Y', 
+		                           'NO', 'N', 
+		                           'N', 'N') 
+		              FROM fusion.EGO_ITEM_EFF_B eieb 
+		             WHERE     eieb.CONTEXT_CODE IN ('BRIO_Part_Information') 
+		                   AND eieb.inventory_item_id = itms.INVENTORY_ITEM_ID 
+		                   AND eieb.organization_id = itms.organization_id 
+		                   AND (   TO_TIMESTAMP (eieb.VERSION_START_DATE) <= 
+		                              (SELECT TO_TIMESTAMP (EFFECTIVITY_DATE) 
+		                                 FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                                WHERE EIR.REVISION_ID = 300100552668695) 
+		                        OR TO_TIMESTAMP (eieb.VERSION_START_DATE) < 
+		                              (SELECT TO_TIMESTAMP (NVL (END_EFFECTIVITY_DATE, SYSDATE)) 
+		                                 FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                                WHERE EIR.REVISION_ID = 300100552668695)) 
+		                   AND (   eieb.VERSION_END_DATE IS NULL 
+		                        OR eieb.VERSION_END_DATE >= 
+		                              (SELECT NVL (END_EFFECTIVITY_DATE, SYSDATE) 
+		                                 FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                                WHERE EIR.REVISION_ID = 300100552668695)) 
+						   AND ROWNUM=1) 
+		              Critical_comp_flag, 
+		           (SELECT ATTRIBUTE_CHAR5 
+		              FROM fusion.EGO_ITEM_EFF_B eieb 
+		             WHERE     eieb.CONTEXT_CODE IN ('BRIO_Part_Information') 
+		                   AND eieb.inventory_item_id = itms.INVENTORY_ITEM_ID 
+		                   AND eieb.organization_id = itms.organization_id 
+		                   AND (   TO_TIMESTAMP (eieb.VERSION_START_DATE) <= 
+		                              (SELECT TO_TIMESTAMP (EFFECTIVITY_DATE) 
+		                                 FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                                WHERE EIR.REVISION_ID = 300100552668695) 
+		                        OR TO_TIMESTAMP (eieb.VERSION_START_DATE) < 
+		                              (SELECT TO_TIMESTAMP (NVL (END_EFFECTIVITY_DATE, SYSDATE)) 
+		                                 FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                                WHERE EIR.REVISION_ID = 300100552668695)) 
+		                   AND (   eieb.VERSION_END_DATE IS NULL 
+		                        OR eieb.VERSION_END_DATE >= 
+		                              (SELECT NVL (END_EFFECTIVITY_DATE, SYSDATE) 
+		                                 FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                                WHERE EIR.REVISION_ID = 300100552668695)) 
+						   AND ROWNUM=1) 
+		              SERVICE_CODE, 
+		           (SELECT CASE WHEN COUNT (*) > 0 THEN 'TRUE' ELSE 'FALSE' END 
+		              FROM fusion.FND_ATTACHED_DOCUMENTS FAD 
+		             WHERE     FAD.entity_name = 'ITEM_ENTITY' 
+		                   AND TO_NUMBER (FAD.PK1_VALUE) = itms.organization_id 
+		                   AND TO_NUMBER (FAD.PK2_VALUE) = itms.INVENTORY_ITEM_ID) 
+		              Attachment, 
+		           (SELECT CASE WHEN COUNT (*) > 0 THEN 'TRUE' ELSE 'FALSE' END 
+		              FROM fusion.egp_components_b ECAV1 
+		             WHERE     ECAV1.obj_name = 'EGO_ITEM' 
+		                   AND ECAV.pk1_value = ECAV1.pk1_value 
+		                   AND ECAV.pk2_value = ECAV1.pk2_value 
+		                   AND ECAV1.bill_sequence_id <> ECAV.bill_sequence_id 
+		                   AND (   TO_TIMESTAMP (ECAV1.effectivity_date) <= 
+		                              (SELECT TO_TIMESTAMP (EFFECTIVITY_DATE) 
+		                                 FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                                WHERE EIR.REVISION_ID = 300100552668695) 
+		                        OR TO_TIMESTAMP (ECAV1.effectivity_date) < 
+		                              (SELECT TO_TIMESTAMP (NVL (END_EFFECTIVITY_DATE, SYSDATE)) 
+		                                 FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                                WHERE EIR.REVISION_ID = 300100552668695)) 
+		                   AND TO_TIMESTAMP (NVL (ECAV1.disable_date, SYSDATE + 1)) >= 
+		                          (SELECT NVL (END_EFFECTIVITY_DATE, SYSDATE) 
+		                             FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                            WHERE EIR.REVISION_ID = 300100552668695)) 
+		              WHERE_USED, 
+		           esb.bill_sequence_id, 
+		           itms.INVENTORY_ITEM_ID, 
+		           itms.ORGANIZATION_ID 
+		       
+		FROM fusion.egp_components_b ecav, 
+		           fusion.egp_structures_b esb, 
+		           fusion.EGP_SYSTEM_ITEMS_b itms, 
+		           fusion.EGP_SYSTEM_ITEMS_tl itmt, 
+		           fusion.EGP_SYSTEM_ITEMS_b itms1, 
+		           fusion.EGP_ITEM_CLASSES_VL eic, 
+		           fusion.INV_ORG_PARAMETERS IOP, 
+		           fusion.EGP_PHASES_TL EPT 
+		      
+		WHERE     ecav.bill_sequence_id = esb.common_bill_sequence_id 
+		           AND ECAV.obj_name = 'EGO_ITEM' 
+		           AND esb.alternate_bom_designator = 'Primary' 
+		           AND itms.ITEM_CATALOG_GROUP_ID = eic.ITEM_CLASS_ID 
+		           AND itmt.INVENTORY_ITEM_ID = itms.INVENTORY_ITEM_ID 
+		           AND itmt.ORGANIZATION_ID = itms.ORGANIZATION_ID 
+		           AND EPT.PHASE_CODE(+) = itms.CURRENT_PHASE_CODE 
+		           AND EPT.language = USERENV ('LANG') 
+		           AND itmt.language = USERENV ('LANG') 
+		           AND itms1.INVENTORY_ITEM_ID = TO_NUMBER (esb.pk1_value) 
+		           AND itms1.ORGANIZATION_ID = TO_NUMBER (esb.pk2_value) 
+		           AND itms.INVENTORY_ITEM_ID = TO_NUMBER (ecav.pk1_value) 
+		           AND itms.ORGANIZATION_ID = TO_NUMBER (ecav.pk2_value) 
+		           AND itms1.ORGANIZATION_ID = IOP.ORGANIZATION_ID 
+		           AND itms.ORGANIZATION_ID = IOP.ORGANIZATION_ID 
+		           AND IOP.organization_code = 'V1' 
+		START WITH     (esb.pk1_value) IN (SELECT 300100552668694 FROM DUAL) 
+		           AND ECAV.implementation_date IS NOT NULL 
+		           AND ECAV.obj_name = 'EGO_ITEM' 
+		           AND esb.alternate_bom_designator = 'Primary' 
+		           AND esb.effectivity_control = 1 
+				   and ecav.ACD_TYPE not in(3) 
+		           AND (   TO_CHAR (ecav.EFFECTIVITY_DATE, 'YYYY-MM-DD HH24:MI:SS') <= 
+		                      (SELECT TO_CHAR (EFFECTIVITY_DATE, 'YYYY-MM-DD HH24:MI:SS') 
+		                         FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                        WHERE EIR.REVISION_ID = 300100552668695) 
+		                OR TO_CHAR (ecav.EFFECTIVITY_DATE, 'YYYY-MM-DD HH24:MI:SS') < 
+		                      (SELECT TO_CHAR (NVL (END_EFFECTIVITY_DATE, SYSDATE), 'YYYY-MM-DD HH24:MI:SS') 
+		                         FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                        WHERE EIR.REVISION_ID = 300100552668695)) 
+		           AND TO_CHAR (NVL (ecav.disable_date,SYSDATE+ 1), 'YYYY-MM-DD HH24:MI:SS') > 
+		                  (SELECT TO_CHAR (NVL (END_EFFECTIVITY_DATE, SYSDATE), 'YYYY-MM-DD HH24:MI:SS') 
+		                     FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                    WHERE EIR.REVISION_ID = 300100552668695) 
+		CONNECT BY     ESB.PK1_VALUE = PRIOR ecav.pk1_value 
+		           AND ECAV.PK2_VALUE = TO_CHAR (IOP.ORGANIZATION_ID) 
+		           AND esb.pk2_value = TO_CHAR (IOP.ORGANIZATION_ID) 
+		           AND esb.alternate_bom_designator = 'Primary' 
+				   and ecav.ACD_TYPE not in(3) 
+		           AND esb.effectivity_control = 1 
+		           AND (   TO_CHAR (ecav.EFFECTIVITY_DATE, 'YYYY-MM-DD HH24:MI:SS') <= 
+		                      (SELECT TO_CHAR (EFFECTIVITY_DATE, 'YYYY-MM-DD HH24:MI:SS') 
+		                         FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                        WHERE EIR.REVISION_ID = 300100552668695) 
+		                OR TO_CHAR (ecav.EFFECTIVITY_DATE, 'YYYY-MM-DD HH24:MI:SS') < 
+		                      (SELECT TO_CHAR (NVL (END_EFFECTIVITY_DATE, SYSDATE), 'YYYY-MM-DD HH24:MI:SS') 
+		                         FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                        WHERE EIR.REVISION_ID = 300100552668695)) 
+		           AND TO_CHAR (NVL (ecav.disable_date,SYSDATE+ 1), 'YYYY-MM-DD HH24:MI:SS') > 
+		                  (SELECT TO_CHAR (NVL (END_EFFECTIVITY_DATE, SYSDATE), 'YYYY-MM-DD HH24:MI:SS') 
+		                     FROM fusion.EGP_ITEM_REVISIONS_B EIR 
+		                    WHERE EIR.REVISION_ID = 300100552668695) 
+		           AND ecav.implementation_date IS NOT NULL 
+		           AND ecav.obj_name = 'EGO_ITEM' 
+		
