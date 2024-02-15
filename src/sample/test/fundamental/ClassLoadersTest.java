@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import com.sun.javafx.util.Logging;
 
 public class ClassLoadersTest {
 
@@ -15,8 +14,6 @@ public class ClassLoadersTest {
 		System.out.println("Classloader of this class:"
 		        + ClassLoadersTest.class.getClassLoader());
 
-		    System.out.println("Classloader of Logging:"
-		        + Logging.class.getClassLoader());
 
 		    System.out.println("Classloader of ArrayList:"
 		        + ArrayList.class.getClassLoader()); 

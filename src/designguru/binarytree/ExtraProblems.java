@@ -5,7 +5,7 @@ import java.util.Stack;
 public class ExtraProblems {
 
 	public static void main(String[] args) {
-
+             System.out.println("Hello from ExtraProblems");
 	}
 
     //Function to check if two trees are identical.
