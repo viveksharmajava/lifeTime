@@ -16,6 +16,12 @@ public class MergeOverlappingIntervals {
 	    for (Interval interval : merge(input))
 	        System.out.print("[" + interval.start + "," + interval.end + "] ");
 	    
+	    
+	    System.out.println("practiceMergeInterval");
+	    for (Interval interval : practiceMergeInterval(input))
+	        System.out.print("[" + interval.start + "," + interval.end + "] ");
+	    
+	    
 	}
 
 	public static  List<Interval> merge(List<Interval> intervals){
@@ -42,5 +48,34 @@ public class MergeOverlappingIntervals {
 	    mergedIntervals.add(new Interval(start, end));
 		return mergedIntervals;
 	}
+	
+	public static List<Interval> practiceMergeInterval(List <Interval> inrervals){
+		List <Interval> result = new ArrayList <>();
+		ArrayList<Integer> min = new ArrayList<>();
+		min.getLast();
+		Collections.sort(inrervals, (a,b) -> Integer.compare(a.start, b.start) );
+		
+		Iterator <Interval> it = inrervals.iterator();
+		Interval interval = it.next();
+		int start = interval.start;
+		int end = interval.end;
+		while(it.hasNext()) {
+			interval = it.next();
+			if( interval.start <= end) {
+				end = Math.max(end, interval.end);
+			}
+			else {
+				result.add(new Interval(start,end));
+				start = interval.start;
+				end = interval.end;
+			}
+		}
+		//add last interval
+		result.add(new Interval(start,end));
+		
+		return result;
+	}
+	
 }
+
 

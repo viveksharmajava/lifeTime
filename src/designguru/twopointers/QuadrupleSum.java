@@ -40,10 +40,10 @@ public class QuadrupleSum {
 		while(i < j) {
 			if(sum == (pairs[i].sum+pairs[j].sum)) {
 				if(noCommon(pairs[i], pairs[j])) {
-					System.out.println(pairs[i].first+" "
+					System.out.println("["+pairs[i].first+" "
 				    +pairs[i].second+" "+pairs[j].first+" "
 				    +pairs[j].second
-				    
+				    +"]"
 				    
 				);
 				return;	

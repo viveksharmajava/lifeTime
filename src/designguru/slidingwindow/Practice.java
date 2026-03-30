@@ -187,9 +187,9 @@ public class Practice {
 	 // Utility function to print subarray `nums[i, j]`
 	    public static void printSubarray(int[] nums, int i, int j)
 	    {
-	        System.out.println(IntStream.range(i, j + 1)
-	                                    .mapToObj(k -> nums[k])
-	                                    .collect(Collectors.toList()));
+	       // System.out.println(IntStream.range(i, j + 1)
+	                                 //   .mapToObj(k -> nums[k])
+	                                  //  .collect(Collectors.toList()));
 	    }
 
 }

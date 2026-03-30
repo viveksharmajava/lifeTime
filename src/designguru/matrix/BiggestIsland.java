@@ -12,7 +12,7 @@ public class BiggestIsland {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		System.out.println("maxAreaIsland = "+maxAreaIsland(new int[][] {
-            { 1, 1, 1, 1, 1 },
+            { 1, 1, 0,0 , 1 },
             { 1, 1, 0, 0, 1 },
             { 0, 0, 1, 1, 0 },
             { 0, 1, 1, 0, 0 },
@@ -39,10 +39,13 @@ public class BiggestIsland {
 		        }
 		      }
 		    }
+		    System.out.println("totalIslands ="+totalIslands);
 		    return max_area;
 		  }
 		  
 		  private static void visitIslandsBFS(int[][] matrix, int x, int y,AtomicInteger area){
+			 
+			  
 			  Queue < int [] > neighbours = new LinkedList<>();
 			  neighbours.add(new int[]{x,y});
 			  while(! neighbours.isEmpty()){

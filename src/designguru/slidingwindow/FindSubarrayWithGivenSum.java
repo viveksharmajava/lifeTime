@@ -5,8 +5,8 @@ import java.util.Arrays;
 public class FindSubarrayWithGivenSum {
 
 	public static void main(String[] args) {
-    int [] arr = {1, 4};
-    int target = 1;
+    int [] arr = {1, 4,3,7,2};
+    int target = 13;
     subArrayWithGivenSum(arr,target);
 	}
 	
@@ -22,20 +22,15 @@ public class FindSubarrayWithGivenSum {
 				break;
 			}
 			else if(sum_so_far  > target) {
-				int temp = sum_so_far, k = start;
-				while( temp != target &&  k < i) {
-					temp -= arr[k];
-					k++;
+				while( sum_so_far> target &&  start < i) {
+					sum_so_far -= arr[start];
+					start++;
 				}
-				if(temp == target) {
-					start = k;
-					end = i;
-					break;
-				}else {
-					start = i;
-					end = -1;
-					sum_so_far = arr[i];
-				}
+				
+			}
+			if( sum_so_far  == target) {
+				end = i;
+				break;
 			}
 		}
 		if(end !=-1) {

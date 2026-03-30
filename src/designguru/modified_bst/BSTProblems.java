@@ -62,6 +62,9 @@ public class BSTProblems {
 	     int min = minInRotatedArray(rotated);
 	     System.out.println("minInRotatedArray(arr)"+ min);
 	     
+	     min = findMin(rotated);
+	     System.out.println("findMin() in rotated array="+ min);
+	     
 	     //bitonicArraySearch
 	    int [] bitonic2 =  {1, 3, 8, 9,11};
 	    int index  = bitonicArraySearch(bitonic2, 1);
@@ -475,6 +478,7 @@ public class BSTProblems {
       * https://www.callicoder.com/find-minimum-element-in-rotated-sorted-array/
       */
      public static int minInRotatedArray(int [] arr) {
+    	/*
     	 int s = 0;
     	 int e = arr.length-1;
     	 while(s <= e) {
@@ -482,7 +486,7 @@ public class BSTProblems {
     	   //if the middle ele.. is smaller than previous element.. than its a pivot(minimum)
     	   if( mid > 0 && arr[mid] < arr[mid-1]) return arr[mid];
     	   //if middle is greater than next than next is the pivot (minimum )
-    	   if(mid  < arr.length-1  && arr[mid] > arr[mid+1]) {
+    	   if(mid  < e  && arr[mid] > arr[mid+1]) {
     		   return arr[mid+1];
     	   }
     	   if(arr[s] <= arr[mid]) {//left sub-array is sorted,so pivot(min element ) is on the right side.
@@ -492,6 +496,24 @@ public class BSTProblems {
     	   }
     	 }
     	 return -1;
+    	 
+    	 */
+    	 return findMin(arr);
+     }
+     
+     public static int findMin(int [] nums) {
+    	 int l = 0;
+    	 int r = nums.length - 1;
+    	 while(l < r) {
+    		int m  = (l+r)/2;
+    		if(nums[m] < nums[r]) {
+    			r = m;
+    		}else {
+    			l = m+1;
+    		}
+    	 }
+    	 return nums[l];
+    	 
      }
      
     /*

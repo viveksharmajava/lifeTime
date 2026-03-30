@@ -646,7 +646,7 @@ public class ArrayProblems {
 		  
 		  hm.put(0,-1);
 		  int sum  =0;
-		  int len = 1;
+		  int len = 0;
 		  int end_index = -1;
 		  for(int i = 0 ; i< arr.length ; i++) {
 			  sum += arr[i];

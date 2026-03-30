@@ -10,11 +10,11 @@ import java.util.HashMap;
 public class MaxFruitsintoKBaskets {
 
 	public static void main(String[] args) {
-       char [] str = {'0', '1', '2', '2', '2', '2' };
-       int k = 1;
+       int [] str = {0,1,2,2};//{'0', '1', '2', '2', '2', '2' };
+       int k = 2;
        System.out.println(Arrays.toString(maxfruits(str,k)));
 	}
-    public static char[] maxfruits( char [] str , int k) {
+    public static int[] maxfruits( int [] str , int k) {
 
 		
 		//char [] subStr = null;
@@ -22,9 +22,9 @@ public class MaxFruitsintoKBaskets {
 		int e = 0, end = -1;
 		int max = -1;
 		
-		HashMap < Character, Integer > map = new HashMap<>();
+		HashMap < Integer, Integer > map = new HashMap<>();
 		for(int i = 0 ; i < str.length; i++) {
-			Character c = str[i];
+			Integer c = str[i];
 			if(map.size() < k || map.containsKey(c) ) {
 				if(map.containsKey(c)) {
 					map.put(c,map.get(c)+1);
@@ -42,24 +42,26 @@ public class MaxFruitsintoKBaskets {
 			  		
 			  	}
 			  	int m = start;
+			  	System.out.println("map contains ="+map);
 			  	while( map.size() == k) {
-			  		Character cc = str[m];
+			  		Integer cc = str[m];
+			  		System.out.println("removing="+cc);
 			  		if(map.get(cc) == 1) map.remove(cc);
 			  		else {
 			  			map.put(cc, map.get(cc)-1);
 			  		}
 			  		m++;
 			  	}
-			  	if(m <= i && map.size() < k) {
-			  		start  = m;
-			  		map.put(c, 1);
-			  		end = i;
-			  	}
+			  	start  = m;
+			  	map.put(c, 1);
+			  	end = i;
+			  	
 			  }//end of else;
 		
 		
 		}
-		if(max < (end- start)) {
+		System.out.println("map contains2 ="+map);
+		if(max < (end- start+1)) {
 	  		max = end -start+1;
 	  		s = start;
 	  		e = end;

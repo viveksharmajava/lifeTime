@@ -11,10 +11,12 @@ public class InsertGivenInterval {
       //[[1,3], [5,7], [8,12]], New Interval=[4,6] , output:[1,3], [4,7], [8,12]]
 		LinkedList<Interval> input = new LinkedList<Interval>();
 	    input.add(new Interval(1, 3));
-	    input.add(new Interval(5, 7));
-	    input.add(new Interval(8, 12));
+	    input.add(new Interval(4, 6));
+	    //input.add(new Interval(8, 12));
 	    
-	    Interval i  = new Interval(4,10);
+	    Interval i  = new Interval(2,5);
+	    //=[[1,3],[4,6]]
+	    System.out.println("insert ="+insert(input, i));
 	    System.out.println(merge(input,i));
 	}
 	/*
@@ -24,6 +26,7 @@ public class InsertGivenInterval {
 		Auxiliary Space: O(N)
 	 *  
 	 */
+	//not working for all cases.
 	public static  List <Interval> merge( LinkedList <Interval> intervals, Interval newInt){
 		
 		Stack <Interval> stack = new Stack<>();
@@ -67,6 +70,26 @@ public class InsertGivenInterval {
 		}
 		return result;
 	}
-
+	
+	//https://leetcode.com/problems/insert-interval/solutions/21602/short-and-straight-forward-java-solution/
+	
+	public static List<Interval> insert(List<Interval> intervals, Interval newInterval) {
+	    List<Interval> result = new LinkedList<>();
+	    int i = 0;
+	    // add all the intervals ending before newInterval starts
+	    while (i < intervals.size() && intervals.get(i).end < newInterval.start)
+	        result.add(intervals.get(i++));
+	    // merge all overlapping intervals to one considering newInterval
+	    while (i < intervals.size() && intervals.get(i).start <= newInterval.end) {
+	        newInterval = new Interval( // we could mutate newInterval here also
+	                Math.min(newInterval.start, intervals.get(i).start),
+	                Math.max(newInterval.end, intervals.get(i).end));
+	        i++;
+	    }
+	    result.add(newInterval); // add the union of intervals we got
+	    // add all the rest
+	    while (i < intervals.size()) result.add(intervals.get(i++)); 
+	    return result;
+	}
 }
 

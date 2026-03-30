@@ -30,7 +30,7 @@ public class NumberOfClosedIsland {
 		          // we have found an island
 		          totalIslands++;
 		          AtomicBoolean isClosed = new AtomicBoolean(true);
-		          System.out.println("isClosed ="+isClosed.get());
+		          System.out.println("isClosed before ="+isClosed.get());
 		          visitIslandDFS(matrix, i, j,totalIslands+1,isClosed);
 		          System.out.println("isClosed ="+isClosed.get());
 		          if(isClosed.get() != true){

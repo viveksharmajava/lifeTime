@@ -11,6 +11,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class TreeTraversals {
 
@@ -39,6 +40,12 @@ public class TreeTraversals {
         root.right.left.right = new Node(8);
         System.out.println("Inorder\n ");
         inorder(root);
+        System.out.println("Reversed revseInorder!");
+        AtomicInteger rightSum = new AtomicInteger(0);
+        revseInorder1(root,rightSum);
+        System.out.println("Inorder after revers\n ");
+        inorder(root);
+        
         System.out.println("Inorder Iterative \n ");
         inorderIterative(root);
        
@@ -127,7 +134,7 @@ public class TreeTraversals {
 	System.out.println("\n is complete tree\n"+ isCompleteBTree(t2));
 	
 	
-	 root = new Node(1);
+     root = new Node(1);
 
 	root.left = new Node(2);
 	root.right = new Node(3);
@@ -142,7 +149,22 @@ public class TreeTraversals {
 	System.out.println("\nfindRootToLeafPaths(root)\n ");
 	findRootToLeafPaths(root);
 	}
-   
+	public static void revseInorder(Node root) {
+		if(root == null) return;
+		revseInorder(root.right);
+		System.out.print(root.data+" ");
+		revseInorder(root.left);
+		//swap(root);
+	}
+	public static void revseInorder1(Node root,AtomicInteger rightSum) {
+		if(root == null) return ;
+		revseInorder1(root.right,rightSum);
+		//System.out.print(root.data+" ");
+		rightSum.set(rightSum.get()+root.data);
+	    root.data = rightSum.get();
+		revseInorder1(root.left,rightSum);
+		
+	}
 	public static void inorder(Node root) {
 		
 		if(root == null) return;

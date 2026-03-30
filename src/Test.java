@@ -1,3 +1,4 @@
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -37,6 +38,9 @@ public class Test {
 	}
 	public static void main(String [] args) throws ParseException {
 	
+		Class klass = String.class;
+		URL location = klass.getResource('/' + klass.getName().replace('.', '/') + ".class");
+		System.out.println("location ="+location);
              Properties p = new Properties();
              p.setProperty("b", "a");
              System.out.println(p.get("a"));

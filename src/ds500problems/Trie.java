@@ -29,7 +29,7 @@ public class Trie {
   System.out.println("add="+trie.search("add"));
   System.out.println("addition="+trie.search("addition"));
   System.out.println("bucket="+trie.search("bucket"));
-  System.out.println("bucket="+trie.search("bat"));
+  System.out.println("batting="+trie.search("bating"));
   System.out.println("aiming="+trie.search("aiming"));
   
 	}

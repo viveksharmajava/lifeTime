@@ -1,4 +1,8 @@
 package sample.test.collection.stack;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 /*
  * 
  * Given an expression string exp, examine whether the pairs and the orders of �{�,�}�,�(�,�)�,�[�,�]� are correct in exp.
@@ -11,16 +15,33 @@ public class CheckBalancedParentheses {
 		balanceP.isBalancedParentheses("[()]{}{[()()]()}");
 		balanceP.isBalancedParentheses("�[(])");
 		balanceP.isBalancedParentheses("[[]");
+		System.out.println(isValid("[[]]"));
 	}
 
-	public void isBalancedParentheses(String input){
+	 public static boolean isValid(String s) {
+		    Deque<Character> stack = new ArrayDeque<>();
+
+		    for (final char c : s.toCharArray())
+		      if (c == '(')
+		        stack.push(')');
+		      else if (c == '{')
+		        stack.push('}');
+		      else if (c == '[')
+		        stack.push(']');
+		      else if (stack.isEmpty() || stack.pop() != c)
+		        return false;
+
+		    return stack.isEmpty();
+	 } 
+	public boolean isBalancedParentheses(String input){
 		Stack <Character> stack = new Stack <Character>();
 		boolean isBalance = true;
 		char [] inputArr = input.toCharArray();
 		for(int i=0 ;i < inputArr.length ; i++){
 			if(isPush(inputArr[i])) stack.push(inputArr[i]); 
 			else if(isPop(inputArr[i])){
-				 char c  = stack.pop();
+				if(stack.isEmpty()) return false;
+				char c  = stack.pop();
 				if ( reverse(inputArr[i]) != c ){
 					isBalance =false;
 					break;
@@ -37,6 +58,7 @@ public class CheckBalancedParentheses {
 		}else{
 			System.out.println("not balanced");
 		}
+		return isBalance;
 	}
 	
 	private boolean isPush(char c){

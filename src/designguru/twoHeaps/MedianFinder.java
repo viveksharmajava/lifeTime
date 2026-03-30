@@ -17,7 +17,14 @@ public class MedianFinder {
 	public static void main(String[] args) {
       int [] arr = {1, 2 , 3, 4, 5};
       MedianFinder mf = new MedianFinder();
-    
+      PriorityQueue <Integer> maxHeap = new PriorityQueue<Integer>((a,b)-> b-a);
+  	  PriorityQueue <Integer> minHeap = new PriorityQueue<Integer>((a,b)-> a-b);
+  	  for(int num: arr) {
+  		  maxHeap.add(num);
+  		  minHeap.add(num);
+  	  }
+  	  System.out.println("max heap="+maxHeap);
+  	  System.out.println("minHead ="+minHeap);
 //      mf.insert(1);
 //      
 //      mf.insert(2);

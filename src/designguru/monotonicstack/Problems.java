@@ -8,7 +8,9 @@ import java.util.Stack;
 public class Problems {
 
 	public static void main(String[] args) {
-       int abc = 2147483647;
+      
+		System.out.println(reduceTheStringByRemovingKConsucutiveIdenticalChar("qddxxxd",3));
+		int abc = 2147483647;
        boolean b= true;
        String s = ""+b;
        System.out.println(s);
@@ -64,7 +66,7 @@ public class Problems {
 	System.out.println(removeAdjacentDuplicate2("abbbaaca",3));
 	
 	System.out.println("\n removeKdigits\n ");
-	System.out.println(removeKdigits("10",2));
+	System.out.println(removeKdigits("1432219",3));
 	}
 	
 	/*i
@@ -425,7 +427,44 @@ public class Problems {
 	  return sb.toString();
 	  
   }
+  /* GFG:
+   * Reduce the string by removing K consecutive identical characters
+   * https://www.geeksforgeeks.org/reduce-the-string-by-removing-k-consecutive-identical-characters/
+   * Grokking:
+   * https://www.designgurus.io/course-play/grokking-the-coding-interview/doc/remove-all-adjacent-duplicates-in-string-ii-medium
+   * Input: K = 2, str = “geeksforgeeks” 
+	Output: gksforgks 
+	Explanation: After removal of both occurrences of the substring “ee”, the string reduces to “gksforgks”.
+	
+	
+	Input: K = 3, str = “qddxxxd” 
+	Output: q 
+	Explanation: 
+	Removal of “xxx” modifies the string to “qddd”. 
+	Again, removal of “ddd”modifies the string to “q”. 
+   */
   
+   public static String reduceTheStringByRemovingKConsucutiveIdenticalChar(String input,int k) {
+	   String result = "";
+	   //base case
+	   if(k== 1) return "";
+	   Stack<Pair> s = new Stack<>();
+	   for(int i=0; i < input.length(); i++) {
+		   if(s.isEmpty()|| s.peek().c != input.charAt(i)) {
+			   s.push(new Pair(input.charAt(i),1));
+		   }
+		   else if(s.peek().c== input.charAt(i)) {
+			   if( s.peek().n+1 == k) s.pop();
+			   else s.peek().n = s.peek().n+1;
+		   }
+	   }
+	   System.out.println("Stacks Pair ="+s);
+	   while(!s.isEmpty()) {
+		   result = s.pop().toString()+result;
+	   }
+	   return result; 
+	   
+   }
   public static Node removeNodesFromLinkedList(Node head) {
 	  if( head == null || head.next == null) return head;
 	  LinkedList<Integer > stack = new LinkedList<>();
@@ -500,7 +539,22 @@ public class Problems {
 	  return val.toString();
   }
 }
-
+class Pair{
+	Character c;
+	int n;
+	Pair(Character c, int a){
+	this.c = c;
+	this.n =a;
+	}
+	
+	public String toString() {
+		String s = "";
+		for(int i=0; i < n; i++) {
+			s +=c;
+		}
+		return s;
+	}
+}
 
 
 

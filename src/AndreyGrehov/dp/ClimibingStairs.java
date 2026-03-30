@@ -1,4 +1,4 @@
-package ds500problems.dp;
+package AndreyGrehov.dp;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,8 +28,8 @@ public class ClimibingStairs {
 		System.out.println(climibingStair3Steps(13));
 		//System.out.println("Optimized k steps ="+climibingStairKStepsOptimized(3, 2));
 		
-		System.out.println("Optimized k steps ="+climibingStairKStepsOptimized(13, 3));
-		boolean [] red = { true ,false ,true ,true , false , false,false };
+	 System.out.println("Optimized k steps ="+climibingStairKStepsOptimized(13, 3));
+	 boolean [] red = { true ,false ,true ,true , false , false,false };
 	  System.out.println("Red marked stairs climbing ="+climibingStairKStepsWithRedMarkedStaires(7,3,red));
 	
 	 System.out.println("Climibing paid stairs");

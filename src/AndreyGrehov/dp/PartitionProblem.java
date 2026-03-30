@@ -1,4 +1,4 @@
-package ds500problems.dp;
+package AndreyGrehov.dp;
 
 import java.util.Arrays;
 

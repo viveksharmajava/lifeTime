@@ -20,6 +20,7 @@ import java.util.ArrayList;
 	
  */
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.SortedMap;
@@ -29,17 +30,25 @@ public class MinimumMeetingRooms {
 
 	public static void main(String[] args) {
 		List<Interval> input = new ArrayList<Interval>();
-	    input.add(new Interval(1, 4));
-	    input.add(new Interval(2, 3));
-	    input.add(new Interval(3, 6));
+	    input.add(new Interval(6, 7));
+	    input.add(new Interval(2, 4));
+	    input.add(new Interval(8, 12));
 	    
 	    System.out.println(minRooms(input));
 	}
 
 	public static int minRooms(List <Interval> meetings) {
 		Integer rooms= 0;
-		Collections.sort(meetings,(a,b)->Integer.compare(a.start, b.start));
+		//Collections.sort(meetings,(a,b)->Integer.compare(a.start, b.start));
 		
+		Collections.sort(meetings,new Comparator<Interval>(){ 
+			
+			public int compare(Interval i1,Interval i2){
+				return Integer.compare(i1.start, i2.start);
+			}
+		});
+		
+		System.out.println("meetings ="+meetings);
 		//TreeMap <Integer,Integer> map = new TreeMap<>();
 		Iterator <Interval> it = meetings.iterator();
 		Interval interval = it.next();
@@ -47,12 +56,25 @@ public class MinimumMeetingRooms {
 		int e = interval.end;
 		rooms++;
 		//map.put(e,1);
+		int max =rooms;
 		while(it.hasNext()) {
 			interval = it.next();
 			if(e > interval.start) {
 				rooms++;
+				System.out.println("romms coutnt"+rooms);
+				System.out.println("max romms coutnt"+max);
+				
 				//map.put(interval.end,map.getOrDefault(interval.end,0)+1);
 			}
+			else{
+				
+				rooms = 1;
+			}
+			if(rooms > max){
+				max = rooms;
+			}
+			s = interval.start;
+			e = interval.end;
 			// SortedMap <Integer, Integer > entry = map.headMap(interval.start);
 //			 for(Integer k : entry.keySet()) { //what will happen for vacant rooms when collison occur after certain hours.
 //				 rooms -=map.get(k);
@@ -61,7 +83,7 @@ public class MinimumMeetingRooms {
 			 
 		}		
 	    
-		return rooms;
+		return max;
 		
 	}
 }

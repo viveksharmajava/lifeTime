@@ -26,9 +26,47 @@ public class TripletSumToZero {
 	public static void main(String[] args) {
     
 		int [] arr = {-3, 0, 1, 2, -1, 1, -2} ;
-		triplet0Sum(arr);
+		//triplet0Sum(arr);
+		System.out.println("searchTriplets ="+searchTriplets(arr));//best solution
 		int [] arr2 = {2, 7, 4, 0, 9, 5, 1, 3};
-		System.out.println("tripletUsingKnapsackAlgo ="+tripletUsingKnapsackAlgo(arr2,arr2.length, 6, 0));
+	//	System.out.println("tripletUsingKnapsackAlgo ="+tripletUsingKnapsackAlgo(arr2,arr2.length, 6, 0));
+	}
+
+	public static List<List<Integer>> searchTriplets(int [] arr){
+		 List<List<Integer>> triplets = new ArrayList<>();
+		 Arrays.sort(arr);
+		 
+		 for(int i =0 ; i < arr.length-2; i++){
+			 if(i > 0 && arr[i] == arr[i-1])continue;
+			 searchPair(arr,-arr[i],i+1 , triplets);
+		 }
+		 return triplets;
+		
+	}
+	private static void searchPair(int[] arr, int target, int left,
+			List<List<Integer>> triplets) {
+		
+		   int right = arr.length-1;
+		   while(left < right){
+			   int sum = arr[left] +arr[right];
+			   if(target == sum){
+				   triplets.add(Arrays.asList(-target , arr[left],arr[right]));
+				   left++;
+				   right--;
+				   while(left < right && arr[left] == arr[left-1]) {
+					   left++;//skip same element to avoid duplicate triplet
+				   }
+				   while(left < right && arr[right]== arr[right+1]){
+					   right--;//skip same element to avoid duplicate triplet
+				   }
+			   }
+			   else if( sum > target){
+				   right--;
+			   }else{
+				   left++;
+			   }
+			  
+		   }
 	}
 
 	public static void triplet0Sum(int [] arr) {
@@ -63,7 +101,7 @@ public class TripletSumToZero {
 			}
 		}
 		
-		System.out.println("tripletSet ="+tripletSet);
+	//	System.out.println("tripletSet ="+tripletSet);
 	}
 	
 	 // Naive recursive function to check if triplet exists in an array
