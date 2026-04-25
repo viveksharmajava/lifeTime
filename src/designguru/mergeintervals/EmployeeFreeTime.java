@@ -37,7 +37,8 @@ public class EmployeeFreeTime {
 		List<Interval> input = new ArrayList<Interval>();
 	    input.add(new Interval(1, 3));
 	    input.add(new Interval(9, 12));
-	    
+	    ArrayDeque <Integer> q = ArrayDeque<>();
+
 	    employeeHours.add(input);
 	    
 	    input = new ArrayList<Interval>();

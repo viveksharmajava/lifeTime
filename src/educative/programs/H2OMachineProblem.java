@@ -65,6 +65,7 @@ class H2OMachine{
 	}
 	public  void HydrogenAtom() throws InterruptedException {
 		synchronized(sync) {
+			// if 2 hydrogen atoms already exist
 			while(Collections.frequency(Arrays.asList(h2o), "H") == 2) {
 				sync.wait();
 			}
@@ -86,6 +87,7 @@ class H2OMachine{
 	public  void OxygenAtom() throws InterruptedException {
 
 		synchronized(sync) {
+			 // if 1 oxygen atom already exist
 			while(Collections.frequency(Arrays.asList(h2o), "O") == 1) {
 				sync.wait();
 			}

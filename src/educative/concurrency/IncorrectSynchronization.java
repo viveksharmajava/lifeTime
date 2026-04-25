@@ -10,7 +10,7 @@ public class IncorrectSynchronization {
 					while(flag) {
 					System.out.println(Thread.currentThread().getName()+"\t before going to sleep!");	
 					try {
-						Thread.sleep(50000);
+						Thread.sleep(5000);
 					} catch (InterruptedException e1) {
 						e1.printStackTrace();
 					}

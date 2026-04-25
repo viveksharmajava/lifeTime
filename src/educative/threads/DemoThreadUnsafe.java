@@ -33,16 +33,12 @@ public class DemoThreadUnsafe {
 		t2.start();
 		try {
 			t1.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
 			t2.join();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		badCounter.printFinalCounterValue();
 	}
 	

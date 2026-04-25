@@ -42,7 +42,6 @@ class CyclicBarrierRunnable implements Runnable{
     }
     public void run() {
     	try {
-			Thread.sleep(1000);
 			System.out.println(Thread.currentThread().getName() +" waiting at barrier 1");
 	    	barrier1.await();
 	    	Thread.sleep(1000);
